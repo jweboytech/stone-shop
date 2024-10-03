@@ -16,6 +16,7 @@ import { useDrawerStore } from '@/store';
 import Cart from '@/components/cart';
 import { getFetcher, postFetcher, putFetcher } from '@/utils/request/fetcher';
 import { formatPrice, serializateUrl } from '@/utils';
+import Photograph from '@/components/commodity/photograph';
 
 const CommodityDetailPage = () => {
   const { openDrawer } = useDrawerStore();
@@ -49,20 +50,7 @@ const CommodityDetailPage = () => {
   return (
     <div>
       <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 flex flex-col gap-4 mb-6 px-10 ">
-        <div className="flex gap-x-4">
-          <div className="flex flex-col w-44 gap-4">
-            {data?.mainPics.map((item) => (
-              <Image
-                key={item}
-                alt={data.name}
-                className="border-2 border-primary cursor-pointer"
-                radius="sm"
-                src={item}
-              />
-            ))}
-          </div>
-          <Image alt={data?.name} radius="sm" src={data?.mainPics[0]} />
-        </div>
+        <Photograph data={data} />
         <div className="flex flex-col gap-2 ">
           <h1 className="text-2xl font-bold tracking-tight">{data?.name}</h1>
           <div className="flex justify-between ">
