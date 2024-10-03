@@ -1,0 +1,9 @@
+.social-media:after {
+  content: "";
+  transform: scale(0);
+  transition: transform 300ms ease;
+}
+
+.social-media:hover:after {
+  transform: scale(1);
+}

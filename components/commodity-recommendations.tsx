@@ -1,0 +1,77 @@
+import { Image } from '@nextui-org/image';
+import { Search } from 'lucide-react';
+import NextImage from 'next/image';
+import { useRouter } from 'next/navigation';
+import useSWRMutation from 'swr/mutation';
+
+import StarRating from './star-rating';
+import Cart from './cart';
+
+import { putFetcher } from '@/utils/request/fetcher';
+import { useDrawerStore } from '@/store';
+import { Spinner } from '@nextui-org/spinner';
+
+const CommodityRecommendations = ({ data }: { data: Commodity }) => {
+  const { openDrawer } = useDrawerStore();
+  const { trigger, isMutating } = useSWRMutation<any, any, any, any>(
+    '/cart/update',
+    putFetcher,
+  );
+  const router = useRouter();
+
+  const handleAddCart: React.ChangeEventHandler<HTMLDivElement> = (evt) => {
+    evt.stopPropagation();
+
+    trigger({ quantity: +1, commodityId: data.id }).then(() => {
+      openDrawer({ title: 'cart', children: <Cart /> });
+    });
+  };
+
+  const handleNavigate = () => {
+    router.push(`/commodity/${data.id}`);
+  };
+
+  return (
+    <div className="group cursor-pointer relative" onClick={handleNavigate}>
+      <div className="absolute z-20 top-4 right-4 hover:animate-tada w-10 h-10 rounded-full bg-white flex items-center justify-center scale-0 group-hover:scale-100 transition-all duration-400">
+        <Search size={20} />
+      </div>
+      <div className="relative">
+        <Image
+          as={NextImage}
+          width={400}
+          height={400}
+          className="invisible group-hover:visible group-hover:animate-zoom-fade-small absolute z-10 left-0 top-0 h-full"
+          src={data.mainPics[1]}
+        />
+        <Image
+          className="-z-10 visible group-hover:invisible transition-all duration-300"
+          width={400}
+          height={400}
+          src={data.mainPics[0]}
+        />
+        <div
+          className="absolute z-50 px-4 w-full overflow-hidden"
+          style={{ transform: 'translateY(-3.5rem)' }}>
+          <div
+            onClick={handleAddCart}
+            className="opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 bg-primary h-10 rounded-lg flex items-center justify-center text-white transition-all duration-400">
+            {isMutating ? <Spinner size="sm" /> : 'Add to cart'}
+          </div>
+        </div>
+      </div>
+      <p className="mt-4 text-base">The Good C Vitamin C Serum</p>
+      <p className="mt-1">
+        <span className="text-xs">$</span>
+        <span className="text-lg">{data.sellingPrice}</span>
+      </p>
+      {/* <p className="mt-1 text-danger ">
+        <span className="text-xs">$</span>
+        <span className="text-lg line-through">199.99</span>
+      </p> */}
+      <StarRating />
+    </div>
+  );
+};
+
+export default CommodityRecommendations;
