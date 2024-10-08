@@ -38,8 +38,9 @@ function SelectField<T extends FieldValues>({
   return (
     <NextSelect
       {...restProps}
+      size="lg"
       onChange={field.onChange}
-      selectedKeys={('' + field.value)?.split(',')}
+      selectedKeys={field.value ? [field.value] : []}
       errorMessage={errMsg || ''}
       isInvalid={!!errMsg}
       labelPlacement="outside"

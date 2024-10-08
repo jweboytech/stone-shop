@@ -1,5 +1,5 @@
-import { produce } from "immer";
-import { create } from "zustand";
+import { produce } from 'immer';
+import { create } from 'zustand';
 
 export interface DrawerState {
   visible: boolean;
@@ -15,12 +15,12 @@ export const useDrawerStore = create<DrawerState>((set) => ({
       produce((state) => {
         state.visible = true;
         state.data = payload;
-      })
+      }),
     ),
   closeDrawer: () =>
     set(
       produce((state) => {
         state.visible = false;
-      })
+      }),
     ),
 }));

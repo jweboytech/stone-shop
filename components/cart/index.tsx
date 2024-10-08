@@ -2,16 +2,31 @@ import { Link } from '@nextui-org/link';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import useSWRMutation from 'swr/mutation';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import CommodityItem from './CommodityItem';
 
 import { toUpperCase } from '@/utils';
-import { getFetcher } from '@/utils/request/fetcher';
+import { getFetcher, postFetcher } from '@/utils/request/fetcher';
 import { DrawerState } from '@/store/drawer';
 
-const Cart = ({ visible }: Partial<DrawerState>) => {
+const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
+  const router = useRouter();
   const { data, trigger } = useSWRMutation<Cart>('/cart', getFetcher);
+  const { trigger: checkout, isMutating } = useSWRMutation<Cart>(
+    '/payment/intent/checkout',
+    postFetcher,
+  );
+
+  const handleCheckout = () => {
+    checkout().then((data) => {
+      closeDrawer!();
+      setTimeout(() => {
+        router.push('/checkout/' + data);
+      }, 300);
+    });
+  };
 
   React.useEffect(() => {
     if (visible) {
@@ -40,12 +55,14 @@ const Cart = ({ visible }: Partial<DrawerState>) => {
       <div className="text-xs mb-4 text-foreground-500">
         Taxes and shipping calculated at checkout
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Link href="/checkout">
-          <Button fullWidth color="primary">
-            {toUpperCase('check out')}
-          </Button>
-        </Link>
+      <div className="grid grid-cols-2 gap-4">
+        <Button
+          fullWidth
+          color="primary"
+          isLoading={isMutating}
+          onClick={handleCheckout}>
+          {toUpperCase('check out')}
+        </Button>
         <Link href="/cart">
           <Button fullWidth color="primary" variant="bordered">
             {toUpperCase('view cart')}

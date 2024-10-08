@@ -5,6 +5,7 @@ interface Commodity {
   goodsSkuList: Sku[];
   goodsSkus: Sku[];
   detailPics: string[];
+  quantity: number;
 
   category: number;
   categoryId: number;

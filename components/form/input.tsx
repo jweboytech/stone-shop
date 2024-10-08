@@ -59,6 +59,7 @@ function InputField<T extends FieldValues>(props: InputFieldProps<T>) {
       isInvalid={!!errMsg}
       labelPlacement="outside"
       variant="bordered"
+      size="lg"
     />
   );
 }

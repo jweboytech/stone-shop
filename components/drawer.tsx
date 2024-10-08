@@ -29,7 +29,7 @@ const Drawer = () => {
         <div className="px-8 py-8 text-xl">{data?.title}</div>
         <div className="px-8">
           {data?.children != null
-            ? React.cloneElement(data.children, { visible })
+            ? React.cloneElement(data.children, { visible, closeDrawer })
             : null}
         </div>
       </div>
