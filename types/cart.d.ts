@@ -1,5 +1,5 @@
 interface Cart {
   id: number;
   items: { commodity: Commodity; id: number; quantity: number }[];
-  totalAmount: number;
+  totalAmount: string;
 }

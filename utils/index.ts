@@ -17,12 +17,20 @@ export function serializateUrl<T extends object>(url: string, param: T) {
   return url + query;
 }
 
-export function formatPrice(amount: any) {
-  const value = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(amount);
+export function formatPrice(amount?: string | number) {
+  if (amount != null) {
+    const value = Number(amount);
 
-  return value;
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(value / 100);
+  }
+}
+
+export function getCardLast(cardNo?: string) {
+  if (cardNo != null) {
+    return `....${cardNo.slice(-1)}`;
+  }
 }

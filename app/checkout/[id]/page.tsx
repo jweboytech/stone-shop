@@ -5,7 +5,12 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@nextui-org/button';
 import { object, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import {
+  loadStripe,
+  StripeAddressElementChangeEvent,
+  StripeElementsOptions,
+  StripeLinkAuthenticationElementChangeEvent,
+} from '@stripe/stripe-js';
 import {
   AddressElement,
   CardCvcElement,
@@ -26,7 +31,7 @@ import { Link } from '@nextui-org/link';
 import { Divider } from '@nextui-org/divider';
 import { Badge } from '@nextui-org/badge';
 import { Image } from '@nextui-org/image';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 import { getFetcher, postFetcher, putFetcher } from '@/utils/request/fetcher';
 import { formatPrice, serializateUrl, toUpperCase } from '@/utils';
@@ -38,6 +43,7 @@ import { Card, CardBody } from '@nextui-org/card';
 import VisaIcon from '@/components/icons/visa';
 import MasterIcon from '@/components/icons/master';
 import PaypalIcon from '@/components/icons/paypal';
+import { Spinner } from '@nextui-org/spinner';
 
 const schema = object().shape({
   email: string().required('Please enter your email'),
@@ -67,19 +73,39 @@ const stripePromise = loadStripe(
 
 const allowedCountries: string[] = ['SG', 'HK', 'US'];
 
-const CheckoutForm = () => {
-  const { handleSubmit } = useForm();
+const CheckoutForm = ({ paymentId }: { paymentId: string }) => {
+  const { handleSubmit, getValues, setValue } = useForm();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = React.useState(false);
+  const { trigger: updatePayment } = useSWRMutation<any, any, any, any>(
+    paymentId ? serializateUrl('/payment/update', { id: paymentId }) : null,
+    putFetcher,
+  );
 
-  const submitForm = async () => {
+  const handleEmailChange = (
+    linkAuth: StripeLinkAuthenticationElementChangeEvent,
+  ) => {
+    setValue('email', linkAuth.value.email);
+  };
+
+  const handleAddressChange = ({ value }: StripeAddressElementChangeEvent) => {
+    setValue('address', value.address);
+    setValue('phone', value.phone);
+    setValue('name', value.name);
+    setValue('shipping.name', value.name);
+    setValue('shipping.address', value.address);
+  };
+
+  const submitForm = async (values: AnyObject) => {
     if (!stripe || !elements) {
       return;
     }
 
+    console.log(values);
     setIsLoading(true);
 
+    await updatePayment(values);
     stripe
       .confirmPayment({
         elements,
@@ -87,11 +113,9 @@ const CheckoutForm = () => {
           return_url: 'http://localhost:4200/checkout/result',
         },
       })
-      .then((data) => {
-        console.log(data);
+      .finally(() => {
+        setIsLoading(false);
       });
-
-    setIsLoading(false);
   };
 
   return (
@@ -107,23 +131,20 @@ const CheckoutForm = () => {
         /> */}
         {/* <CardElement /> */}
         <LinkAuthenticationElement
+          onChange={handleEmailChange}
           options={{ defaultValues: { email: 'jweboy0630@gmail.com' } }}
         />
         <AddressElement
+          onChange={handleAddressChange}
           options={{
             mode: 'shipping',
             allowedCountries,
             blockPoBox: true,
-            fields: {
-              phone: 'always',
-            },
-            validation: {
-              phone: {
-                required: 'never',
-              },
-            },
+            fields: { phone: 'always' },
+            validation: { phone: { required: 'never' } },
             defaultValues: {
-              name: 'Jane Doe',
+              name: 'Jane Biubiu',
+              phone: '(888)555-0715',
               address: {
                 line1: '354 Oyster Point Blvd',
                 line2: '',
@@ -155,66 +176,44 @@ const CheckoutForm = () => {
 };
 
 const Checkout = () => {
-  const params = useParams();
-  const { data, mutate } = useSWR<{ cart: Cart; payment: Payment }>(
-    params.id ? serializateUrl('/payment/intent/detail', params) : null,
+  const searchParam = useSearchParams();
+  const orderId = searchParam.get('orderId');
+  const paymentId = searchParam.get('paymentId');
+  const clientSecret = searchParam.get('clientSecret');
+
+  const { data: order, isLoading } = useSWR<{ cart: Cart; payment: Payment }>(
+    orderId ? serializateUrl('/order/detail', { id: orderId }) : null,
     getFetcher,
   );
-  const { trigger: updatePayment, isMutating } = useSWRMutation<
-    any,
-    any,
-    any,
-    any
-  >('/payment/intent/update', putFetcher);
 
-  const { control, handleSubmit } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      address: {
-        country: 'AU',
-        city: 'COOKE PLAINS',
-        state: 'South Australia',
-        postalCode: '5261',
-        line1: '38 Hereford Avenue',
-      },
-      email: 'jweboy0630@gmail.com',
-      firstName: 'Lei',
-      lastName: 'Biubiu',
-      phone: '(08)82405304',
-    },
-  });
   const options: StripeElementsOptions = {
-    clientSecret: data?.payment.clientSecret,
+    clientSecret: clientSecret!,
     appearance: { theme: 'stripe' },
     // 额外支付方式 https://docs.stripe.com/payments/external-payment-methods?handle-redirect=replace-action
-    externalPaymentMethodTypes: ['external_paypal'],
+    // externalPaymentMethodTypes: ['external_paypal'],
     loader: 'auto',
     locale: 'en',
   };
 
-  const submitForm = (values: AnyObject) => {
-    console.log(values);
-    updatePayment(values).then(() => {
-      mutate();
-    });
-  };
-
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {data?.payment?.clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+    <div>
+      {!isLoading ? (
+        <div className="grid grid-cols-2 gap-4">
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm paymentId={paymentId} />
+          </Elements>
           <div className="bg-white  rounded-lg px-4 py-4">
             <h2 className="font-medium text-default-500 border-b-small pb-4">
               Your Order
             </h2>
             <ul>
-              {data?.cart?.items.map(({ commodity, quantity }) => (
+              {order?.metadata?.items.map(({ commodity, quantity }) => (
                 <li
                   key={commodity.id}
                   className="flex items-center gap-4 border-b-small py-4">
                   <Badge color="danger" content={quantity}>
                     <Image
+                      alt="commodity image"
                       className="border px-1"
                       height={80}
                       src={commodity.mainPics[0]}
@@ -234,213 +233,39 @@ const Checkout = () => {
                 </li>
               ))}
             </ul>
-            {data?.cart && (
-              <dl className="flex flex-col gap-4 py-6">
-                <div className="flex justify-between">
-                  <dt className="text-small text-default-500">Subtotal</dt>
-                  <dd className="text-small font-semibold text-default-700">
-                    ${data?.cart.totalAmount}
-                  </dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-small text-default-500">Delivery</dt>
-                  <dd className="text-small font-semibold text-default-700">
-                    $0.00
-                  </dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-small text-default-500">Tax</dt>
-                  <dd className="text-small font-semibold text-default-700">
-                    $0.00
-                  </dd>
-                </div>
-                <Divider />
-                <div className="flex justify-between">
-                  <dt className="text-small font-semibold text-default-500">
-                    Total
-                  </dt>
-                  <dd className="text-small font-semibold text-default-700">
-                    {formatPrice(data.cart.totalAmount)}
-                  </dd>
-                </div>
-              </dl>
-            )}
+            <dl className="flex flex-col gap-4 py-6">
+              <div className="flex justify-between">
+                <dt className="text-small text-default-500">Subtotal</dt>
+                <dd className="text-small font-semibold text-default-700">
+                  ${order?.totalAmount}
+                </dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="text-small text-default-500">Delivery</dt>
+                <dd className="text-small font-semibold text-default-700">
+                  $0.00
+                </dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="text-small text-default-500">Tax</dt>
+                <dd className="text-small font-semibold text-default-700">
+                  $0.00
+                </dd>
+              </div>
+              <Divider />
+              <div className="flex justify-between">
+                <dt className="text-small font-semibold text-default-500">
+                  Total
+                </dt>
+                <dd className="text-small font-semibold text-default-700">
+                  {formatPrice(order?.totalAmount)}
+                </dd>
+              </div>
+            </dl>
           </div>
-          {/* <React.Fragment>
-            <div className="bg-white rounded-lg px-4 py-8 col-span-2">
-              <form onSubmit={handleSubmit(submitForm)}>
-                <CheckoutForm />
-                <div className="flex flex-col gap-4">
-                  <span className="text-foreground-500">
-                    Shipping Information
-                  </span>
-                  <div className="flex gap-4">
-                    <SelectField
-                      key="country"
-                      isRequired
-                      control={control}
-                      label="Country"
-                      name="address.country"
-                      options={allowedCountries}
-                      placeholder="Select country"
-                    />
-                  </div>
-                  <InputField
-                    isRequired
-                    control={control}
-                    label="Email address"
-                    name="email"
-                    placeholder="Enter your email"
-                  />
-                  <div className="flex gap-4">
-                    <InputField
-                      isRequired
-                      control={control}
-                      label="First name"
-                      name="firstName"
-                      placeholder="Enter your first name"
-                    />
-                    <InputField
-                      isRequired
-                      control={control}
-                      label="Last name"
-                      name="lastName"
-                      placeholder="Enter your last name"
-                    />
-                  </div>
-                  <InputField
-                    isRequired
-                    control={control}
-                    label="Address"
-                    name="address.line1"
-                    placeholder="Lane 1,Street 1"
-                  />
-                  <InputField
-                    control={control}
-                    label="Apt, suite, etc."
-                    name="address.line2"
-                    placeholder="Apartment, studio, or floor"
-                  />
-
-                  <div className="flex gap-4">
-                    <InputField
-                      isRequired
-                      control={control}
-                      label="City"
-                      name="address.city"
-                      placeholder="City"
-                    />
-                    <InputField
-                      isRequired
-                      control={control}
-                      label="State"
-                      name="address.state"
-                      placeholder="State"
-                    />
-                    <InputField
-                      isRequired
-                      control={control}
-                      label="Postal code"
-                      name="address.postalCode"
-                      placeholder="Postal code"
-                    />
-                  </div>
-                  <InputField
-                    isRequired
-                    control={control}
-                    label="Phone number"
-                    name="phone"
-                    placeholder="+1 (555) 555-5555"
-                  />
-                  <span className="text-foreground-500">Payment Method</span>
-                  {data?.payment?.clientSecret && (
-                    <Elements options={options} stripe={stripePromise}>
-                      <CheckoutForm />
-                    </Elements>
-                  )}
-                  <span className="text-foreground-500">Billing address</span>
-                  <CheckboxField control={control} name="sameAs">
-                    Same as shipping address
-                  </CheckboxField>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    isLoading={isMutating}
-                    size="lg"
-                    type="submit">
-                    {toUpperCase(
-                      data?.payment.status === 'Inprogress'
-                        ? 'confirm payment'
-                        : 'pay now',
-                    )}
-                  </Button>
-                </div>
-              </form>
-            </div>
-            <div className="bg-white  rounded-lg px-4 py-4">
-              <h2 className="font-medium text-default-500 border-b-small pb-4">
-                Your Order
-              </h2>
-              <ul>
-                {data?.cart?.items.map(({ commodity, quantity }) => (
-                  <li
-                    key={commodity.id}
-                    className="flex items-center gap-4 border-b-small py-4">
-                    <Badge color="danger" content={quantity}>
-                      <Image
-                        className="border px-1"
-                        height={80}
-                        src={commodity.mainPics[0]}
-                        width={80}
-                      />
-                    </Badge>
-                    <div className="flex flex-col flex-1 gap-2">
-                      <Link isExternal href="/sd">
-                        <h4 className="text-small hover:underline text-foreground-700 line-clamp-2">
-                          {commodity.name}
-                        </h4>
-                      </Link>
-                      <span className="text-small font-semibold text-default-700">
-                        {formatPrice(commodity.sellingPrice)}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              {data?.cart && (
-                <dl className="flex flex-col gap-4 py-6">
-                  <div className="flex justify-between">
-                    <dt className="text-small text-default-500">Subtotal</dt>
-                    <dd className="text-small font-semibold text-default-700">
-                      ${data?.cart.totalAmount}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between">
-                    <dt className="text-small text-default-500">Delivery</dt>
-                    <dd className="text-small font-semibold text-default-700">
-                      $0.00
-                    </dd>
-                  </div>
-                  <div className="flex justify-between">
-                    <dt className="text-small text-default-500">Tax</dt>
-                    <dd className="text-small font-semibold text-default-700">
-                      $0.00
-                    </dd>
-                  </div>
-                  <Divider />
-                  <div className="flex justify-between">
-                    <dt className="text-small font-semibold text-default-500">
-                      Total
-                    </dt>
-                    <dd className="text-small font-semibold text-default-700">
-                      {formatPrice(data.cart.totalAmount)}
-                    </dd>
-                  </div>
-                </dl>
-              )}
-            </div>
-          </React.Fragment> */}
-        </Elements>
+        </div>
+      ) : (
+        <Spinner label="loading..." />
       )}
     </div>
   );

@@ -7,7 +7,7 @@ import React from 'react';
 
 import CommodityItem from './CommodityItem';
 
-import { toUpperCase } from '@/utils';
+import { serializateUrl, toUpperCase } from '@/utils';
 import { getFetcher, postFetcher } from '@/utils/request/fetcher';
 import { DrawerState } from '@/store/drawer';
 
@@ -15,7 +15,7 @@ const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
   const router = useRouter();
   const { data, trigger } = useSWRMutation<Cart>('/cart', getFetcher);
   const { trigger: checkout, isMutating } = useSWRMutation<Cart>(
-    '/payment/intent/checkout',
+    '/payment/checkout',
     postFetcher,
   );
 
@@ -23,7 +23,9 @@ const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
     checkout().then((data) => {
       closeDrawer!();
       setTimeout(() => {
-        router.push('/checkout/' + data);
+        const url = serializateUrl('/checkout', data);
+
+        router.push(url);
       }, 300);
     });
   };

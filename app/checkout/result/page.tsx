@@ -1,12 +1,21 @@
 'use client';
 
+import CommodityMetadata from '@/components/commodity/metadata';
+import Description from '@/components/description';
+import DescriptionItem from '@/components/description/item';
+import { formatPrice, getCardLast, serializateUrl } from '@/utils';
+import { getFetcher } from '@/utils/request/fetcher';
+import { Button } from '@nextui-org/button';
+import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
+import { Checkbox } from '@nextui-org/checkbox';
+import { Divider } from '@nextui-org/divider';
+import { Link } from '@nextui-org/link';
 import { Elements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { CircleCheck } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
-
-const stripePromise = loadStripe(
-  'pk_test_51OrCQvJdDKeF581Bh7d0yscRvmA5xxjEnBoihyZQ9YeKVxtNrf5G5ifrnVBHdT0wpqdcvhpKhZGaJvO2zU2GRd6u00qGom8U9l',
-);
+import useSWR from 'swr';
 
 const SuccessIcon = (
   <svg
@@ -90,101 +99,195 @@ const STATUS_CONTENT_MAP = {
 };
 
 function ResultPage() {
-  const stripe = useStripe();
+  // const stripe = useStripe();
 
-  const [status, setStatus] = React.useState('default');
-  const [intentId, setIntentId] = React.useState(null);
+  // const [status, setStatus] = React.useState('default');
+  // const [intentId, setIntentId] = React.useState(null);
 
-  React.useEffect(() => {
-    if (!stripe) {
-      return;
-    }
+  // React.useEffect(() => {
+  //   if (!stripe) {
+  //     return;
+  //   }
 
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret',
-    );
+  //   const clientSecret = new URLSearchParams(window.location.search).get(
+  //     'payment_intent_client_secret',
+  //   );
 
-    if (!clientSecret) {
-      return;
-    }
+  //   if (!clientSecret) {
+  //     return;
+  //   }
 
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      if (!paymentIntent) {
-        return;
-      }
+  //   stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+  //     if (!paymentIntent) {
+  //       return;
+  //     }
 
-      setStatus(paymentIntent.status);
-      setIntentId(paymentIntent.id);
-    });
-  }, [stripe]);
+  //     setStatus(paymentIntent.status);
+  //     setIntentId(paymentIntent.id);
+  //   });
+  // }, [stripe]);
+
+  // return (
+  //   <Elements stripe={stripePromise}>
+  //     <div id="payment-status">
+  //       <div
+  //         id="status-icon"
+  //         style={{ backgroundColor: STATUS_CONTENT_MAP[status].iconColor }}>
+  //         {STATUS_CONTENT_MAP[status].icon}
+  //       </div>
+  //       <h2 id="status-text">{STATUS_CONTENT_MAP[status].text}</h2>
+  //       {intentId && (
+  //         <div id="details-table">
+  //           <table>
+  //             <tbody>
+  //               <tr>
+  //                 <td className="TableLabel">id</td>
+  //                 <td id="intent-id" className="TableContent">
+  //                   {intentId}
+  //                 </td>
+  //               </tr>
+  //               <tr>
+  //                 <td className="TableLabel">status</td>
+  //                 <td id="intent-status" className="TableContent">
+  //                   {status}
+  //                 </td>
+  //               </tr>
+  //             </tbody>
+  //           </table>
+  //         </div>
+  //       )}
+  //       {intentId && (
+  //         <a
+  //           href={`https://dashboard.stripe.com/payments/${intentId}`}
+  //           id="view-details"
+  //           target="_blank">
+  //           View details
+  //           <svg
+  //             width="15"
+  //             height="14"
+  //             viewBox="0 0 15 14"
+  //             fill="none"
+  //             xmlns="http://www.w3.org/2000/svg"
+  //             style={{ paddingLeft: '5px' }}>
+  //             <path
+  //               fillRule="evenodd"
+  //               clipRule="evenodd"
+  //               d="M3.125 3.49998C2.64175 3.49998 2.25 3.89173 2.25 4.37498V11.375C2.25 11.8582 2.64175 12.25 3.125 12.25H10.125C10.6082 12.25 11 11.8582 11 11.375V9.62498C11 9.14173 11.3918 8.74998 11.875 8.74998C12.3582 8.74998 12.75 9.14173 12.75 9.62498V11.375C12.75 12.8247 11.5747 14 10.125 14H3.125C1.67525 14 0.5 12.8247 0.5 11.375V4.37498C0.5 2.92524 1.67525 1.74998 3.125 1.74998H4.875C5.35825 1.74998 5.75 2.14173 5.75 2.62498C5.75 3.10823 5.35825 3.49998 4.875 3.49998H3.125Z"
+  //               fill="#0055DE"
+  //             />
+  //             <path
+  //               d="M8.66672 0C8.18347 0 7.79172 0.391751 7.79172 0.875C7.79172 1.35825 8.18347 1.75 8.66672 1.75H11.5126L4.83967 8.42295C4.49796 8.76466 4.49796 9.31868 4.83967 9.66039C5.18138 10.0021 5.7354 10.0021 6.07711 9.66039L12.7501 2.98744V5.83333C12.7501 6.31658 13.1418 6.70833 13.6251 6.70833C14.1083 6.70833 14.5001 6.31658 14.5001 5.83333V0.875C14.5001 0.391751 14.1083 0 13.6251 0H8.66672Z"
+  //               fill="#0055DE"
+  //             />
+  //           </svg>
+  //         </a>
+  //       )}
+  //       <a id="retry-button" href="/">
+  //         Test another
+  //       </a>
+  //     </div>
+  //   </Elements>
+  // );
+
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get('id');
+
+  // console.log(searchParams.get('payment_intent'));
+
+  const { data: order } = useSWR<Order>(
+    orderId ? serializateUrl('/order/detail', { id: orderId }) : null,
+    getFetcher,
+  );
 
   return (
-    <Elements stripe={stripePromise}>
-      <div id="payment-status">
-        <div
-          id="status-icon"
-          style={{ backgroundColor: STATUS_CONTENT_MAP[status].iconColor }}>
-          {STATUS_CONTENT_MAP[status].icon}
-        </div>
-        <h2 id="status-text">{STATUS_CONTENT_MAP[status].text}</h2>
-        {intentId && (
-          <div id="details-table">
-            <table>
-              <tbody>
-                <tr>
-                  <td className="TableLabel">id</td>
-                  <td id="intent-id" className="TableContent">
-                    {intentId}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="TableLabel">status</td>
-                  <td id="intent-status" className="TableContent">
-                    {status}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+    <div className="flex flex-col gap-6 h-full">
+      <div className="flex justify-between items-center mt-16">
+        <div className="flex gap-4 items-center">
+          <CircleCheck className="text-success" size={56} />
+          <div className="flex flex-col justify-center">
+            <span className="text-sm text-foreground-600">
+              Confirmation #{order?.id}
+            </span>
+            <span className="text-xl font-bold">Thank you!</span>
           </div>
-        )}
-        {intentId && (
-          <a
-            href={`https://dashboard.stripe.com/payments/${intentId}`}
-            id="view-details"
-            target="_blank">
-            View details
-            <svg
-              width="15"
-              height="14"
-              viewBox="0 0 15 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ paddingLeft: '5px' }}>
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M3.125 3.49998C2.64175 3.49998 2.25 3.89173 2.25 4.37498V11.375C2.25 11.8582 2.64175 12.25 3.125 12.25H10.125C10.6082 12.25 11 11.8582 11 11.375V9.62498C11 9.14173 11.3918 8.74998 11.875 8.74998C12.3582 8.74998 12.75 9.14173 12.75 9.62498V11.375C12.75 12.8247 11.5747 14 10.125 14H3.125C1.67525 14 0.5 12.8247 0.5 11.375V4.37498C0.5 2.92524 1.67525 1.74998 3.125 1.74998H4.875C5.35825 1.74998 5.75 2.14173 5.75 2.62498C5.75 3.10823 5.35825 3.49998 4.875 3.49998H3.125Z"
-                fill="#0055DE"
-              />
-              <path
-                d="M8.66672 0C8.18347 0 7.79172 0.391751 7.79172 0.875C7.79172 1.35825 8.18347 1.75 8.66672 1.75H11.5126L4.83967 8.42295C4.49796 8.76466 4.49796 9.31868 4.83967 9.66039C5.18138 10.0021 5.7354 10.0021 6.07711 9.66039L12.7501 2.98744V5.83333C12.7501 6.31658 13.1418 6.70833 13.6251 6.70833C14.1083 6.70833 14.5001 6.31658 14.5001 5.83333V0.875C14.5001 0.391751 14.1083 0 13.6251 0H8.66672Z"
-                fill="#0055DE"
-              />
-            </svg>
-          </a>
-        )}
-        <a id="retry-button" href="/">
-          Test another
-        </a>
+        </div>
+        <Link href="/">
+          <Button color="primary">Continue shopping</Button>
+        </Link>
       </div>
-    </Elements>
+      <div className="flex gap-6">
+        <div className="flex flex-col gap-6 flex-1">
+          <Card>
+            <CardHeader className="text-base font-semibold">
+              Your order is confirmed
+            </CardHeader>
+            <CardBody className="gap-4">
+              <span className="text-foreground-500 text-sm">
+                You&apos;ll receive a confirmation email with your order number
+                shortly.
+              </span>
+              <Checkbox>
+                <span className="text-sm">Email me with news and offers</span>
+              </Checkbox>
+            </CardBody>
+          </Card>
+          <Card className="h-40">
+            <CardBody>Google Map</CardBody>
+          </Card>
+          <Card title="Order details">
+            <CardHeader className="font-medium">Order details</CardHeader>
+            <CardBody>
+              <Description columns={2}>
+                <DescriptionItem
+                  label="Contact information"
+                  value={order?.email}
+                />
+                <DescriptionItem
+                  label="Payment method"
+                  value={
+                    <div className="flex">
+                      <span>{order?.cardBrand}</span>
+                      <span>{getCardLast(order?.cardLast)}</span>
+                      <span>{formatPrice(order?.totalAmount)}</span>
+                    </div>
+                  }
+                />
+                <DescriptionItem
+                  label="Shipping address"
+                  value={
+                    <div className="flex flex-col">
+                      <span>{order?.shipping.name}</span>
+                      <div className="inline-flex items-center gap-2">
+                        <span>{order?.shipping.address.line1}</span>
+                        <span>{order?.shipping.address.state}</span>
+                      </div>
+                      <div className="inline-flex items-center gap-2">
+                        <span>{order?.shipping.address.postalCode}</span>
+                        <span>{order?.shipping.address.city}</span>
+                      </div>
+                      <span>{order?.shipping.address.country}</span>
+                    </div>
+                  }
+                />
+                <DescriptionItem
+                  label="Shipping method"
+                  value={order?.deliveryMethod}
+                />
+              </Description>
+            </CardBody>
+          </Card>
+        </div>
+        <Card className="w-[400px]">
+          <CardBody>
+            <CommodityMetadata
+              items={order?.metadata?.items}
+              totalAmount={order?.totalAmount}
+            />
+          </CardBody>
+        </Card>
+      </div>
+    </div>
   );
 }
 
-export default () => {
-  return (
-    <Elements stripe={stripePromise}>
-      <ResultPage />
-    </Elements>
-  );
-};
+export default ResultPage;
