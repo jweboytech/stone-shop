@@ -10,7 +10,7 @@ const DescriptionItem = ({
 
   return (
     <li
-      className={`inline-flex flex-col gap-2 items-start ${alignClassName} leading-none`}>
+      className={`inline-flex flex-col items-start ${alignClassName} leading-none`}>
       <span className="text-default-500 text-sm">
         {label}
         {colon ? ':' : ''}

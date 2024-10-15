@@ -17,12 +17,13 @@ import { link as linkStyles } from '@nextui-org/theme';
 import NextLink from 'next/link';
 import { ShoppingBag, UserRound } from 'lucide-react';
 
-import { Logo } from './icons';
+import { Logo } from '../icons';
 
 import { ThemeSwitch } from '@/components/theme-switch';
 import { useDrawerStore } from '@/store';
-import Cart from './cart';
+import Cart from '../cart';
 import { usePathname, useRouter } from 'next/navigation';
+import User from './User';
 
 export const Navbar = () => {
   const { openDrawer } = useDrawerStore();
@@ -66,15 +67,16 @@ export const Navbar = () => {
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end">
-        <NavbarItem className="hidden sm:flex gap-4">
-          <Link aria-label="cart" href="/user">
-            <UserRound className="text-default-500" />
+        <NavbarItem className="hidden sm:flex gap-4 items-center">
+          <User />
+          <Link href="/">
+            <Button color="primary">Go to store</Button>
           </Link>
-          <ShoppingBag
+          {/* <ShoppingBag
             className="text-default-500 cursor-pointer"
             onClick={openCart}
           />
-          <ThemeSwitch />
+          <ThemeSwitch /> */}
         </NavbarItem>
       </NavbarContent>
     </NextUINavbar>

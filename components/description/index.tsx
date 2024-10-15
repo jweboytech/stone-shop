@@ -6,7 +6,7 @@ const Description = ({
   children,
   className,
   theme = 'dark',
-  colon = true,
+  colon,
   align,
   size,
   layout = 'grid',
