@@ -12,6 +12,7 @@ import { Navbar } from '@/components/navbar';
 import Footer from '@/components/footer';
 import Drawer from '@/components/drawer';
 import Popup from '@/components/popup';
+import CommonLayout from '@/components/layout';
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +48,9 @@ export default function RootLayout({
         <Providers>
           <div className="relative flex flex-col h-screen">
             {/* <Navbar /> */}
-            <main className="w-full flex-grow bg-[#f5f5f5]">{children}</main>
+            <main className="w-full flex-grow bg-[#f5f5f5]">
+              <CommonLayout>{children}</CommonLayout>
+            </main>
             {/* <Footer /> */}
             {/* <footer className="w-full flex items-center justify-center py-3">
               <Link

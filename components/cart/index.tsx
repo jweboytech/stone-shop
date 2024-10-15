@@ -21,9 +21,11 @@ const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
 
   const handleCheckout = () => {
     checkout().then((data) => {
+      const { orderId, ...restData } = data;
+
       closeDrawer!();
       setTimeout(() => {
-        const url = serializateUrl('/checkout', data);
+        const url = serializateUrl('/checkout/' + orderId, restData);
 
         router.push(url);
       }, 300);

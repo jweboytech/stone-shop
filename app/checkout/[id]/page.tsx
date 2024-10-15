@@ -24,7 +24,6 @@ import {
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
-import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 import useSWR from 'swr';
 import { Link } from '@nextui-org/link';
@@ -32,37 +31,10 @@ import { Divider } from '@nextui-org/divider';
 import { Badge } from '@nextui-org/badge';
 import { Image } from '@nextui-org/image';
 import { useParams, useSearchParams } from 'next/navigation';
+import { Spinner } from '@nextui-org/spinner';
 
 import { getFetcher, postFetcher, putFetcher } from '@/utils/request/fetcher';
 import { formatPrice, serializateUrl, toUpperCase } from '@/utils';
-import InputField from '@/components/form/input';
-import SelectField from '@/components/form/select';
-import CheckboxField from '@/components/form/checkbox';
-import { Radio, RadioGroup } from '@nextui-org/radio';
-import { Card, CardBody } from '@nextui-org/card';
-import VisaIcon from '@/components/icons/visa';
-import MasterIcon from '@/components/icons/master';
-import PaypalIcon from '@/components/icons/paypal';
-import { Spinner } from '@nextui-org/spinner';
-
-const schema = object().shape({
-  email: string().required('Please enter your email'),
-  address: object().shape({
-    country: string().required('Please select country'),
-    city: string().required('Please enter city'),
-    state: string().required('Please enter state'),
-    postalCode: string().required('Please enter postal code'),
-    line1: string().required('Please enter address'),
-    line2: string(),
-  }),
-  firstName: string().required('Please enter your first name'),
-  lastName: string().required('Please enter your last name'),
-  phone: string().required('Please enter your phone number'),
-  // cardNo: string().required('Please enter card number'),
-  // expiryDate: string().required('Please enter expiry date'),
-  // cvc: string().required('Please enter cvc'),
-  // cardholder: string().required('Please enter cardholder name'),
-});
 
 const stripePromise = loadStripe(
   'pk_test_51OrCQvJdDKeF581Bh7d0yscRvmA5xxjEnBoihyZQ9YeKVxtNrf5G5ifrnVBHdT0wpqdcvhpKhZGaJvO2zU2GRd6u00qGom8U9l',
@@ -73,8 +45,14 @@ const stripePromise = loadStripe(
 
 const allowedCountries: string[] = ['SG', 'HK', 'US'];
 
-const CheckoutForm = ({ paymentId }: { paymentId: string }) => {
-  const { handleSubmit, getValues, setValue } = useForm();
+const CheckoutForm = ({
+  paymentId,
+  orderId,
+}: {
+  paymentId?: string;
+  orderId?: string;
+}) => {
+  const { handleSubmit, setValue } = useForm();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -97,20 +75,18 @@ const CheckoutForm = ({ paymentId }: { paymentId: string }) => {
     setValue('shipping.address', value.address);
   };
 
-  const submitForm = async (values: AnyObject) => {
+  const submitForm = async () => {
     if (!stripe || !elements) {
       return;
     }
 
-    console.log(values);
     setIsLoading(true);
 
-    await updatePayment(values);
     stripe
       .confirmPayment({
         elements,
         confirmParams: {
-          return_url: 'http://localhost:4200/checkout/result',
+          return_url: window.location.origin + '/checkout/result/' + orderId,
         },
       })
       .finally(() => {
@@ -129,13 +105,12 @@ const CheckoutForm = ({ paymentId }: { paymentId: string }) => {
             console.log(availablePaymentMethods);
           }}
         /> */}
-        {/* <CardElement /> */}
         <LinkAuthenticationElement
-          onChange={handleEmailChange}
-          options={{ defaultValues: { email: 'jweboy0630@gmail.com' } }}
+          // onChange={handleEmailChange}
+          options={{ defaultValues: { email: 'jweboy@outlook.com' } }}
         />
         <AddressElement
-          onChange={handleAddressChange}
+          // onChange={handleAddressChange}
           options={{
             mode: 'shipping',
             allowedCountries,
@@ -177,7 +152,8 @@ const CheckoutForm = ({ paymentId }: { paymentId: string }) => {
 
 const Checkout = () => {
   const searchParam = useSearchParams();
-  const orderId = searchParam.get('orderId');
+  const params = useParams();
+  const orderId = params.id;
   const paymentId = searchParam.get('paymentId');
   const clientSecret = searchParam.get('clientSecret');
 
@@ -200,7 +176,7 @@ const Checkout = () => {
       {!isLoading ? (
         <div className="grid grid-cols-2 gap-4">
           <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm paymentId={paymentId} />
+            <CheckoutForm paymentId={paymentId} orderId={orderId} />
           </Elements>
           <div className="bg-white  rounded-lg px-4 py-4">
             <h2 className="font-medium text-default-500 border-b-small pb-4">
@@ -237,7 +213,7 @@ const Checkout = () => {
               <div className="flex justify-between">
                 <dt className="text-small text-default-500">Subtotal</dt>
                 <dd className="text-small font-semibold text-default-700">
-                  ${order?.totalAmount}
+                  {formatPrice(order?.totalAmount)}
                 </dd>
               </div>
               <div className="flex justify-between">

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import QueryString from 'qs';
 
 export function toUpperCase(str: string) {
@@ -26,6 +27,15 @@ export function formatPrice(amount?: string | number) {
       currency: 'USD',
       minimumFractionDigits: 2,
     }).format(value / 100);
+  }
+}
+
+export function formatTime(
+  value?: string | number,
+  format?: 'YYYY-MM-DD' | 'MMM D' | 'MMM D YYYY',
+) {
+  if (value != null) {
+    return dayjs(value).format(format);
   }
 }
 
