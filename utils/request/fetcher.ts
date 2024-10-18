@@ -32,11 +32,11 @@ export const putFetcher = <T = any>(url: string, options?: any) => {
   });
 };
 
-export const deleteFetcher = <T>(
+export const deleteFetcher = <T = any>(
   url: string,
   options?: Record<string, any>,
 ) => {
-  return _delete<{}, T>({ url, param: options?.arg });
+  return _delete<T>({ url, param: options?.arg });
 };
 
 export const getFetcher = <T>(url: string) => {

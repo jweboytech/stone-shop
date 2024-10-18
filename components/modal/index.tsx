@@ -14,6 +14,7 @@ import { ModalKey, useModalStore } from '../../store/modal';
 import InputField, { InputFieldProps } from '../form/input';
 import SelectField, { SelectFieldProps } from '../form/select';
 import CheckboxField, { CheckboxFieldProps } from '../form/checkbox';
+import clsx from 'clsx';
 
 export const ModalProvider = ({ children }: BaseProps) => {
   const { closeModal, openModals, activeKey } = useModalStore();
@@ -128,9 +129,28 @@ export const ModalProvider = ({ children }: BaseProps) => {
                     <ModalBody>
                       {content}
                       {isFormModal
-                        ? form.items?.map(({ component, ...restProps }) =>
-                            renderFormItem(component, restProps),
-                          )
+                        ? form.items?.map((item, index) => {
+                            const { component, ...restProps } = item;
+
+                            if (Array.isArray(item)) {
+                              return (
+                                <div
+                                  key={index}
+                                  className={clsx(
+                                    'grid gap-6',
+                                    `grid-cols-${item.length}`,
+                                  )}>
+                                  {item.map(({ component, ...restProps }) => (
+                                    <React.Fragment key={restProps.name}>
+                                      {renderFormItem(component, restProps)}
+                                    </React.Fragment>
+                                  ))}
+                                </div>
+                              );
+                            }
+
+                            return renderFormItem(component, restProps);
+                          })
                         : children}
                     </ModalBody>
                     <ModalFooter>

@@ -157,6 +157,7 @@ export const get = <P extends PlainObject, T extends PlainObject>(
 ) => {
   const { url, data, contentType, responseType } = options;
   const _contentType = contentType || 'json';
+
   return request<T>({
     ...(_contentType === 'json' && { params: data }),
     ...(_contentType === 'form' && { data }),

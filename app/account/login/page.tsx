@@ -149,7 +149,9 @@ const LoginPage = () => {
           </div>
         )}
         <div className="pt-8">
-          <Link href="/account/privacy">Privacy</Link>
+          <Link className="text-sm" href="/account/privacy">
+            Privacy
+          </Link>
         </div>
       </CardBody>
     </Card>

@@ -1,7 +1,7 @@
-import { Input } from "@nextui-org/input";
-import { Link } from "@nextui-org/link";
-import { ArrowRight } from "lucide-react";
-import React from "react";
+import { Input } from '@nextui-org/input';
+import { Link } from '@nextui-org/link';
+import { ArrowRight } from 'lucide-react';
+import React from 'react';
 
 const Footer = () => {
   return (
@@ -14,36 +14,31 @@ const Footer = () => {
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>About Us</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Terms of Service</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Privacy Policy</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Shipping & Returns</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Cookies</li>
               </Link>
             </ul>
@@ -54,36 +49,31 @@ const Footer = () => {
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>About Us</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Terms of Service</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Privacy Policy</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Shipping & Returns</li>
               </Link>
               <Link
                 isExternal
                 className="text-foreground-600 cursor-pointer"
-                href="/about"
-              >
+                href="/about">
                 <li>Cookies</li>
               </Link>
             </ul>

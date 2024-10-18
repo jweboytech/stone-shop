@@ -1,13 +1,16 @@
-import { useConfirmModalStore } from "@/store/confirmModal";
-import { Button } from "@nextui-org/button";
+'use client';
+
+import { Button } from '@nextui-org/button';
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/modal";
-import React from "react";
+} from '@nextui-org/modal';
+import React from 'react';
+
+import { useConfirmStore } from '@/store/confirm';
 
 const ConfirmModal = () => {
   const {
@@ -19,11 +22,12 @@ const ConfirmModal = () => {
     onConfirm,
     cancelText,
     okText,
-  } = useConfirmModalStore();
+  } = useConfirmStore();
   const [isLoading, setisLoading] = React.useState(false);
 
   const handleConfirm = () => {
     const handler = onConfirm?.();
+
     if (handler instanceof Promise) {
       setisLoading(true);
       handler.finally(() => {
@@ -52,15 +56,13 @@ const ConfirmModal = () => {
                 color="danger"
                 variant="light"
                 onPress={handleCancel}
-                isDisabled={isLoading}
-              >
+                isDisabled={isLoading}>
                 {cancelText}
               </Button>
               <Button
                 color="primary"
                 onPress={handleConfirm}
-                isLoading={isLoading}
-              >
+                isLoading={isLoading}>
                 {okText}
               </Button>
             </ModalFooter>

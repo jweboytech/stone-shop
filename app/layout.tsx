@@ -13,6 +13,8 @@ import Footer from '@/components/footer';
 import Drawer from '@/components/drawer';
 import Popup from '@/components/popup';
 import CommonLayout from '@/components/layout';
+import { Toaster } from 'react-hot-toast';
+import ConfirmModal from '@/components/modal/confirm';
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +68,8 @@ export default function RootLayout({
           </div>
           <Drawer />
           {/* <Popup /> */}
+          <Toaster />
+          <ConfirmModal />
         </Providers>
       </body>
     </html>

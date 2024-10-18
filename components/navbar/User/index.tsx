@@ -45,7 +45,7 @@ const UserMenu = () => {
                 description: 'text-default-500',
               }}
               description={data?.email}
-              name={`${data?.firstName} ${data?.lastName}`}
+              name={`${data?.firstName || ''} ${data?.lastName || ''}`}
             />
           </div>
         </DropdownItem>

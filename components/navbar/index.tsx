@@ -16,22 +16,29 @@ import { Input } from '@nextui-org/input';
 import { link as linkStyles } from '@nextui-org/theme';
 import NextLink from 'next/link';
 import { ShoppingBag, UserRound } from 'lucide-react';
+import useSWR from 'swr';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Logo } from '../icons';
-
-import { ThemeSwitch } from '@/components/theme-switch';
-import { useDrawerStore } from '@/store';
 import Cart from '../cart';
-import { usePathname, useRouter } from 'next/navigation';
+
 import User from './User';
 
+import { useDrawerStore } from '@/store';
+import { getFetcher } from '@/utils/request/fetcher';
+import localStorage from '@/utils/storage';
+
 export const Navbar = () => {
+  // useSWR<User>('/user/profile', getFetcher, {
+  //   onSuccess(data) {
+  //     console.log(44, data);
+  //   },
+  // });
   const { openDrawer } = useDrawerStore();
   const pathname = usePathname();
   const router = useRouter();
 
   const openCart = () => {
-    console.log(pathname);
     if (pathname === '/cart') {
       router.push(pathname);
     } else {
@@ -72,11 +79,10 @@ export const Navbar = () => {
           <Link href="/">
             <Button color="primary">Go to store</Button>
           </Link>
-          {/* <ShoppingBag
+          <ShoppingBag
             className="text-default-500 cursor-pointer"
             onClick={openCart}
           />
-          <ThemeSwitch /> */}
         </NavbarItem>
       </NavbarContent>
     </NextUINavbar>
