@@ -10,6 +10,7 @@ export interface InputFieldProps<T extends FieldValues>
   extends Pick<UseControllerProps<T>, 'rules' | 'name' | 'control'>,
     Omit<InputProps, 'name' | 'onChange'> {
   onChange?: (params: React.ChangeEvent<HTMLInputElement>) => void;
+  allowEmptyValue?: boolean;
 }
 
 function InputField<T extends FieldValues>(props: InputFieldProps<T>) {
@@ -21,6 +22,7 @@ function InputField<T extends FieldValues>(props: InputFieldProps<T>) {
     isClearable = true,
     label,
     isRequired,
+    allowEmptyValue,
     ...restProps
   } = props;
   const { field, fieldState } = useController({ control, name, rules });
@@ -30,16 +32,21 @@ function InputField<T extends FieldValues>(props: InputFieldProps<T>) {
     field.onChange('');
   };
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    field.onChange(evt);
-    if (typeof onChange === 'function') {
-      onChange(evt);
+  const handleValueChange = (value: string) => {
+    if (allowEmptyValue && value != null) {
+      const result = value?.replace(/\s+/g, '');
+
+      field.onChange(result);
+    } else {
+      field.onChange(value);
     }
   };
 
   return (
     <NextInput
       {...restProps}
+      onClear={isClearable ? clearChange : undefined}
+      classNames={{ description: 'text-default-700' }}
       label={
         label ? (
           <div>
@@ -52,14 +59,15 @@ function InputField<T extends FieldValues>(props: InputFieldProps<T>) {
           </div>
         ) : null
       }
-      onChange={handleChange}
-      onClear={isClearable ? clearChange : undefined}
-      value={field.value || ''}
+      value={
+        allowEmptyValue ? field.value?.replace(/\s+/g, '') : field.value || ''
+      }
       errorMessage={errMsg || ''}
       isInvalid={!!errMsg}
       labelPlacement="outside"
       variant="bordered"
       size="lg"
+      onValueChange={handleValueChange}
     />
   );
 }

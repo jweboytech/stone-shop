@@ -27,7 +27,7 @@ const AccountProfile = () => {
     openModal({
       title: 'Profile',
       payload: data,
-      props: { size: '3xl' },
+      props: { size: 'xl' },
       form,
       onConfirm(values) {
         return updateUser(values).then(getUserProfile);
@@ -36,9 +36,9 @@ const AccountProfile = () => {
   };
 
   return (
-    <div className="px-10 py-10 grid grid-cols-1 gap-6">
+    <div className="w-full px-10 py-10 grid grid-cols-1 gap-6">
       <div className="flex justify-between">
-        <h1 className="text-xl font-semibold">Profile</h1>
+        <h1 className="text-xl font-semibold">Edit Profile</h1>
       </div>
       <Card>
         <CardBody className="gap-4 px-5 py-5">

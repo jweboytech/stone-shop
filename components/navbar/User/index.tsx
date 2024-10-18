@@ -1,3 +1,4 @@
+import { getFetcher } from '@/utils/request/fetcher';
 import { Avatar } from '@nextui-org/avatar';
 import {
   Dropdown,
@@ -8,6 +9,7 @@ import {
 } from '@nextui-org/dropdown';
 import { User } from '@nextui-org/user';
 import { ShoppingBag, UserRound } from 'lucide-react';
+import useSWR from 'swr';
 
 {
   /* <Link aria-label="cart" href="/user">
@@ -17,6 +19,7 @@ import { ShoppingBag, UserRound } from 'lucide-react';
 
 const UserMenu = () => {
   //   return <UserRound className="text-default-500" />;
+  const { data } = useSWR<User>('/user/profile', getFetcher);
 
   return (
     <Dropdown>
@@ -30,7 +33,7 @@ const UserMenu = () => {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">
-        <DropdownItem key="profile">
+        <DropdownItem key="user">
           <div className="flex gap-3 items-center">
             <User
               avatarProps={{
@@ -41,8 +44,8 @@ const UserMenu = () => {
                 name: 'text-default-600',
                 description: 'text-default-500',
               }}
-              description="@jweboy0630@gmail.com"
-              name="Junior Garcia"
+              description={data?.email}
+              name={`${data?.firstName} ${data?.lastName}`}
             />
           </div>
         </DropdownItem>
@@ -52,7 +55,7 @@ const UserMenu = () => {
         <DropdownItem key="orders" className="py-2" href="/account/orders">
           Orders
         </DropdownItem>
-        <DropdownItem key="logOut" className="py-2">
+        <DropdownItem key="logOut" className="py-2" href="/">
           Log out
         </DropdownItem>
       </DropdownMenu>
