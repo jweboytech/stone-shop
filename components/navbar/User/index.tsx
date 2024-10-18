@@ -17,8 +17,7 @@ import useSWR from 'swr';
 </Link>; */
 }
 
-const UserMenu = () => {
-  //   return <UserRound className="text-default-500" />;
+const UserMenu = ({ logout }: { logout: VoidFunction }) => {
   const { data } = useSWR<User>('/user/profile', getFetcher);
 
   return (
@@ -55,7 +54,7 @@ const UserMenu = () => {
         <DropdownItem key="orders" className="py-2" href="/account/orders">
           Orders
         </DropdownItem>
-        <DropdownItem key="logOut" className="py-2" href="/">
+        <DropdownItem key="logOut" className="py-2" onClick={logout}>
           Log out
         </DropdownItem>
       </DropdownMenu>

@@ -15,25 +15,24 @@ import { Link } from '@nextui-org/link';
 import { Input } from '@nextui-org/input';
 import { link as linkStyles } from '@nextui-org/theme';
 import NextLink from 'next/link';
-import { ShoppingBag, UserRound } from 'lucide-react';
+import { ShoppingBag, User2, UserRound } from 'lucide-react';
 import useSWR from 'swr';
 import { usePathname, useRouter } from 'next/navigation';
+import React from 'react';
+import useSWRMutation from 'swr/mutation';
 
 import { Logo } from '../icons';
 import Cart from '../cart';
 
-import User from './User';
+import UserMenu from './User';
 
 import { useDrawerStore } from '@/store';
 import { getFetcher } from '@/utils/request/fetcher';
-import localStorage from '@/utils/storage';
 
 export const Navbar = () => {
-  // useSWR<User>('/user/profile', getFetcher, {
-  //   onSuccess(data) {
-  //     console.log(44, data);
-  //   },
-  // });
+  const { data } = useSWR<'ONLINE'>('/auth/verify/login/status', getFetcher);
+  const { trigger } = useSWRMutation<User>('/auth/logout', getFetcher);
+
   const { openDrawer } = useDrawerStore();
   const pathname = usePathname();
   const router = useRouter();
@@ -44,6 +43,11 @@ export const Navbar = () => {
     } else {
       openDrawer({ title: 'cart', children: <Cart /> });
     }
+  };
+
+  const handleUserLogout = () => {
+    trigger();
+    router.push('/');
   };
 
   return (
@@ -71,20 +75,32 @@ export const Navbar = () => {
           ))}
         </ul> */}
       </NavbarContent>
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end">
-        <NavbarItem className="hidden sm:flex gap-4 items-center">
-          <User />
-          <Link href="/">
-            <Button color="primary">Go to store</Button>
-          </Link>
-          <ShoppingBag
-            className="text-default-500 cursor-pointer"
-            onClick={openCart}
-          />
-        </NavbarItem>
-      </NavbarContent>
+      {data != null && (
+        <NavbarContent
+          className="hidden sm:flex basis-1/5 sm:basis-full"
+          justify="end">
+          <NavbarItem className="hidden sm:flex gap-4 items-center">
+            {data === 'ONLINE' ? (
+              <React.Fragment>
+                <UserMenu logout={handleUserLogout} />
+                <Link href="/">
+                  <Button color="primary">Go to store</Button>
+                </Link>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Link href="/account/login">
+                  <UserRound className="text-default-500 cursor-pointer" />
+                </Link>
+                <ShoppingBag
+                  className="text-default-500 cursor-pointer"
+                  onClick={openCart}
+                />
+              </React.Fragment>
+            )}
+          </NavbarItem>
+        </NavbarContent>
+      )}
     </NextUINavbar>
   );
 };
