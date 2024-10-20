@@ -26,12 +26,20 @@ import Cart from '../cart';
 
 import UserMenu from './User';
 
-import { useDrawerStore } from '@/store';
+import { useDrawerStore, useUserStore } from '@/store';
 import { getFetcher } from '@/utils/request/fetcher';
 
 export const Navbar = () => {
-  const { data } = useSWR<'ONLINE'>('/auth/verify/login/status', getFetcher);
-  const { trigger } = useSWRMutation<User>('/auth/logout', getFetcher);
+  const { data, mutate } = useSWR<'ONLINE'>(
+    '/auth/verify/login/status',
+    getFetcher,
+  );
+  const { trigger: postLogout } = useSWRMutation<User>(
+    '/auth/logout',
+    getFetcher,
+  );
+  const loginStatus = useUserStore((state) => state.loginStatus);
+  const logout = useUserStore((state) => state.logout);
 
   const { openDrawer } = useDrawerStore();
   const pathname = usePathname();
@@ -46,9 +54,15 @@ export const Navbar = () => {
   };
 
   const handleUserLogout = () => {
-    trigger();
-    router.push('/');
+    postLogout().then(() => {
+      logout();
+      router.push('/');
+    });
   };
+
+  React.useEffect(() => {
+    mutate();
+  }, [loginStatus]);
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">

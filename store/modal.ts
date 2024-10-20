@@ -1,23 +1,23 @@
-import { ModalProps } from "@nextui-org/modal";
-import { produce } from "immer";
-import { ObjectSchema } from "yup";
-import { create } from "zustand";
+import { ModalProps } from '@nextui-org/modal';
+import { produce } from 'immer';
+import { ObjectSchema } from 'yup';
+import { create } from 'zustand';
 
 export type ModalKey =
-  | "category"
-  | "mallOrder"
-  | "stock"
-  | "freightFee"
-  | "default"
-  | "refund"
-  | "pledge";
+  | 'category'
+  | 'mallOrder'
+  | 'stock'
+  | 'freightFee'
+  | 'default'
+  | 'refund'
+  | 'pledge';
 
-export type ModalOptions = Omit<ModalProps, "children"> & {
+export type ModalOptions = Omit<ModalProps, 'children'> & {
   children?: string | React.ReactElement;
   form?: { schema: ObjectSchema<any>; items: any[]; defaultValues?: AnyObject };
   onConfirm?: <T>() => void | (<T>(param?: T) => Promise<T>);
   payload?: Record<string, any>;
-  props?: Omit<ModalProps, "children">;
+  props?: Omit<ModalProps, 'children'>;
 };
 
 export interface ModalState {
@@ -28,7 +28,7 @@ export interface ModalState {
 }
 
 export const useModalStore = create<ModalState>((set) => ({
-  activeKey: "default",
+  activeKey: 'default',
   openModals: {
     props: {},
     default: {},
@@ -42,12 +42,12 @@ export const useModalStore = create<ModalState>((set) => ({
       produce((state) => {
         state.openModals[key] = { isOpen: true, ...payload };
         state.activeKey = key;
-      })
+      }),
     ),
   closeModal: (key) =>
     set(
       produce((state) => {
         state.openModals[key] = { isOpen: false };
-      })
+      }),
     ),
 }));

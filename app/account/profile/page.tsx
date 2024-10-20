@@ -66,7 +66,9 @@ const AccountProfile = () => {
       props: { size: 'xl' },
       form,
       onConfirm(values) {
-        return updateUser(values).then(getUserProfile);
+        return updateUser(values).then(() => {
+          getUserProfile();
+        });
       },
     });
   };

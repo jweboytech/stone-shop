@@ -15,6 +15,7 @@ import InputField from '@/components/form/input';
 import { postFetcher } from '@/utils/request/fetcher';
 import { serializateUrl } from '@/utils';
 import localStorage from '@/utils/storage';
+import { useUserStore } from '@/store';
 
 const emailSchema = object().shape({
   email: string().required('Email cannot be blank'),
@@ -31,6 +32,7 @@ const LoginPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const login = useUserStore((state) => state.login);
 
   const { trigger, isMutating } = useSWRMutation(
     '/auth/send/captcha',
@@ -81,7 +83,10 @@ const LoginPage = () => {
     })
       .then((data) => {
         localStorage.set('userToken', data);
-        router.push('/account/profile');
+        login();
+        setTimeout(() => {
+          router.push('/account/profile');
+        }, 0);
       })
       .catch((err) => {
         setCaptchaError('digitCode', {
