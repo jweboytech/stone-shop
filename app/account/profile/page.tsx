@@ -4,6 +4,8 @@ import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import { Edit, Edit2, Pencil, Plus } from 'lucide-react';
 import useSWRMutation from 'swr/mutation';
 import useSWR from 'swr';
+import React from 'react';
+import { Button } from '@nextui-org/button';
 
 import { addressForm, form } from './config';
 
@@ -15,17 +17,14 @@ import {
 } from '@/utils/request/fetcher';
 import Description from '@/components/description';
 import DescriptionItem from '@/components/description/item';
-import { useModal } from '@/hooks/useModal';
-import { Checkbox, CheckboxGroup } from '@nextui-org/checkbox';
-import { Radio, RadioGroup } from '@nextui-org/radio';
-import clsx from 'clsx';
-import toast from 'react-hot-toast';
-import { Button } from '@nextui-org/button';
 import { useConfirmModal } from '@/hooks/useConfirm';
+import { useModal } from '@/hooks/useModal';
+import clsx from 'clsx';
 
 const AccountProfile = () => {
   const { openModal } = useModal('default');
   const { openConfirm } = useConfirmModal();
+
   const { data, mutate: getUserProfile } = useSWR<User>(
     '/user/profile',
     getFetcher,
@@ -53,6 +52,11 @@ const AccountProfile = () => {
   const { data: addresses, mutate: getAddressList } = useSWR<Address[]>(
     '/user/address/list',
     getFetcher,
+  );
+
+  const { trigger: updateDefaultAddress } = useSWRMutation(
+    '/user/default/address',
+    putFetcher,
   );
 
   const openEditModal = () => {
@@ -94,9 +98,14 @@ const AccountProfile = () => {
       title: 'Delete address?',
       content: 'Existing orders are not affected.',
       onConfirm() {
-        //
         return deleteAddress(id).then(() => getAddressList());
       },
+    });
+  };
+
+  const handleItemClick = (id: number) => () => {
+    updateDefaultAddress({ id }).then(() => {
+      getUserProfile();
     });
   };
 
@@ -144,10 +153,13 @@ const AccountProfile = () => {
                 key={item.id}
                 className={clsx(
                   'flex-col bg-content1 hover:bg-content2 items-center justify-between relative',
-                  'flex-row-reverse cursor-pointer rounded-lg gap-4 p-2 border-2 border-transparent hover:border-primary',
+                  'flex-row-reverse cursor-pointer rounded-lg gap-4 p-2 border-2  hover:border-primary',
                   'transition-all duration-300',
+                  data?.defaultAddress.id === item.id
+                    ? 'border-primary'
+                    : 'border-transparent',
                 )}
-                onClick={openAddressModal(item)}>
+                onClick={handleItemClick(item.id)}>
                 <p className="text-foreground-500 text-sm">Default address</p>
                 <div className="text-sm mt-2">
                   <p>{item.line1}</p>

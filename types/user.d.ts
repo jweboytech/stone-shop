@@ -4,6 +4,7 @@ interface User {
   lastName: string;
   token: string;
   email: string;
+  defaultAddress: Address;
 }
 
 interface Address {
