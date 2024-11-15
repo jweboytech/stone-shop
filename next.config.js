@@ -23,7 +23,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'assets.lovemypet.asia',
+        hostname: 'assets.jweboy.asia',
       },
     ],
   },

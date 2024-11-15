@@ -30,10 +30,10 @@ import { useDrawerStore, useUserStore } from '@/store';
 import { getFetcher } from '@/utils/request/fetcher';
 
 export const Navbar = () => {
-  const { data, mutate } = useSWR<'ONLINE'>(
-    '/auth/verify/login/status',
-    getFetcher,
-  );
+  // const { data, mutate } = useSWR<'ONLINE'>(
+  //   '/auth/verify/login/status',
+  //   getFetcher,
+  // );
   const { trigger: postLogout } = useSWRMutation<User>(
     '/auth/logout',
     getFetcher,
@@ -60,9 +60,9 @@ export const Navbar = () => {
     });
   };
 
-  React.useEffect(() => {
-    mutate();
-  }, [loginStatus]);
+  // React.useEffect(() => {
+  //   mutate();
+  // }, [loginStatus]);
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -89,7 +89,11 @@ export const Navbar = () => {
           ))}
         </ul> */}
       </NavbarContent>
-      {data != null && (
+      <ShoppingBag
+        className="text-default-500 cursor-pointer"
+        onClick={openCart}
+      />
+      {/* {data != null && (
         <NavbarContent
           className="hidden sm:flex basis-1/5 sm:basis-full"
           justify="end">
@@ -114,7 +118,7 @@ export const Navbar = () => {
             )}
           </NavbarItem>
         </NavbarContent>
-      )}
+      )} */}
     </NextUINavbar>
   );
 };

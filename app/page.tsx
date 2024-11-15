@@ -1,10 +1,14 @@
 'use client';
 
 import useSWR from 'swr';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import useSWRMutation from 'swr/mutation';
+import React from 'react';
 
 import { getFetcher, postFetcher } from '@/utils/request/fetcher';
-import localStorage from '@/utils/storage';
 import ProductRecommendations from '@/components/commodity-recommendations';
+import { generateFingerprint, getFingerprint } from '@/utils';
+import localStorage from '@/utils/storage';
 
 function Home() {
   const { data: commodity } = useSWR<List<Commodity>>(
@@ -12,11 +16,27 @@ function Home() {
     postFetcher,
   );
 
-  useSWR('/auth', getFetcher, {
-    onSuccess(data) {
-      localStorage.set('userToken', data);
-    },
-  });
+  const { trigger } = useSWRMutation<any, any, any, any>(
+    '/user/metadata',
+    postFetcher,
+  );
+
+  const updateUserToken = (fingerprint: string) => {
+    trigger({ uuid: fingerprint }).then((token) => {
+      localStorage.set('userToken', token);
+    });
+  };
+
+  React.useEffect(() => {
+    getFingerprint()
+      .then(async (res) => updateUserToken(res.visitorId))
+      .catch(async () => {
+        console.log('手动生成设备指纹');
+        const fingerprint = await generateFingerprint();
+
+        updateUserToken(fingerprint);
+      });
+  }, []);
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">

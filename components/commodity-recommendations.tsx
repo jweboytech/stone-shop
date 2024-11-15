@@ -3,21 +3,21 @@ import { Search } from 'lucide-react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/navigation';
 import useSWRMutation from 'swr/mutation';
+import { Spinner } from '@nextui-org/spinner';
 
 import StarRating from './star-rating';
 import Cart from './cart';
 
-import { putFetcher } from '@/utils/request/fetcher';
 import { useDrawerStore } from '@/store';
-import { Spinner } from '@nextui-org/spinner';
+import { postFetcher } from '@/utils/request/fetcher';
 
 const CommodityRecommendations = ({ data }: { data: Commodity }) => {
+  const router = useRouter();
   const { openDrawer } = useDrawerStore();
   const { trigger, isMutating } = useSWRMutation<any, any, any, any>(
     '/cart/update',
-    putFetcher,
+    postFetcher,
   );
-  const router = useRouter();
 
   const handleAddCart: React.ChangeEventHandler<HTMLDivElement> = (evt) => {
     evt.stopPropagation();
@@ -38,13 +38,15 @@ const CommodityRecommendations = ({ data }: { data: Commodity }) => {
       </div>
       <div className="relative">
         <Image
+          alt={data.mainPics[1]}
           as={NextImage}
           width={400}
           height={400}
-          className="invisible group-hover:visible group-hover:animate-zoom-fade-small absolute z-10 left-0 top-0 h-full"
+          className="group-hover:animate-zoom-fade-small absolute z-10 left-0 top-0 h-full"
           src={data.mainPics[1]}
         />
         <Image
+          alt={data.mainPics[1]}
           className="-z-10 visible group-hover:invisible transition-all duration-300"
           width={400}
           height={400}

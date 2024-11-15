@@ -3,12 +3,17 @@ import { Link } from '@nextui-org/link';
 import { Image } from '@nextui-org/image';
 import { X } from 'lucide-react';
 
-import { deleteFetcher, putFetcher } from '@/utils/request/fetcher';
+import {
+  deleteFetcher,
+  postFetcher,
+  putFetcher,
+} from '@/utils/request/fetcher';
 import Price from '@/components/price';
 import React from 'react';
 import { Spinnaker } from 'next/font/google';
 import { Spinner } from '@nextui-org/spinner';
 import { usePrevious } from '@/hooks/usePrevious';
+import { _delete } from '@/utils/request';
 
 const CommodityItem = ({
   data,
@@ -24,7 +29,7 @@ const CommodityItem = ({
   const prevCount = usePrevious(count);
   const { trigger, isMutating } = useSWRMutation<any, any, any, any>(
     '/cart/update',
-    putFetcher,
+    postFetcher,
   );
   const { trigger: removeCommodity, isMutating: isDeleting } = useSWRMutation<
     any,

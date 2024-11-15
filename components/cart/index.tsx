@@ -7,13 +7,13 @@ import React from 'react';
 
 import CommodityItem from './CommodityItem';
 
-import { serializateUrl, toUpperCase } from '@/utils';
+import { formatPrice, serializateUrl, toUpperCase } from '@/utils';
 import { getFetcher, postFetcher } from '@/utils/request/fetcher';
 import { DrawerState } from '@/store/drawer';
 
 const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
   const router = useRouter();
-  const { data, trigger } = useSWRMutation<Cart>('/cart', getFetcher);
+  const { data, trigger } = useSWRMutation<Cart>('/cart/details', getFetcher);
   const { trigger: checkout, isMutating } = useSWRMutation<Cart>(
     '/payment/checkout',
     postFetcher,
@@ -54,7 +54,7 @@ const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
       </div>
       <div className="mt-6 flex justify-between">
         <span className="text-base">Subtotal</span>
-        <span className="text-lg">${data?.totalAmount} USD</span>
+        <span className="text-lg">{formatPrice(data?.totalAmount)} USD</span>
       </div>
       <div className="text-xs mb-4 text-foreground-500">
         Taxes and shipping calculated at checkout
