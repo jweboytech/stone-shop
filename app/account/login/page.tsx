@@ -16,6 +16,7 @@ import { postFetcher } from '@/utils/request/fetcher';
 import { serializateUrl } from '@/utils';
 import localStorage from '@/utils/storage';
 import { useUserStore } from '@/store';
+import toast from 'react-hot-toast';
 
 const emailSchema = object().shape({
   email: string().required('Email cannot be blank'),
@@ -32,15 +33,16 @@ const LoginPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const login = useUserStore((state) => state.login);
 
   const { trigger, isMutating } = useSWRMutation(
     '/auth/send/captcha',
     postFetcher,
   );
 
-  const { trigger: postVerifyCaptcha, isMutating: isVerifings } =
-    useSWRMutation('/auth/verify/captcha', postFetcher);
+  const { trigger: postLogin, isMutating: isVerifings } = useSWRMutation(
+    '/auth/login',
+    postFetcher,
+  );
 
   const {
     control: emailController,
@@ -77,21 +79,18 @@ const LoginPage = () => {
   };
 
   const submitCaptchaForm = (values) => {
-    postVerifyCaptcha({
+    postLogin({
       email: searchParams.get('email'),
       ...values,
     })
       .then((data) => {
         localStorage.set('userToken', data);
-        login();
         setTimeout(() => {
           router.push('/account/profile');
         }, 0);
       })
       .catch((err) => {
-        setCaptchaError('digitCode', {
-          message: err,
-        });
+        setCaptchaError('digitCode', { message: err });
       });
   };
 

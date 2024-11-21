@@ -7,7 +7,11 @@ import { getFetcher } from '@/utils/request/fetcher';
 import CommodityItem from '@/components/cart/CommodityItem';
 
 const Cart = () => {
-  const { data, mutate } = useSWR<Cart>('/cart', getFetcher);
+  const { data, mutate } = useSWR<Cart>('/cart/details', getFetcher);
+
+  const refreshList = () => {
+    mutate();
+  };
 
   return (
     <div>
@@ -16,7 +20,7 @@ const Cart = () => {
           key={item.id}
           data={item.commodity}
           quantity={item.quantity}
-          onRefresh={mutate}
+          onRefresh={refreshList}
         />
       ))}
     </div>

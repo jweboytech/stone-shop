@@ -25,7 +25,7 @@ const AccountProfile = () => {
   const { openModal } = useModal('default');
   const { openConfirm } = useConfirmModal();
 
-  const { data, mutate: getUserProfile } = useSWR<User>(
+  const { data, trigger: getUserProfile } = useSWRMutation<User>(
     '/user/profile',
     getFetcher,
   );
@@ -34,24 +34,20 @@ const AccountProfile = () => {
     putFetcher,
   );
 
-  const { trigger: addAddress } = useSWRMutation<User>(
-    '/user/address',
-    postFetcher,
-  );
+  const { data: addresses, trigger: getAddressList } = useSWRMutation<
+    Address[]
+  >('/address/list', getFetcher);
 
-  const { trigger: updateAddress } = useSWRMutation<User>(
-    '/user/address',
-    putFetcher,
-  );
+  const { trigger: addAddress } = useSWRMutation<User>('/address', postFetcher);
 
   const { trigger: deleteAddress } = useSWRMutation<User>(
-    '/user/address',
+    '/address',
     deleteFetcher,
   );
 
-  const { data: addresses, mutate: getAddressList } = useSWR<Address[]>(
-    '/user/address/list',
-    getFetcher,
+  const { trigger: updateAddress } = useSWRMutation<User>(
+    '/address',
+    putFetcher,
   );
 
   const { trigger: updateDefaultAddress } = useSWRMutation(
@@ -61,14 +57,12 @@ const AccountProfile = () => {
 
   const openEditModal = () => {
     openModal({
+      form,
       title: 'Profile',
       payload: data,
       props: { size: 'xl' },
-      form,
       onConfirm(values) {
-        return updateUser(values).then(() => {
-          getUserProfile();
-        });
+        return updateUser(values).then(getUserProfile);
       },
     });
   };
@@ -110,6 +104,10 @@ const AccountProfile = () => {
       getUserProfile();
     });
   };
+
+  React.useEffect(() => {
+    Promise.all([getUserProfile(), getAddressList()]);
+  }, []);
 
   return (
     <div className="w-full px-10 py-10 grid grid-cols-1 gap-6">
@@ -157,7 +155,7 @@ const AccountProfile = () => {
                   'flex-col bg-content1 hover:bg-content2 items-center justify-between relative',
                   'flex-row-reverse cursor-pointer rounded-lg gap-4 p-2 border-2  hover:border-primary',
                   'transition-all duration-300',
-                  data?.defaultAddress.id === item.id
+                  data?.defaultAddress?.id === item.id
                     ? 'border-primary'
                     : 'border-transparent',
                 )}
@@ -217,5 +215,7 @@ const AccountProfile = () => {
     </div>
   );
 };
+
+AccountProfile.displayName = 'AccountProfile';
 
 export default AccountProfile;

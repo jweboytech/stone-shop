@@ -1,21 +1,19 @@
 'use client';
 
-import CommodityMetadata from '@/components/commodity/metadata';
-import Description from '@/components/description';
-import DescriptionItem from '@/components/description/item';
-import { formatPrice, getCardLast, serializateUrl } from '@/utils';
-import { getFetcher } from '@/utils/request/fetcher';
-import { Button } from '@nextui-org/button';
-import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
 import { Checkbox } from '@nextui-org/checkbox';
-import { Divider } from '@nextui-org/divider';
+import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
+import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
-import { Elements, useStripe } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 import { CircleCheck } from 'lucide-react';
 import { useParams, useSearchParams } from 'next/navigation';
 import React from 'react';
 import useSWR from 'swr';
+
+import { formatPrice, getCardLast, serializateUrl } from '@/utils';
+import { getFetcher } from '@/utils/request/fetcher';
+import Description from '@/components/description';
+import DescriptionItem from '@/components/description/item';
+import CommodityMetadata from '@/components/commodity/metadata';
 
 function ResultPage() {
   const params = useParams();
@@ -103,7 +101,7 @@ function ResultPage() {
             </CardBody>
           </Card>
         </div>
-        <CommodityMetadata data={order!} />
+        {order != null && <CommodityMetadata data={order} />}
       </div>
     </div>
   );

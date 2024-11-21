@@ -64,6 +64,8 @@ export const Navbar = () => {
   //   mutate();
   // }, [loginStatus]);
 
+  console.log('render navbar');
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -89,35 +91,40 @@ export const Navbar = () => {
           ))}
         </ul> */}
       </NavbarContent>
-      <ShoppingBag
-        className="text-default-500 cursor-pointer"
-        onClick={openCart}
-      />
+
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end">
+        <NavbarItem className="hidden sm:flex gap-4 items-center">
+          <Link href="/">
+            <Button color="primary">Go to store</Button>
+          </Link>
+          <ShoppingBag
+            className="text-default-500 cursor-pointer"
+            onClick={openCart}
+          />
+          {/* <UserMenu logout={handleUserLogout} /> */}
+          {/* {data === 'ONLINE' ? (
+            <React.Fragment>
+              <UserMenu logout={handleUserLogout} />
+              <Link href="/">
+                <Button color="primary">Go to store</Button>
+              </Link>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Link href="/account/login">
+                <UserRound className="text-default-500 cursor-pointer" />
+              </Link>
+              <ShoppingBag
+                className="text-default-500 cursor-pointer"
+                onClick={openCart}
+              />
+            </React.Fragment>
+          )} */}
+        </NavbarItem>
+      </NavbarContent>
       {/* {data != null && (
-        <NavbarContent
-          className="hidden sm:flex basis-1/5 sm:basis-full"
-          justify="end">
-          <NavbarItem className="hidden sm:flex gap-4 items-center">
-            {data === 'ONLINE' ? (
-              <React.Fragment>
-                <UserMenu logout={handleUserLogout} />
-                <Link href="/">
-                  <Button color="primary">Go to store</Button>
-                </Link>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Link href="/account/login">
-                  <UserRound className="text-default-500 cursor-pointer" />
-                </Link>
-                <ShoppingBag
-                  className="text-default-500 cursor-pointer"
-                  onClick={openCart}
-                />
-              </React.Fragment>
-            )}
-          </NavbarItem>
-        </NavbarContent>
       )} */}
     </NextUINavbar>
   );

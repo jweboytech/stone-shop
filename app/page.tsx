@@ -9,6 +9,7 @@ import { getFetcher, postFetcher } from '@/utils/request/fetcher';
 import ProductRecommendations from '@/components/commodity-recommendations';
 import { generateFingerprint, getFingerprint } from '@/utils';
 import localStorage from '@/utils/storage';
+import { Image } from '@nextui-org/image';
 
 function Home() {
   const { data: commodity } = useSWR<List<Commodity>>(
@@ -39,7 +40,8 @@ function Home() {
   }, []);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+    <section className="flex flex-col items-center justify-center gap-4 md:py-10">
+      <Image src="https://assets.jweboy.asia/shop/banner.webp" />
       <div className="lg:px-10 px-6">
         <div className="py-9 flex flex-col gap-8">
           <h1 className="lg:text-[40px] text-3xl text-center">

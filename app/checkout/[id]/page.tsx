@@ -10,6 +10,7 @@ import {
   StripeAddressElementChangeEvent,
   StripeElementsOptions,
   StripeLinkAuthenticationElementChangeEvent,
+  StripePaymentElementChangeEvent,
 } from '@stripe/stripe-js';
 import {
   AddressElement,
@@ -35,6 +36,7 @@ import { Spinner } from '@nextui-org/spinner';
 
 import { getFetcher, postFetcher, putFetcher } from '@/utils/request/fetcher';
 import { formatPrice, serializateUrl, toUpperCase } from '@/utils';
+import { Checkbox } from '@nextui-org/checkbox';
 
 const stripePromise = loadStripe(
   'pk_test_51OrCQvJdDKeF581Bh7d0yscRvmA5xxjEnBoihyZQ9YeKVxtNrf5G5ifrnVBHdT0wpqdcvhpKhZGaJvO2zU2GRd6u00qGom8U9l',
@@ -52,13 +54,13 @@ const CheckoutForm = ({
   paymentId?: string;
   orderId?: string;
 }) => {
-  const { handleSubmit, setValue } = useForm();
+  const { handleSubmit, setValue, getValues } = useForm();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = React.useState(false);
-  const { trigger: updatePayment } = useSWRMutation<any, any, any, any>(
-    paymentId ? serializateUrl('/payment/update', { id: paymentId }) : null,
-    putFetcher,
+  const { trigger: completePayment } = useSWRMutation<any, any, any, any>(
+    paymentId ? '/payment/complete' : null,
+    postFetcher,
   );
 
   const handleEmailChange = (
@@ -80,14 +82,17 @@ const CheckoutForm = ({
       return;
     }
 
-    setIsLoading(true);
+    const values = getValues();
 
-    stripe
-      .confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + '/checkout/result/' + orderId,
-        },
+    setIsLoading(true);
+    completePayment(values)
+      .then(() => {
+        return stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: window.location.origin + '/checkout/result/' + orderId,
+          },
+        });
       })
       .finally(() => {
         setIsLoading(false);
@@ -105,20 +110,23 @@ const CheckoutForm = ({
             console.log(availablePaymentMethods);
           }}
         /> */}
+        <h3 className="text-xl font-bold">Contact</h3>
         <LinkAuthenticationElement
-          // onChange={handleEmailChange}
           options={{ defaultValues: { email: 'jweboy@outlook.com' } }}
+          onChange={handleEmailChange}
         />
+        <h3 className="text-xl font-bold">Delivery</h3>
         <AddressElement
-          // onChange={handleAddressChange}
           options={{
             mode: 'shipping',
             allowedCountries,
-            blockPoBox: true,
+            display: { name: 'split' },
+            blockPoBox: false,
             fields: { phone: 'always' },
             validation: { phone: { required: 'never' } },
             defaultValues: {
-              name: 'Jane Biubiu',
+              firstName: 'Jane',
+              lastName: 'Biubiu',
               phone: '(888)555-0715',
               address: {
                 line1: '354 Oyster Point Blvd',
@@ -130,12 +138,10 @@ const CheckoutForm = ({
               },
             },
           }}
+          onChange={handleAddressChange}
         />
-        <PaymentElement
-          options={{
-            layout: 'tabs',
-          }}
-        />
+        <h3 className="text-xl font-bold">Payment</h3>
+        <PaymentElement options={{ layout: 'tabs' }} />
         <Button
           fullWidth
           color="primary"
