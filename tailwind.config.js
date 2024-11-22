@@ -9,9 +9,21 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: '#4cc9f0', // 设置 Tailwind 中的 primary 颜色
+      },
+      backgroundImage: {
+        banner:
+          'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/slide-1.jpg?v=1666079941&width=3000)',
+        banner1:
+          'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/banner-6.jpg?v=1655430252&width=3000)',
+        banner2:
+          'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/lookbook-1.jpg?v=1699506080&width=3000)',
+      },
       fontFamily: {
         sans: ['var(--font-sans)'],
         mono: ['var(--font-mono)'],
+        gill: '"Gill Sans Nova", sans-serif',
         //
       },
       zIndex: {

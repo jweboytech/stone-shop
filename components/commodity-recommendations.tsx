@@ -62,15 +62,11 @@ const CommodityRecommendations = ({ data }: { data: Commodity }) => {
           </div>
         </div>
       </div>
-      <p className="mt-4 text-base">The Good C Vitamin C Serum</p>
+      <p className="mt-4 text-base">{data.name}</p>
       <p className="mt-1">
         <span className="text-xs">$</span>
         <span className="text-lg">{data.sellingPrice}</span>
       </p>
-      {/* <p className="mt-1 text-danger ">
-        <span className="text-xs">$</span>
-        <span className="text-lg line-through">199.99</span>
-      </p> */}
       <StarRating />
     </div>
   );

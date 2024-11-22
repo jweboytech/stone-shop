@@ -12,6 +12,7 @@
     "@fingerprintjs/fingerprintjs": "^4.5.1",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.9.0",
+    "@img-comparison-slider/react": "^8.0.2",
     "@nextui-org/avatar": "^2.0.33",
     "@nextui-org/badge": "^2.0.32",
     "@nextui-org/button": "2.0.38",

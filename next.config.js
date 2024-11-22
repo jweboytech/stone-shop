@@ -25,6 +25,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'assets.jweboy.asia',
       },
+      {
+        protocol: 'https',
+        hostname: 'img-comparison-slider.sneas.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
 };

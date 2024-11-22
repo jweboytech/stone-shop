@@ -53,7 +53,7 @@ export default function RootLayout({
             <main className="w-full flex-grow bg-[#f5f5f5]">
               <CommonLayout>{children}</CommonLayout>
             </main>
-            {/* <Footer /> */}
+            <Footer />
             {/* <footer className="w-full flex items-center justify-center py-3">
               <Link
                 isExternal

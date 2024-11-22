@@ -5,7 +5,7 @@
 // };
 
 interface BaseProps {
-  children?: React.ReactElement;
+  children?: React.ReactElement | string;
 }
 
 interface Option {
