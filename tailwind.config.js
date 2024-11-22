@@ -9,6 +9,7 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: { 40: '40px' },
       colors: {
         primary: '#4cc9f0', // 设置 Tailwind 中的 primary 颜色
       },

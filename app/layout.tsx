@@ -49,8 +49,8 @@ export default function RootLayout({
         )}>
         <Providers>
           <div className="relative flex flex-col h-screen">
-            {/* <Navbar /> */}
-            <main className="w-full flex-grow bg-[#f5f5f5]">
+            {/* <Navbar /> bg-[#f5f5f5] */}
+            <main className="w-full flex-grow bg-white">
               <CommonLayout>{children}</CommonLayout>
             </main>
             <Footer />

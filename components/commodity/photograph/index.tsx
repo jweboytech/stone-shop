@@ -10,14 +10,20 @@ const Photograph = ({ data }: { data?: Commodity }) => {
   };
 
   return (
-    <div className="flex gap-x-4">
-      <div className="flex flex-col w-44 gap-4">
+    <div className="flex flex-col gap-8">
+      <Image
+        alt={data?.name}
+        className="w-full h-full"
+        radius="sm"
+        src={data?.mainPics[activeIndex]}
+      />
+      <div className="flex gap-2 shadow-2xl w-fit m-auto px-2 py-2">
         {data?.mainPics.map((item, index) => (
           <Image
             key={item}
             alt={data.name}
             className={clsx(
-              'border-2 cursor-pointer transition-all duration-1000',
+              'border-2 cursor-pointer transition-all duration-1000 w-14 h-14',
               activeIndex === index ? 'border-primary' : 'border-transparent',
             )}
             radius="sm"
@@ -26,7 +32,6 @@ const Photograph = ({ data }: { data?: Commodity }) => {
           />
         ))}
       </div>
-      <Image alt={data?.name} radius="sm" src={data?.mainPics[activeIndex]} />
     </div>
   );
 };

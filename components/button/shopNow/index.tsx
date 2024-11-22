@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import clsx from 'clsx';
 
-const Button = ({ children, className }: ButtonProps) => {
+const ShopNowButton = ({ children, className }: ButtonProps) => {
   return (
     <div
       className={clsx(
@@ -10,9 +10,9 @@ const Button = ({ children, className }: ButtonProps) => {
         'w-fit px-8 py-3 text-center uppercase',
         className || '',
       )}>
-      {children}
+      shop now
     </div>
   );
 };
 
-export default Button;
+export default ShopNowButton;

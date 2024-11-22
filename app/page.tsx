@@ -12,8 +12,9 @@ import localStorage from '@/utils/storage';
 import { Image } from '@nextui-org/image';
 import { ImgComparisonSlider } from '@img-comparison-slider/react';
 import { Slider } from '@/components/slider';
-import Button from '@/components/button';
 import { Dog } from 'lucide-react';
+import WhyBeYours from '@/components/whyBeYours';
+import ShopNowButton from '@/components/button/shopNow';
 
 function Home() {
   const { data: commodity } = useSWR<List<Commodity>>(
@@ -48,7 +49,7 @@ function Home() {
       <div className="relative w-full h-[650px] bg-banner bg-cover">
         <div className="text-white absolute left-20 bottom-20 flex flex-col gap-4">
           <h2 className="text-6xl font-gill font-medium">Cute Dog Toys</h2>
-          <Button>shop now</Button>
+          <ShopNowButton />
         </div>
       </div>
       <div className="bg-white w-full">
@@ -70,42 +71,7 @@ function Home() {
         className="h-[650px] w-full bg-banner1 bg-cover"
         style={{ backgroundColor: 'rgba(26, 27, 24, .16)' }}
       />
-      <div className="px-12 py-9 bg-white">
-        <h2 className="text-center text-[40px] font-medium mb-8">
-          Why Be Yours?
-        </h2>
-        <ul className="grid grid-cols-4 gap-12">
-          <li className="flex flex-col items-center justify-center">
-            <Dog size={26} />
-            <p className="py-4">Clean Skincare</p>
-            <p className="mt-1 text-center text-default-700">
-              Clean and natural skincare with safe and transparent ingredients
-            </p>
-          </li>
-          <li className="flex flex-col items-center justify-center">
-            <Dog size={26} />
-            <p className="py-4">European Delivery</p>
-            <p className="mt-1 text-center text-default-700">
-              Fast delivery options with tracking No EU import duties
-            </p>
-          </li>
-          <li className="flex flex-col items-center justify-center">
-            <Dog size={26} />
-            <p className="py-4">Sustainability</p>
-            <p className="mt-1 text-center text-default-700">
-              Our signature shipping boxes are fully recyclable and
-              biodegradable
-            </p>
-          </li>
-          <li className="flex flex-col items-center justify-center">
-            <Dog size={26} />
-            <p className="py-4">Authorized Retailer</p>
-            <p className="mt-1 text-center text-default-700">
-              We are an authorized retailer for all the brands we carry
-            </p>
-          </li>
-        </ul>
-      </div>
+      <WhyBeYours />
       <div className="bg-white px-12 py-9">
         <div className="grid grid-cols-4 gap-6">
           {commodity?.items.map((item) => (
@@ -124,7 +90,7 @@ function Home() {
               approach to a healthy and youthful complexion, firmly rooted in
               every science-based formula from her eponymous skincare brand.
             </p>
-            <Button className="mt-8">shop now</Button>
+            <ShopNowButton className="mt-8" />
           </div>
           <Image src="https://beyours-theme-beauty.myshopify.com/cdn/shop/files/hero-12.jpg?v=1666613976&width=1500" />
         </div>
@@ -138,7 +104,7 @@ function Home() {
               Discover our Bestseller Edit, the best products to restart and
               refresh your skincare and beauty routine.
             </p>
-            <Button className="mt-8">shop now</Button>
+            <ShopNowButton className="mt-8" />
           </div>
         </div>
       </div>
