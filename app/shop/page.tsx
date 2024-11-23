@@ -1,29 +1,21 @@
 'use client';
 
 import useSWR from 'swr';
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import useSWRMutation from 'swr/mutation';
 import React from 'react';
+import { Link } from '@nextui-org/link';
+import clsx from 'clsx';
+import { Image } from '@nextui-org/image';
 
-import { getFetcher, postFetcher } from '@/utils/request/fetcher';
+import { postFetcher } from '@/utils/request/fetcher';
 import ProductRecommendations from '@/components/commodity-recommendations';
 import { generateFingerprint, getFingerprint } from '@/utils';
 import localStorage from '@/utils/storage';
-import { Image } from '@nextui-org/image';
-import { ImgComparisonSlider } from '@img-comparison-slider/react';
-import { Slider } from '@/components/slider';
-import { Dog } from 'lucide-react';
 import WhyBeYours from '@/components/whyBeYours';
+import { fontCherryBomb, fontDynaPuff } from '@/config/fonts';
 import BuyButton from '@/components/button/buy';
-import clsx from 'clsx';
-import {
-  fontCherryBomb,
-  fontDynaPuff,
-  fontLilitaOne,
-  fontMono,
-} from '@/config/fonts';
-import { Link } from '@nextui-org/link';
 import Subscribe from '@/components/subscribe';
+import CommodityItem from '@/components/commodity/item';
 
 function ShopPage() {
   const { data: commodity } = useSWR<List<Commodity>>(
@@ -72,7 +64,7 @@ function ShopPage() {
             )}>
             durable play toys
           </h2>
-          <Link href="/play">
+          <Link href="/shop/play">
             <BuyButton />
           </Link>
         </div>
@@ -169,7 +161,7 @@ function ShopPage() {
       <div className="bg-white px-12 py-9">
         <div className="grid grid-cols-4 gap-6">
           {commodity?.items.map((item) => (
-            <ProductRecommendations key={item.id} data={item} />
+            <CommodityItem key={item.id} data={item} />
           ))}
         </div>
       </div>

@@ -2,22 +2,36 @@ import { Image } from '@nextui-org/image';
 import clsx from 'clsx';
 import React from 'react';
 
-const Photograph = ({ data }: { data?: Commodity }) => {
-  const [activeIndex, setActiveKey] = React.useState(0);
+const Photograph = ({ items = [] }: { items?: string[] }) => {
+  const [primaryImage, ...restImages] = items;
+  // const [activeIndex, setActiveKey] = React.useState(0);
 
-  const handleClick = (index: number) => () => {
-    setActiveKey(index);
-  };
+  // const handleClick = (index: number) => () => {
+  //   setActiveKey(index);
+  // };
+
+  console.log(primaryImage, restImages);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 w-[762px]">
       <Image
-        alt={data?.name}
+        alt={primaryImage}
         className="w-full h-full"
         radius="sm"
-        src={data?.mainPics[activeIndex]}
+        src={primaryImage}
       />
-      <div className="flex gap-2 shadow-2xl w-fit m-auto px-2 py-2">
+      <div className="grid grid-cols-2">
+        {restImages.map((item) => (
+          <Image
+            key={item}
+            alt={item}
+            className="w-full h-full"
+            radius="sm"
+            src={item}
+          />
+        ))}
+      </div>
+      {/* <div className="flex gap-2 shadow-2xl w-fit m-auto px-2 py-2">
         {data?.mainPics.map((item, index) => (
           <Image
             key={item}
@@ -31,7 +45,7 @@ const Photograph = ({ data }: { data?: Commodity }) => {
             onClick={handleClick(index)}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

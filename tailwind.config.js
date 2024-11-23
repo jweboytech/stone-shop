@@ -13,6 +13,7 @@ module.exports = {
       colors: {
         primary: '#09bcef', // 设置 Tailwind 中的 primary 颜色
         danger: '#f04824',
+        'medium-dark': '#4c4c4e',
       },
       backgroundImage: {
         banner:

@@ -19,6 +19,12 @@ import Photograph from '@/components/commodity/photograph';
 import WhyBeYours from '@/components/whyBeYours';
 import React from 'react';
 import { Link } from '@nextui-org/link';
+import clsx from 'clsx';
+import { fontLilitaOne } from '@/config/fonts';
+import { Accordion, AccordionItem } from '@nextui-org/accordion';
+import BuyButton from '@/components/button/buy';
+import Reviews from '@/components/reviews';
+import Subscribe from '@/components/subscribe';
 
 const CommodityDetailPage = () => {
   const { openDrawer } = useDrawerStore();
@@ -50,11 +56,49 @@ const CommodityDetailPage = () => {
   };
 
   return (
-    <div>
-      <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 flex flex-col gap-4 px-10 bg-white">
-        <Photograph data={data} />
-        <div className="flex flex-col gap-2 ">
-          <h1 className="text-2xl font-medium tracking-tight">{data?.name}</h1>
+    <React.Fragment>
+      <div className="flex gap-4 bg-white w-4/5 mx-auto ">
+        <Photograph items={data?.mainPics} />
+        <div className="flex flex-col gap-2 flex-1">
+          <h1
+            className={clsx(
+              'text-6xl font-semibold text-medium-dark font-lilita-one py-1',
+              fontLilitaOne.variable,
+            )}>
+            {data?.name}
+          </h1>
+          <p
+            className={clsx(
+              'text-md text-medium-dark font-lilita-one py-1',
+              fontLilitaOne.variable,
+            )}>
+            Built For Tough Chewers
+          </p>
+          <div>
+            <span
+              className={clsx(
+                'text-2xl font-semibold text-medium-dark font-lilita-one py-1',
+                fontLilitaOne.variable,
+              )}>
+              Color
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <div className="rounded-full border-2 border-primary w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
+                <Image
+                  alt="Nike Air Max 270"
+                  radius="full"
+                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
+                />
+              </div>
+              <div className="rounded-full border border-foreground-200 w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
+                <Image
+                  alt="Nike Air Max 270"
+                  radius="full"
+                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
+                />
+              </div>
+            </div>
+          </div>
           <div className="flex justify-between mt-5">
             {data != null && (
               <div className="inline-flex gap-3">
@@ -71,70 +115,106 @@ const CommodityDetailPage = () => {
                 </p>
               </div>
             )}
-            <StarRating />
+            <div className="inline-flex items-center gap-1">
+              <StarRating />
+              <span className="text-sm text-foreground-500">622reviews</span>
+            </div>
           </div>
-          <div className="mt-5">
+          <div className="mt-5 text-center">
+            <strong
+              className={clsx(
+                'text-2xl font-semibold font-lilita-one text-medium-dark',
+                fontLilitaOne.variable,
+              )}>
+              BUILT FOR TOUGH CHEWERS
+            </strong>
             <p className="text-foreground-500 text-base">
-              This is a demonstration store. You can purchase products like this
-              from Undone. <br />
-              <br />
-              This balancing shampoo cleanses the hair deeply yet gently while
-              working to support the scalp&apos;s microbiome, restoring its
-              natural balance for optimal scalp and hair health.
-              <br /> <br />
-              Harnessing the powers of botanical ingredients and advanced
-              science, it helps to rebalance the scalp&apos;s microbiome and
-              slow down the rapid cellular turnover that causes flakes and
-              itchiness.
-              <br />
-              <br />
-              Suitable for all hair types.
-            </p>
-            <p className="mt-5 text-default-600 font-medium">
-              Shop more from{' '}
-              <Link href="/play">
-                <span className="text-primary ">Play</span>
+              With three solid lobes, Tux is our toughest treat toy - made to
+              stand up to some fearsome fangs. Tux&apos;s treat-hiding hollow
+              cavity makes it ideal for short-snouted breeds to get to the nut
+              butters, biscuits, and meaty bits. Once treats are long gone, Tux
+              floats, bounces, and hangs tough through serious chew sessions.
+              Shop more from
+              <Link href="/shop/play">
+                <span className="text-primary ">&nbsp;Play</span>
               </Link>
             </p>
           </div>
-          <div className="mt-4">
-            <h1>Color</h1>
-            <div className="flex flex-wrap gap-2">
-              <div className="rounded-md border-2 border-primary w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
-                <Image
-                  alt="Nike Air Max 270"
-                  radius="sm"
-                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
-                />
-              </div>
-              <div className="rounded-md border border-foreground-200 w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
-                <Image
-                  alt="Nike Air Max 270"
-                  radius="sm"
-                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="mt-4">
-            <h1>Size</h1>
-            <div className="flex flex-wrap gap-2">
-              <div className="rounded-md border-2 border-primary w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
-                <Image
-                  alt="Nike Air Max 270"
-                  radius="sm"
-                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
-                />
-              </div>
-              <div className="rounded-md border border-foreground-200 w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
-                <Image
-                  alt="Nike Air Max 270"
-                  radius="sm"
-                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
-                />
-              </div>
-            </div>
-          </div>
+          <Accordion selectionMode="multiple">
+            <AccordionItem
+              key="productDetails"
+              aria-label="Product Details"
+              title={
+                <span
+                  className={clsx(
+                    'text-xl font-semibold text-medium-dark font-lilita-one uppercase',
+                    fontLilitaOne.variable,
+                  )}>
+                  Product Details
+                </span>
+              }>
+              <ul className="list-disc text-foreground-600">
+                <li>
+                  Ultra tough puzzle toy helps stimulate dogs’ brains to support
+                  healthy growth
+                </li>
+                <li>
+                  Tuck dry treats inside, or fill with wet treats and freeze for
+                  a delicious Tuxicle
+                </li>
+                <li>Non Toxic & Dishwasher Safe </li>
+                <li>
+                  Made with zero-waste and recyclable Zogoflex material in
+                  Bozeman, Montana
+                </li>
+              </ul>
+            </AccordionItem>
+            <AccordionItem
+              aria-label="Sizing"
+              title={
+                <span
+                  className={clsx(
+                    'text-xl font-semibold text-medium-dark font-lilita-one uppercase',
+                    fontLilitaOne.variable,
+                  )}>
+                  Sizing
+                </span>
+              }>
+              <ul className="list-disc text-foreground-600">
+                <li>Small: 4&quot;/10 cm</li>
+                <li>Large: 5&quot;/13 cm</li>
+              </ul>
+            </AccordionItem>
+            <AccordionItem
+              aria-label="Safety"
+              title={
+                <span
+                  className={clsx(
+                    'text-xl font-semibold text-medium-dark font-lilita-one uppercase',
+                    fontLilitaOne.variable,
+                  )}>
+                  Safety
+                </span>
+              }>
+              <ul className="list-disc text-foreground-600">
+                <p className="uppercase">PLAY SAFE. PLAY SMART. </p>
+                <p className="mt-4">
+                  Please remember your dog’s safety is your responsibility. No
+                  dog toy is indestructible. Choose only toys that are the
+                  appropriate shape and size for your dog and always supervise
+                  your dog’s use of this toy, find the right toy for your
+                  dog&apos;s behavior here. If damage occurs, please discontinue
+                  use of the toy immediately.
+                </p>
+                <p className="mt-4">
+                  We guarantee the performance and quality of our products. This
+                  collection is designed to be safe and durable. If you are
+                  dissatisfied with your purchase, we&apos;ll make it right!
+                  Please <Link href="#">contact us</Link> here.
+                </p>
+              </ul>
+            </AccordionItem>
+          </Accordion>
           <Button
             className="mt-6"
             color="primary"
@@ -163,6 +243,25 @@ const CommodityDetailPage = () => {
         </div>
       </div>
       <WhyBeYours />
+      <div className="bg-[#ceeef9] py-24 ">
+        <div className="w-2/5 flex flex-col gap-4 items-center mx-auto text-center">
+          <h2
+            className={clsx(
+              'text-5xl font-semibold font-lilita-one text-medium-dark',
+              fontLilitaOne.variable,
+            )}>
+            PUP WELLNESS TIP
+          </h2>
+          <p className="text-base text-medium-dark">
+            Just like humans, dogs need mental stimulation–it keeps their brains
+            sharp and their days interesting. Pair West Paw treats and treat
+            toys for a challenge and a reward. (Best day ever.)
+          </p>
+          <Link href="/shop/play">
+            <BuyButton text="shop toys" />
+          </Link>
+        </div>
+      </div>
       <div className="lg:px-10 px-6">
         <div className="py-9 flex flex-col gap-8">
           <h1 className="lg:text-[40px] text-3xl text-center">
@@ -175,14 +274,11 @@ const CommodityDetailPage = () => {
           </div>
         </div>
       </div>
-      <div className="py-9 flex flex-col gap-8 lg:px-12">
+      <div className="py-9 flex flex-col gap-8 lg:px-12  w-4/5 mx-auto">
         <h1 className="lg:text-[40px] text-3xl text-center">
           What Clients Are Saying
         </h1>
-        <Image
-          src="https://assets.jweboy.asia/shop/iShot_2024-11-22_16.59.42.png"
-          className="w-full"
-        />
+        <Reviews />
       </div>
       <section className="px-12 py-9">
         <h1 className="text-40 text-center mb-5">Express yourself with</h1>
@@ -195,10 +291,8 @@ const CommodityDetailPage = () => {
           <Image src="https://beyours-theme-beauty.myshopify.com/cdn/shop/files/ins-5.jpg?v=1699506080&width=1500" />
         </div>
       </section>
-      {/* <div className="px-6 mt-5">
-        <Reviews />
-      </div> */}
-    </div>
+      <Subscribe />
+    </React.Fragment>
   );
 };
 

@@ -1,14 +1,15 @@
+import React from 'react';
+
 import Footer from '@/components/footer';
 import { Navbar } from '@/components/navbar';
-import React from 'react';
 
 const ShopLayout = ({ children }: BaseProps) => {
   return (
-    <div>
+    <React.Fragment>
       <Navbar />
       {children}
       <Footer />
-    </div>
+    </React.Fragment>
   );
 };
 

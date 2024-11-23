@@ -67,10 +67,11 @@ export const Navbar = () => {
   //   mutate();
   // }, [loginStatus]);
 
-  console.log('render navbar');
-
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar
+      className="border-b-4 border-danger"
+      maxWidth="xl"
+      position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
