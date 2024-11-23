@@ -28,6 +28,9 @@ import UserMenu from './User';
 
 import { useDrawerStore, useUserStore } from '@/store';
 import { getFetcher } from '@/utils/request/fetcher';
+import { Image } from '@nextui-org/image';
+import clsx from 'clsx';
+import { fontLilitaOne } from '@/config/fonts';
 
 export const Navbar = () => {
   // const { data, mutate } = useSWR<'ONLINE'>(
@@ -71,34 +74,43 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">Perperpet</p>
+            <Image src="https://assets.jweboy.asia/shop/logo.png" width={36} />
+            <h1
+              className={clsx(
+                'font-bold font-lilita-one text-2xl text-danger',
+                fontLilitaOne.variable,
+              )}>
+              Per Per Pet
+            </h1>
           </NextLink>
         </NavbarBrand>
-        {/* <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: 'foreground' }),
-                  'data-[active=true]:text-primary data-[active=true]:font-medium',
-                )}
-                color="foreground"
-                href={item.href}>
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
-        </ul> */}
       </NavbarContent>
-
+      {/* <NavbarContent>
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            Play
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            Play
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            Play
+          </Link>
+        </NavbarItem>
+      </NavbarContent> */}
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end">
         <NavbarItem className="hidden sm:flex gap-4 items-center">
-          <Link href="/">
-            <Button color="primary">Go to store</Button>
+          <Link href="/account/login">
+            <UserRound className="text-default-500 cursor-pointer" />
           </Link>
+        </NavbarItem>
+        <NavbarItem className="hidden sm:flex gap-4 items-center">
           <ShoppingBag
             className="text-default-500 cursor-pointer"
             onClick={openCart}

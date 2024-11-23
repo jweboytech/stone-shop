@@ -17,6 +17,8 @@ import { getFetcher, postFetcher, putFetcher } from '@/utils/request/fetcher';
 import { formatPrice, serializateUrl } from '@/utils';
 import Photograph from '@/components/commodity/photograph';
 import WhyBeYours from '@/components/whyBeYours';
+import React from 'react';
+import { Link } from '@nextui-org/link';
 
 const CommodityDetailPage = () => {
   const { openDrawer } = useDrawerStore();
@@ -52,26 +54,70 @@ const CommodityDetailPage = () => {
       <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 flex flex-col gap-4 px-10 bg-white">
         <Photograph data={data} />
         <div className="flex flex-col gap-2 ">
-          <h1 className="text-2xl font-bold tracking-tight">{data?.name}</h1>
-          <div className="flex justify-between ">
-            <p className="text-xl font-medium">
-              {formatPrice(data?.sellingPrice)}
-            </p>
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1">
-                <StarRating />
+          <h1 className="text-2xl font-medium tracking-tight">{data?.name}</h1>
+          <div className="flex justify-between mt-5">
+            {data != null && (
+              <div className="inline-flex gap-3">
+                {data.originalPrice && (
+                  <p className="font-medium line-through text-2xl ">
+                    {formatPrice(data!.originalPrice)}
+                  </p>
+                )}
+                <p className="font-bold text-primary">
+                  <span className="text-sm">$&nbsp;</span>
+                  <span className="text-2xl ">
+                    {formatPrice(data!.sellingPrice, 'decimal')}
+                  </span>
+                </p>
               </div>
-              <p className="text-small text-default-400">669 reviews</p>
-            </div>
+            )}
+            <StarRating />
           </div>
-          <p className="line-clamp-3 text-default-500 font-medium">
-            The Nike Air Max 270 delivers an even more adaptive fit than before.
-            Stretch material in the upper moves with your foot, while the
-            tri-star outsole pattern adjusts to your every step for a ride that
-            delivers support and flexibility where you need it.
-          </p>
+          <div className="mt-5">
+            <p className="text-foreground-500 text-base">
+              This is a demonstration store. You can purchase products like this
+              from Undone. <br />
+              <br />
+              This balancing shampoo cleanses the hair deeply yet gently while
+              working to support the scalp&apos;s microbiome, restoring its
+              natural balance for optimal scalp and hair health.
+              <br /> <br />
+              Harnessing the powers of botanical ingredients and advanced
+              science, it helps to rebalance the scalp&apos;s microbiome and
+              slow down the rapid cellular turnover that causes flakes and
+              itchiness.
+              <br />
+              <br />
+              Suitable for all hair types.
+            </p>
+            <p className="mt-5 text-default-600 font-medium">
+              Shop more from{' '}
+              <Link href="/play">
+                <span className="text-primary ">Play</span>
+              </Link>
+            </p>
+          </div>
           <div className="mt-4">
             <h1>Color</h1>
+            <div className="flex flex-wrap gap-2">
+              <div className="rounded-md border-2 border-primary w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
+                <Image
+                  alt="Nike Air Max 270"
+                  radius="sm"
+                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
+                />
+              </div>
+              <div className="rounded-md border border-foreground-200 w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
+                <Image
+                  alt="Nike Air Max 270"
+                  radius="sm"
+                  src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="mt-4">
+            <h1>Size</h1>
             <div className="flex flex-wrap gap-2">
               <div className="rounded-md border-2 border-primary w-16 h-16 px-1 py-1 inline-flex items-center justify-center cursor-pointer">
                 <Image

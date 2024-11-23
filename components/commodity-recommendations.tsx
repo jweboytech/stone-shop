@@ -10,6 +10,7 @@ import Cart from './cart';
 
 import { useDrawerStore } from '@/store';
 import { postFetcher } from '@/utils/request/fetcher';
+import { formatPrice } from '@/utils';
 
 const CommodityRecommendations = ({ data }: { data: Commodity }) => {
   const router = useRouter();
@@ -62,12 +63,16 @@ const CommodityRecommendations = ({ data }: { data: Commodity }) => {
           </div>
         </div>
       </div>
-      <p className="mt-4 text-base">{data.name}</p>
-      <p className="mt-1">
-        <span className="text-xs">$</span>
-        <span className="text-lg">{data.sellingPrice}</span>
-      </p>
-      <StarRating />
+      <p className="mt-4 text-base line-clamp-1">{data.name}</p>
+      <div className="flex justify-between items-center">
+        <p className="mt-1">
+          <span className="text-xs">$&nbsp;</span>
+          <span className="text-lg">
+            {formatPrice(data.sellingPrice, 'decimal')}
+          </span>
+        </p>
+        <StarRating />
+      </div>
     </div>
   );
 };

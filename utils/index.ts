@@ -19,16 +19,17 @@ export function serializateUrl<T extends object>(url: string, param: T) {
   return url + query;
 }
 
-export function formatPrice(amount?: string | number) {
-  if (amount != null) {
-    const value = Number(amount);
+export function formatPrice(
+  amount: string | number,
+  style?: 'currency' | 'decimal',
+) {
+  const value = Number(amount);
 
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    }).format(value / 100);
-  }
+  return new Intl.NumberFormat('en-US', {
+    style: style || 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(value / 100);
 }
 
 export function formatTime(

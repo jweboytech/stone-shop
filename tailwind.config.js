@@ -11,7 +11,8 @@ module.exports = {
     extend: {
       fontSize: { 40: '40px' },
       colors: {
-        primary: '#4cc9f0', // 设置 Tailwind 中的 primary 颜色
+        primary: '#09bcef', // 设置 Tailwind 中的 primary 颜色
+        danger: '#f04824',
       },
       backgroundImage: {
         banner:
@@ -24,7 +25,9 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-sans)'],
         mono: ['var(--font-mono)'],
-        gill: '"Gill Sans Nova", sans-serif',
+        dynaPuff: ['var(--font-dynaPuff)'],
+        'cherry-bomb': ['var(--font-cherry-bomb)'],
+        'lilita-one': ['var(--font-lilita-one)'],
         //
       },
       zIndex: {
