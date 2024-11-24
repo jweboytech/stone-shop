@@ -162,4 +162,10 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default function Login() {
+  return (
+    <React.Suspense>
+      <LoginPage />
+    </React.Suspense>
+  );
+}
