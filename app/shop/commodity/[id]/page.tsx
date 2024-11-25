@@ -57,7 +57,7 @@ const CommodityDetailPage = () => {
 
   return (
     <React.Fragment>
-      <div className="flex gap-4 bg-white w-4/5 mx-auto ">
+      <div className="flex gap-8 bg-white w-4/5 mx-auto ">
         <Photograph items={data?.mainPics} />
         <div className="flex flex-col gap-2 flex-1">
           <h1

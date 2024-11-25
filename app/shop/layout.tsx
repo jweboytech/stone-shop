@@ -5,11 +5,11 @@ import { Navbar } from '@/components/navbar';
 
 const ShopLayout = ({ children }: BaseProps) => {
   return (
-    <React.Fragment>
+    <div className=" h-screen overflow-y-auto">
       <Navbar />
       {children}
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };
 
