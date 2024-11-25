@@ -15,6 +15,7 @@ import Popup from '@/components/popup';
 import CommonLayout from '@/components/layout';
 import { Toaster } from 'react-hot-toast';
 import ConfirmModal from '@/components/modal/confirm';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +43,10 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
       <head />
+      <Script
+        async
+        src="https://code.tidio.co/mrwtsim9x2wwbhk4enrywowlirpkqmvv.js"
+      />
       <body
         className={clsx(
           'min-h-screen font-sans antialiased overflow-hidden',
