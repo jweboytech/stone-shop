@@ -22,6 +22,8 @@ module.exports = {
           'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/banner-6.jpg?v=1655430252&width=3000)',
         banner2:
           'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/lookbook-1.jpg?v=1699506080&width=3000)',
+        popup:
+          'url(https://octaneairsrc.com/jusqzqfke1dn6prl/quizimg/486c4953-673f-4002-b754-dcca75a9ef8b)',
       },
       fontFamily: {
         sans: ['var(--font-sans)'],

@@ -114,7 +114,7 @@ function ShopPage() {
               We do this by making things dogs love. You know, anything that
               goes along with tugging, fetching, chewing, cuddling, and eating.
             </p>
-            <Link href="/about">
+            <Link href="/blog/our-responsibly">
               <div className="bg-white rounded uppercase w-fit px-6 py-3 mt-6 mx-auto">
                 <span
                   className={clsx(

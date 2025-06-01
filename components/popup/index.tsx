@@ -1,29 +1,39 @@
 'use client';
 
-import { useDrawerStore } from '@/store';
+import { X } from 'lucide-react';
 import clsx from 'clsx';
-import './index.css';
-import { Image } from '@nextui-org/image';
+
+import SubscribeForm from '../subscribe/form';
+import SocialMedia from '../social-media';
+
+import { usePopupStore } from '@/store/popup';
 
 const Popup = () => {
-  const { closeDrawer, visible, data } = useDrawerStore();
+  const { closePopup, visible } = usePopupStore();
 
   return (
     <div
       className={clsx(
-        'w-screen h-screen bg-black/75 fixed left-0 top-0 flex items-center justify-center overflow-hidden animate-fadeIn',
-        !visible ? 'z-500' : '-z-10',
+        'w-screen h-screen bg-black/75 fixed left-0 top-0 flex items-center justify-center overflow-hidden  transition-all duration-300',
+        visible ? 'opacity-100 z-500' : 'opacity-0 -z-10',
       )}>
-      <div style={{}} className=" w-[760px] h-60 bg-white popup">
-        <Image
-          className="absolute top-0 left-0 w-90 h-full z-10"
-          width={360}
-          height={240}
-          radius="none"
-          src="https://beyours-theme-beauty.myshopify.com/cdn/shop/files/about-2.jpg?v=1653743297&width=1500"
-        />
-        <div className="popup-wrapper h-full transition-all duration-700">
-          content
+      <div className="px-12 py-12 w-full h-full flex items-center justify-center">
+        <div className="w-[760px] h-full max-h-[412px] flex bg-white relative">
+          <X
+            className="absolute right-2 top-2 cursor-pointer"
+            size={28}
+            onClick={closePopup}
+          />
+          <div className="h-full w-80 bg-black bg-cover bg-popup bg-bottom" />
+          <div className="flex-1 flex flex-col px-10 py-10 gap-5">
+            <p className="text-2xl text-center">
+              Sign up and get 20% off your first order
+            </p>
+            <SubscribeForm />
+            <div className="flex justify-center">
+              <SocialMedia />
+            </div>
+          </div>
         </div>
       </div>
     </div>

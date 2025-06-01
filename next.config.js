@@ -33,6 +33,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.westpaw.com',
       },
+      { protocol: 'https', hostname: 'octaneairsrc.com' },
     ],
   },
 };

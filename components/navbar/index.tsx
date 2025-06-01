@@ -30,9 +30,14 @@ import { useDrawerStore, useUserStore } from '@/store';
 import { getFetcher } from '@/utils/request/fetcher';
 import { Image } from '@nextui-org/image';
 import clsx from 'clsx';
-import { fontLilitaOne } from '@/config/fonts';
+import { fontDynaPuff, fontLilitaOne } from '@/config/fonts';
+import { Tab, Tabs } from '@nextui-org/tabs';
 
 export const Navbar = () => {
+  const { openDrawer } = useDrawerStore();
+  const pathname = usePathname();
+  const router = useRouter();
+
   // const { data, mutate } = useSWR<'ONLINE'>(
   //   '/auth/verify/login/status',
   //   getFetcher,
@@ -43,10 +48,6 @@ export const Navbar = () => {
   );
   const loginStatus = useUserStore((state) => state.loginStatus);
   const logout = useUserStore((state) => state.logout);
-
-  const { openDrawer } = useDrawerStore();
-  const pathname = usePathname();
-  const router = useRouter();
 
   const openCart = () => {
     if (pathname === '/cart') {
@@ -78,7 +79,7 @@ export const Navbar = () => {
             <Image src="https://assets.jweboy.asia/shop/logo.png" width={36} />
             <h1
               className={clsx(
-                'font-bold font-lilita-one text-2xl text-danger',
+                'font-bold font-lilita-one text-2xl text-danger ',
                 fontLilitaOne.variable,
               )}>
               Per Per Pet
@@ -86,6 +87,18 @@ export const Navbar = () => {
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
+      <Tabs
+        classNames={{
+          tabContent: clsx(
+            'font-semibold font-lilita-one text-lg',
+            fontLilitaOne.variable,
+          ),
+        }}
+        selectedKey={'about'}
+        variant="underlined">
+        <Tab key="play" href="/shop/play" title="Play" />
+        <Tab key="about" href="/about" title="About" />
+      </Tabs>
       {/* <NavbarContent>
         <NavbarItem>
           <Link color="foreground" href="#">
