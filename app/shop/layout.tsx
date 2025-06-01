@@ -3,7 +3,7 @@
 import React from 'react';
 
 import Footer from '@/components/footer';
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/_navbar';
 import Popup from '@/components/popup';
 import { usePopupStore } from '@/store/popup';
 

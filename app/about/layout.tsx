@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/_navbar';
 
 function AboutLayout({ children }: BaseProps) {
   return (

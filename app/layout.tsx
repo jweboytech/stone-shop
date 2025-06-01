@@ -7,8 +7,8 @@ import clsx from 'clsx';
 import { Providers } from './providers';
 
 import { siteConfig } from '@/config/site';
-import { fontSans } from '@/config/fonts';
-import { Navbar } from '@/components/navbar';
+import { fontNunitoSans } from '@/config/fonts';
+import { Navbar } from '@/components/_navbar';
 import Footer from '@/components/footer';
 import Drawer from '@/components/drawer';
 import Popup from '@/components/popup';
@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
       <head />
-      <Script
+      {/* <Script
         async
         src="https://code.tidio.co/mrwtsim9x2wwbhk4enrywowlirpkqmvv.js"
       />
@@ -51,11 +51,11 @@ export default function RootLayout({
         async
         crossOrigin="anonymous"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8674629285850264"
-      />
+      /> */}
       <body
         className={clsx(
           'min-h-screen font-sans antialiased overflow-hidden',
-          fontSans.variable,
+          fontNunitoSans.variable,
         )}>
         <Providers>
           <div className="relative flex flex-col h-screen">

@@ -1,4 +1,4 @@
-import { Navbar } from '../navbar';
+import { Navbar } from '../_navbar';
 
 const CommonLayout = ({ children }: BaseProps) => {
   return (
