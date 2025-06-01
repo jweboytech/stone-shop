@@ -1,5 +1,5 @@
 import '@/styles/globals.css';
-import '@/styles/animate.css';
+// import '@/styles/animate.css';
 import { Metadata, Viewport } from 'next';
 import { Link } from '@nextui-org/link';
 import clsx from 'clsx';
@@ -14,7 +14,7 @@ import Drawer from '@/components/drawer';
 import Popup from '@/components/popup';
 import CommonLayout from '@/components/layout';
 import { Toaster } from 'react-hot-toast';
-import ConfirmModal from '@/components/modal/confirm';
+// import ConfirmModal from '@/components/modal/confirm';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
@@ -65,7 +65,7 @@ export default function RootLayout({
           </div>
           <Drawer />
           <Toaster />
-          <ConfirmModal />
+          {/* <ConfirmModal /> */}
         </Providers>
       </body>
     </html>
