@@ -9,7 +9,7 @@ import { Providers } from './providers';
 import { siteConfig } from '@/config/site';
 import { fontNunitoSans } from '@/config/fonts';
 import { Navbar } from '@/components/_navbar';
-import Footer from '@/components/footer';
+import Footer from '@/layout/footer';
 import Drawer from '@/components/drawer';
 import Popup from '@/components/popup';
 import CommonLayout from '@/components/layout';
@@ -54,14 +54,14 @@ export default function RootLayout({
       /> */}
       <body
         className={clsx(
-          'min-h-screen font-sans antialiased overflow-hidden',
+          'min-h-screen antialiased overflow-hidden',
           fontNunitoSans.variable,
         )}>
         <Providers>
           <div className="relative flex flex-col h-screen">
             {/* <Navbar /> bg-[#f5f5f5] */}
-            <main className="w-full flex-grow bg-white">{children}</main>
-            {/* <Footer /> */}
+            <main>{children}</main>
+            <Footer />
           </div>
           <Drawer />
           <Toaster />

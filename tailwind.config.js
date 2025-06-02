@@ -7,9 +7,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontSize: {
-        40: '40px',
-      },
       colors: {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -18,6 +15,8 @@ module.exports = {
         danger: '#f04824',
         'medium-dark': '#4c4c4e',
         gray: '#F8F1E9',
+        // new
+
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -55,18 +54,19 @@ module.exports = {
           5: 'hsl(var(--chart-5))',
         },
       },
-      backgroundImage: {
-        banner:
-          'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/slide-1.jpg?v=1666079941&width=3000)',
-        banner1:
-          'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/banner-6.jpg?v=1655430252&width=3000)',
-        banner2:
-          'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/lookbook-1.jpg?v=1699506080&width=3000)',
-        popup:
-          'url(https://octaneairsrc.com/jusqzqfke1dn6prl/quizimg/486c4953-673f-4002-b754-dcca75a9ef8b)',
-      },
+      // new
       fontFamily: {
         nunitoSans: ['var(--font-nunitoSans)'],
+      },
+      backgroundImage: {
+        banner:
+          'url(https://celesteadore.com/cdn/shop/files/PERSONALISED_JEWELLERY_1800_x_1000_px_9_1.jpg?v=1745420754&width=1920)',
+        // banner1:
+        //   'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/banner-6.jpg?v=1655430252&width=3000)',
+        // banner2:
+        //   'url(https://beyours-theme-beauty.myshopify.com/cdn/shop/files/lookbook-1.jpg?v=1699506080&width=3000)',
+        // popup:
+        //   'url(https://octaneairsrc.com/jusqzqfke1dn6prl/quizimg/486c4953-673f-4002-b754-dcca75a9ef8b)',
       },
       zIndex: {
         500: 500,

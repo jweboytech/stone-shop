@@ -1,11 +1,12 @@
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+
 import FacebookIcon from '../icons/facebook';
 import InstagramIcon from '../icons/instagram';
 
 const MediaBar = () => {
   return (
-    <div className="flex justify-between items-center mx-5 px-10 py-1">
+    <div className="flex justify-between items-center px-15 py-1 shadow-xs">
       <div>
         <Link className="py-1 px-2 w-fit text-sm font-medium" href="/help">
           Need Help?

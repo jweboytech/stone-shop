@@ -64,3 +64,14 @@
     @apply bg-background text-foreground;
   } */
 }
+
+@theme {
+  --color-surface-light: #f8f1e9;
+  --color-neutral: #8f8f8f;
+  --color-surface-soft: #fafafa;
+  --color-amber: #bd8443;
+
+  --text-20: 20px;
+  --text-22: 22px;
+  --text-32: 32px;
+}
