@@ -10,7 +10,7 @@ const MENUS = [
   { label: 'rings', value: 'rings' },
   { label: 'sets', value: 'sets' },
   { label: 'sale', value: 'sale' },
-  { label: 'all jewellery', value: 'allJewellery' },
+  // { label: 'all jewellery', value: 'allJewellery' },
 ];
 
 const Navbar = () => {

@@ -67,8 +67,10 @@
 
 @theme {
   --color-surface-light: #f8f1e9;
-  --color-neutral: #8f8f8f;
   --color-surface-soft: #fafafa;
+  --color-surface-muted: #dad9d9;
+  --color-neutral: #8f8f8f;
+  --color-neutral-foreground: #757575;
   --color-amber: #bd8443;
 
   --text-20: 20px;
