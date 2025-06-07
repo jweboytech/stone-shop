@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GoodsItem from '@/components/goods/item';
+import GoodsItem from '@/components/product/item';
 import Link from 'next/link';
 
 const BestSellers = () => {

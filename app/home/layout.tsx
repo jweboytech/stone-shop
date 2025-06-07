@@ -1,14 +1,9 @@
 import React from 'react';
 
-import Footer from '@/layout/footer';
+import MainLayout from '@/layout/main';
 
-const MainLayout = ({ children }: BaseProps) => {
-  return (
-    <React.Fragment>
-      {children}
-      <Footer />
-    </React.Fragment>
-  );
+const HomeLayout = ({ children }: BaseProps) => {
+  return <MainLayout>{children}</MainLayout>;
 };
 
-export default MainLayout;
+export default HomeLayout;

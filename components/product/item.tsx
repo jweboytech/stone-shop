@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-const GoodsItem = () => {
+const ProductItem = () => {
   const [isInPreview, setIsInPreivew] = React.useState(false);
   const srcImgUrl =
     'https://celesteadore.com/cdn/shop/files/CelesteAdore-FiveLeafMultiCloverBracelet-min1.jpg?v=1741684367&width=540';
@@ -21,7 +21,13 @@ const GoodsItem = () => {
         <div className="absolute left-4 top-6 z-10 capitalize bg-[#f8f1e9] py-1 px-1.5 leading-none">
           <span className="text-xs ">best seller</span>
         </div>
-        <Image alt="goods" height={280} src={srcImgUrl} width={280} />
+        <Image
+          alt="Product"
+          className="w-full h-full"
+          height={280}
+          src={srcImgUrl}
+          width={280}
+        />
       </div>
       <div className="pt-2.5 pb-1.5">
         <div className="text-base">Personalised Clover Initial Necklace</div>
@@ -41,4 +47,4 @@ const GoodsItem = () => {
   );
 };
 
-export default GoodsItem;
+export default ProductItem;

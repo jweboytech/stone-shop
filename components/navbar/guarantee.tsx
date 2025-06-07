@@ -23,7 +23,7 @@ const items: Array<Option & { icon: React.ReactElement }> = [
 
 const GuaranteeBar = () => {
   return (
-    <div className="text-white py-5 overflow-hidden">
+    <div className="text-white bg-black py-5 overflow-hidden">
       <ul className="flex gap-8 items-center overflow-x-auto w-1000">
         {items.map((item) => (
           <li key={item.value} className="uppercase flex gap-2 items-center ">
