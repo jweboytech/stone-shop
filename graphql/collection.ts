@@ -1,10 +1,13 @@
 export const GET_COLLECTIONS = `
-  query {
-    collections(first: 10) {
+  query getCollections($first: Int = 10){
+    collections(first: $first) {
         edges {
         node {
-            id
-            title
+          id
+          title
+          image {
+            url
+          }
         }
       }
     }
@@ -18,6 +21,9 @@ export const GET_PRODUCTS_BY_COLLECTION = `
         node {
           id
           title
+          image {
+            url
+          }
           products(first: 10) {
             edges {
               node {

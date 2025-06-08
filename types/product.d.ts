@@ -46,6 +46,9 @@ type Collection = {
       node: {
         id: string;
         title: string;
+        image: {
+          url: string;
+        };
         products: {
           edges: {
             node: Product;
