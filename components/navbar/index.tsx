@@ -11,7 +11,7 @@ const Navbar = async () => {
       <ul className="h-full uppercase flex">
         {data?.collections.edges.map(({node}) => (
           <li className="px-4 py-3 font-medium" key={node.id}>
-            <Link href="/">{node.title}</Link>
+            <Link href={"/collections/"+ node.title}>{node.title.replace(/-/, ' ')}</Link>
           </li>
         ))}
       </ul>

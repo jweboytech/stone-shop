@@ -8,7 +8,13 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'celesteadore.com' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'celesteadore.com' },
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+      },
+    ],
   },
 };
 
