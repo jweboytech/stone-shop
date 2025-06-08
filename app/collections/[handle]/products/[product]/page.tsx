@@ -11,6 +11,7 @@ import { GET_PRODUCT_DETAILS } from '@/graphql/product';
 import { formatPrice } from '@/utils/price';
 import ProductMainImages from '@/components/product/mainImages';
 import ProductSkuAttribute from '@/components/product/skuAttribute';
+import ProductBuyButton from '@/components/product/buyButton';
 
 const ProductDetailsPage = async ({
   params,
@@ -52,7 +53,7 @@ const ProductDetailsPage = async ({
           </div>
           <hr className="my-4 border-surface-muted" />
           <div className="flex flex-col gap-2">
-            <button>sd</button>
+            <ProductBuyButton />
             <div>icons TODO</div>
           </div>
           <hr className="my-4 border-surface-muted" />
