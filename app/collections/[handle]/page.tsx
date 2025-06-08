@@ -11,6 +11,7 @@ const CollectionPage = async ({ params }: { params: { handle: string } }) => {
   const data = await gqlClient.request<Collection>(GET_PRODUCTS_BY_COLLECTION, {
     title: `title:${handle}`,
   });
+  const collection = data?.collections.edges[0].node;
   const products = data?.collections.edges[0].node.products.edges;
 
   return (
@@ -19,7 +20,11 @@ const CollectionPage = async ({ params }: { params: { handle: string } }) => {
         <div className="mb-4">filters</div>
         <div className="grid grid-cols-4 gap-4">
           {products.map(({ node }) => (
-            <ProductItem key={node.id} data={node} />
+            <ProductItem
+              key={node.id}
+              collection={collection.title}
+              data={node}
+            />
           ))}
         </div>
       </div>

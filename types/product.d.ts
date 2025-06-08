@@ -1,6 +1,15 @@
+type SkuAttribute = {
+  id: string;
+  title: string;
+  image: {
+    url: string;
+  };
+};
+
 type Product = {
   id: string;
   title: string;
+  handle: string;
   featuredImage: {
     url: string;
   };
@@ -31,12 +40,7 @@ type Product = {
     };
   };
   variants: {
-    nodes: {
-      id: string;
-      image: {
-        url: string;
-      };
-    }[];
+    nodes: SkuAttribute[];
   };
 };
 

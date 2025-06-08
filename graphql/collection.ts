@@ -29,6 +29,7 @@ export const GET_PRODUCTS_BY_COLLECTION = `
               node {
                 id
                 title
+                handle
                 images(first:2) {
                   nodes {
                     url
