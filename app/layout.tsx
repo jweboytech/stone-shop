@@ -1,21 +1,13 @@
-import '@/styles/globals.css';
-// import '@/styles/animate.css';
+import '@/styles/global.css';
 import { Metadata, Viewport } from 'next';
-import { Link } from '@nextui-org/link';
 import clsx from 'clsx';
+import { Toaster } from 'react-hot-toast';
 
 import { Providers } from './providers';
 
 import { siteConfig } from '@/config/site';
 import { fontNunitoSans } from '@/config/fonts';
-import { Navbar } from '@/components/_navbar';
 import Footer from '@/layout/footer';
-import Drawer from '@/components/drawer';
-import Popup from '@/components/popup';
-import CommonLayout from '@/components/layout';
-import { Toaster } from 'react-hot-toast';
-// import ConfirmModal from '@/components/modal/confirm';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -63,7 +55,6 @@ export default function RootLayout({
             <main>{children}</main>
             <Footer />
           </div>
-          <Drawer />
           <Toaster />
           {/* <ConfirmModal /> */}
         </Providers>

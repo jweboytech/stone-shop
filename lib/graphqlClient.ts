@@ -8,5 +8,4 @@ const gqlClient = new GraphQLClient(endpoint, {
   },
 });
 
-export default gqlClient
-
+export default gqlClient;

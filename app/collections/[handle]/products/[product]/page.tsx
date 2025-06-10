@@ -12,6 +12,8 @@ import { formatPrice } from '@/utils/price';
 import ProductMainImages from '@/components/product/mainImages';
 import ProductSkuAttribute from '@/components/product/skuAttribute';
 import ProductBuyButton from '@/components/product/buyButton';
+import CartDrawer from '@/components/drawer';
+import { Button } from '@/components/ui/button';
 
 const ProductDetailsPage = async ({
   params,
@@ -25,8 +27,6 @@ const ProductDetailsPage = async ({
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
   });
-
-  console.log(productByHandle);
 
   return (
     <div className="">
@@ -53,7 +53,7 @@ const ProductDetailsPage = async ({
           </div>
           <hr className="my-4 border-surface-muted" />
           <div className="flex flex-col gap-2">
-            <ProductBuyButton />
+            <ProductBuyButton merchandiseId="gid://shopify/ProductVariant/46624197345500" />
             <div>icons TODO</div>
           </div>
           <hr className="my-4 border-surface-muted" />
