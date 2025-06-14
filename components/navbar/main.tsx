@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import ProductBuyButton from '../product/buyButton';
+
 const MainBar = () => {
   return (
     <div className="px-15 h-14 flex justify-between items-center shadow-xs">
@@ -16,7 +18,7 @@ const MainBar = () => {
           width={240}
         />
       </Link>
-      <ShoppingBag size={28} />
+      <ProductBuyButton variant="icon" />
     </div>
   );
 };

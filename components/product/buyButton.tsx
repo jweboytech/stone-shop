@@ -9,8 +9,21 @@ import gqlClient from '@/lib/graphqlClient';
 import { CREATE_CART } from '@/graphql/cart';
 import localStorage from '@/utils/storage';
 import { formatPrice } from '@/utils/price';
+import { ShoppingBag } from 'lucide-react';
+import VisaIcon from '../icons/visa';
+import AmexIcon from '../icons/amex';
+import ApplePayIcon from '../icons/applePay';
+import PaypalIcon from '../icons/paypal';
+import GooglePayIcon from '../icons/googlePay';
+import MasterIcon from '../icons/master';
 
-const ProductBuyButton = ({ merchandiseId }: { merchandiseId: string }) => {
+const ProductBuyButton = ({
+  merchandiseId,
+  variant = 'button',
+}: {
+  merchandiseId?: string;
+  variant?: 'icon' | 'button';
+}) => {
   const drawerRef = React.useRef<CartDrawerRef>(null);
 
   const handleClick = async () => {
@@ -28,7 +41,15 @@ const ProductBuyButton = ({ merchandiseId }: { merchandiseId: string }) => {
   return (
     <React.Fragment>
       <CartDrawer ref={drawerRef} title="Your Cart">
-        <div className="flex flex-col">
+        <div className="flex flex-col h-full">
+          <div className="py-3 bg-surface-light">
+            <p className="text-center uppercase text-sm font-semibold text-amber">
+              new season sale
+            </p>
+            <p className="text-center uppercase text-sm font-bold">
+              Buy 1 & Get Any 2nd Free
+            </p>
+          </div>
           <div className="flex-1">sd</div>
           <div className="px-8 pb-2 bg-surface-light">
             <div className="flex items-center justify-between py-2">
@@ -49,13 +70,25 @@ const ProductBuyButton = ({ merchandiseId }: { merchandiseId: string }) => {
             <Button className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest">
               Safe Checkout
             </Button>
-            <ul>
-              <li>Card List TODO</li>
-            </ul>
+            <div className="flex gap-2 items-center justify-center pt-4">
+              <AmexIcon />
+              <ApplePayIcon />
+              <GooglePayIcon />
+              <MasterIcon />
+              <PaypalIcon />
+              <VisaIcon />
+            </div>
           </div>
         </div>
       </CartDrawer>
-      <Button onClick={handleClick}>Buy Now</Button>
+      {variant === 'button' && <Button onClick={handleClick}>Buy Now</Button>}
+      {variant === 'icon' && (
+        <ShoppingBag
+          className="cursor-pointer"
+          size={28}
+          onClick={handleClick}
+        />
+      )}
     </React.Fragment>
   );
 };
