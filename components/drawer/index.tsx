@@ -5,6 +5,7 @@ import { X } from 'lucide-react';
 
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
@@ -15,6 +16,7 @@ import {
 export interface CartDrawerProps extends BaseProps {
   trigger?: React.ReactElement;
   title?: string;
+  isOpen?: boolean;
 }
 
 export interface CartDrawerRef {
@@ -35,6 +37,10 @@ const CartDrawer = React.forwardRef<CartDrawerRef, CartDrawerProps>(
     //   handle: product,
     // });
 
+    const hanldeOpenChange = (value: boolean) => {
+      setIsOpen(value);
+    };
+
     const handleToggle = () => {
       setIsOpen(!isOpen);
     };
@@ -54,17 +60,21 @@ const CartDrawer = React.forwardRef<CartDrawerRef, CartDrawerProps>(
     }));
 
     return (
-      <Drawer direction="right" open={isOpen}>
+      <Drawer direction="right" open={isOpen} onOpenChange={hanldeOpenChange}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent className="w-20">
           <DrawerHeader>
-            <DrawerTitle className="flex items-center justify-between px-7">
+            <DrawerTitle className="flex items-center justify-between px-4">
               <span className="font-medium text-22">{title}</span>
-              <X className="cursor-pointer" onClick={handleClose} />
+              <DrawerClose>
+                <X className="cursor-pointer" />
+              </DrawerClose>
             </DrawerTitle>
           </DrawerHeader>
           <DrawerDescription />
-          {React.Children.map(children, (child) => child)}
+          {React.Children.map(children, (child) =>
+            React.cloneElement(child as any, { isOpen }),
+          )}
         </DrawerContent>
       </Drawer>
     );

@@ -1,77 +1,94 @@
-import { Link } from '@nextui-org/link';
-import { Button } from '@nextui-org/button';
-import { Divider } from '@nextui-org/divider';
-import useSWRMutation from 'swr/mutation';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import CommodityItem from './CommodityItem';
+import VisaIcon from '../icons/visa';
+import AmexIcon from '../icons/amex';
+import ApplePayIcon from '../icons/applePay';
+import PaypalIcon from '../icons/paypal';
+import GooglePayIcon from '../icons/googlePay';
+import MasterIcon from '../icons/master';
+import { CartDrawerProps } from '../drawer';
+import { Button } from '../ui/button';
 
-import { formatPrice, serializateUrl, toUpperCase } from '@/utils';
-import { getFetcher, postFetcher } from '@/utils/request/fetcher';
-import { DrawerState } from '@/store/drawer';
+import ProductItem from './productItem';
 
-const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
-  const router = useRouter();
-  const { data, trigger } = useSWRMutation<Cart>('/cart/details', getFetcher);
-  const { trigger: checkout, isMutating } = useSWRMutation<Cart>(
-    '/payment/checkout',
-    postFetcher,
-  );
+import { formatPrice } from '@/utils';
+import gqlClient from '@/lib/graphqlClient';
+import localStorage from '@/utils/storage';
+import GET_CART from '@/graphql/query/cart.gql';
+import { GetCartQuery } from '@/generated/graphql';
 
-  const handleCheckout = () => {
-    checkout().then((data) => {
-      const { orderId, ...restData } = data;
-
-      closeDrawer!();
-      setTimeout(() => {
-        const url = serializateUrl('/checkout/' + orderId, restData);
-
-        router.push(url);
-      }, 300);
-    });
-  };
+const Cart = ({ isOpen }: CartDrawerProps) => {
+  const [details, setDetails] = React.useState<GetCartQuery>();
+  const cart = localStorage.get('cart');
 
   React.useEffect(() => {
-    if (visible) {
-      trigger();
+    if (isOpen) {
+      gqlClient.request<GetCartQuery>(GET_CART, { id: cart }).then((data) => {
+        setDetails(data);
+      });
     }
-  }, [visible]);
+  }, [isOpen]);
+
+  // const handleCheckout = () => {
+  //   checkout().then((data) => {
+  //     const { orderId, ...restData } = data;
+
+  //     closeDrawer!();
+  //     setTimeout(() => {
+  //       const url = serializateUrl('/checkout/' + orderId, restData);
+
+  //       router.push(url);
+  //     }, 300);
+  //   });
+  // };
 
   return (
-    <div className="grid grid-cols-1">
-      <div className="h-[calc(100vh-240px)] overflow-y-auto">
-        {data?.items.map((item) => (
-          <React.Fragment key={item.id}>
-            <CommodityItem
-              data={item.commodity}
-              quantity={item.quantity}
-              onRefresh={trigger}
-            />
-            <Divider />
-          </React.Fragment>
+    <div className="flex flex-col h-full">
+      {/* <div className="py-3 bg-surface-light border-t border-t-neutral-light border-b border-b-neutral-light">
+        <p className="text-center uppercase text-sm font-semibold text-amber">
+          new season sale
+        </p>
+        <p className="text-center uppercase text-sm font-bold">
+          Buy 1 & Get Any 2nd Free
+        </p>
+      </div> */}
+      <div className="flex-1 py-2 px-8">
+        {details?.cart?.lines.edges.map(({ node }) => (
+          <ProductItem
+            key={node.id}
+            cartId={cart}
+            data={node}
+            skuId={node.id}
+          />
         ))}
       </div>
-      <div className="mt-6 flex justify-between">
-        <span className="text-base">Subtotal</span>
-        <span className="text-lg">{formatPrice(data?.totalAmount)} USD</span>
-      </div>
-      <div className="text-xs mb-4 text-foreground-500">
-        Taxes and shipping calculated at checkout
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <Button
-          fullWidth
-          color="primary"
-          isLoading={isMutating}
-          onClick={handleCheckout}>
-          {toUpperCase('check out')}
+      <div className="px-8 pb-2 bg-surface-light">
+        <div className="flex items-center justify-between py-2">
+          <span className="uppercase font-bold text-14 tracking-wider">
+            subtotal
+          </span>
+          <span className="font-bold text-14">{formatPrice(79)}</span>
+        </div>
+        <hr className="border-surface-muted" />
+        <div className="flex items-center justify-between py-2">
+          <span className="uppercase font-bold text-14 tracking-wider">
+            shipping
+          </span>
+          <span className="uppercase font-bold text-14 tracking-wider">
+            free
+          </span>
+        </div>
+        <Button className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest">
+          Safe Checkout
         </Button>
-        <Link href="/cart">
-          <Button fullWidth color="primary" variant="bordered">
-            {toUpperCase('view cart')}
-          </Button>
-        </Link>
+        <div className="flex gap-2 items-center justify-center pt-4">
+          <AmexIcon />
+          <ApplePayIcon />
+          <GooglePayIcon />
+          <MasterIcon />
+          <PaypalIcon />
+          <VisaIcon />
+        </div>
       </div>
     </div>
   );

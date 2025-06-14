@@ -123,12 +123,16 @@
   --color-surface-light: #f8f1e9;
   --color-surface-soft: #fafafa;
   --color-surface-muted: #dad9d9;
+
   --color-neutral: #8f8f8f;
   --color-neutral-foreground: #757575;
+  --color-neutral-light: #b2b2b2;
+
   --color-amber: #bd8443;
   --color-caramel: #865319;
 
   --text-14: 14px;
+  --text-18: 18px;
   --text-20: 20px;
   --text-22: 22px;
   --text-32: 32px;
