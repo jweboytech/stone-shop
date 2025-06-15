@@ -1,19 +1,13 @@
-import Image from 'next/image';
 import React from 'react';
 
-import GuaranteeBar from '@/components/navbar/guarantee';
-import RecommendedProdcuts from '@/components/product/recommended';
-import Collections from '@/components/product/collections';
-import Guarantee from '@/components/guarantee';
 import gqlClient from '@/lib/graphqlClient';
-import { GET_COLLECTIONS } from '@/graphql/collection';
-import { GET_PRODUCT_DETAILS } from '@/graphql/product';
+import GET_PRODUCT_DETAILS from '@/graphql/query/product.gql';
 import { formatPrice } from '@/utils/price';
 import ProductMainImages from '@/components/product/mainImages';
-import ProductSkuAttribute from '@/components/product/skuAttribute';
+import ProductSkuAttribute from '@/components/product/vatiant';
 import ProductBuyButton from '@/components/product/buyButton';
-import CartDrawer from '@/components/drawer';
-import { Button } from '@/components/ui/button';
+import { Product } from '@/generated/graphql';
+import Payments from '@/components/cart/payments';
 
 const ProductDetailsPage = async ({
   params,
@@ -27,6 +21,7 @@ const ProductDetailsPage = async ({
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
   });
+  const { compareAtPriceRange, priceRange } = productByHandle;
 
   return (
     <div className="">
@@ -35,27 +30,28 @@ const ProductDetailsPage = async ({
         <div className="flex-1 pl-4">
           <h2 className="font-medium text-22">{productByHandle.title}</h2>
           <div className="flex gap-4 items-center">
-            <span className="text-base line-through text-neutral-foreground">
+            {Number(compareAtPriceRange.minVariantPrice.amount) > 0 && (
+              <span className="text-base line-through text-neutral-foreground">
+                {formatPrice(
+                  compareAtPriceRange.minVariantPrice.amount,
+                  compareAtPriceRange.minVariantPrice.currencyCode,
+                )}
+              </span>
+            )}
+            <span className="text-22 font-semibold">
               {formatPrice(
-                productByHandle.compareAtPriceRange.minVariantPrice.amount,
+                priceRange.minVariantPrice.amount,
+                priceRange.minVariantPrice.currencyCode,
               )}
             </span>
-            <span className="text-22 font-semibold">
-              {formatPrice(productByHandle.priceRange.minVariantPrice.amount)}
-            </span>
           </div>
           <hr className="my-4 border-surface-muted" />
-          <ProductSkuAttribute items={productByHandle.variants.nodes} />
-          <hr className="my-4 border-surface-muted" />
-          <div className="flex flex-col gap-2">
-            <h3 className="text-base">Choose Your Finish — 18K Gold</h3>
-            <input />
-          </div>
-          <hr className="my-4 border-surface-muted" />
-          <div className="flex flex-col gap-2">
-            <ProductBuyButton merchandiseId="gid://shopify/ProductVariant/46624197345500" />
-            <div>icons TODO</div>
-          </div>
+          <ProductSkuAttribute
+            options={productByHandle.options}
+            variants={productByHandle.variants.edges}
+          />
+          <ProductBuyButton merchandiseId="gid://shopify/ProductVariant/46641902878940" />
+          <Payments />
           <hr className="my-4 border-surface-muted" />
           <div className="border border-amber bg-surface-light p-4 rounded-lg">
             <h3 className="uppercase text-caramel text-sm font-bold mb-1">

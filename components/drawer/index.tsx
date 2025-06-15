@@ -4,7 +4,7 @@ import React from 'react';
 import { X } from 'lucide-react';
 
 import {
-  Drawer,
+  Drawer as ShadnDrawer,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -13,19 +13,19 @@ import {
   DrawerTrigger,
 } from '../ui/drawer';
 
-export interface CartDrawerProps extends BaseProps {
+export interface DrawerProps extends BaseProps {
   trigger?: React.ReactElement;
   title?: string;
   isOpen?: boolean;
 }
 
-export interface CartDrawerRef {
+export interface DrawerRef {
   onToggle: VoidFunction;
   onOpen: VoidFunction;
   onClose: VoidFunction;
 }
 
-const CartDrawer = React.forwardRef<CartDrawerRef, CartDrawerProps>(
+const Drawer = React.forwardRef<DrawerRef, DrawerProps>(
   ({ children, trigger, title }, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -60,7 +60,10 @@ const CartDrawer = React.forwardRef<CartDrawerRef, CartDrawerProps>(
     }));
 
     return (
-      <Drawer direction="right" open={isOpen} onOpenChange={hanldeOpenChange}>
+      <ShadnDrawer
+        direction="right"
+        open={isOpen}
+        onOpenChange={hanldeOpenChange}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
         <DrawerContent className="w-20">
           <DrawerHeader>
@@ -76,11 +79,11 @@ const CartDrawer = React.forwardRef<CartDrawerRef, CartDrawerProps>(
             React.cloneElement(child as any, { isOpen }),
           )}
         </DrawerContent>
-      </Drawer>
+      </ShadnDrawer>
     );
   },
 );
 
-CartDrawer.displayName = 'CartDrawer';
+Drawer.displayName = 'Drawer';
 
-export default CartDrawer;
+export default Drawer;

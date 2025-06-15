@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
+import { ShoppingBag } from 'lucide-react';
 
 import { Button } from '../ui/button';
-import CartDrawer, { CartDrawerRef } from '../drawer';
+import Drawer, { DrawerRef } from '../drawer';
+import Cart from '../cart';
 
 import gqlClient from '@/lib/graphqlClient';
 import { CREATE_CART } from '@/graphql/cart';
 import localStorage from '@/utils/storage';
-import { formatPrice } from '@/utils/price';
-import { ShoppingBag } from 'lucide-react';
-import Cart from '../cart';
+import CART_LINES_ADD from '@/graphql/mutation/cartLinesAdd.gql';
 
 const ProductBuyButton = ({
   merchandiseId,
@@ -19,7 +19,8 @@ const ProductBuyButton = ({
   merchandiseId?: string;
   variant?: 'icon' | 'button';
 }) => {
-  const drawerRef = React.useRef<CartDrawerRef>(null);
+  const drawerRef = React.useRef<DrawerRef>(null);
+  const cart = localStorage.get('cart');
 
   const handleClick = async () => {
     if (localStorage.get('cart') == null) {
@@ -29,16 +30,31 @@ const ProductBuyButton = ({
 
       localStorage.set('cart', cartCreate.cart.id);
     } else {
-      drawerRef.current?.onOpen();
+      await gqlClient.request(CART_LINES_ADD, {
+        cartId: cart,
+        lines: [
+          {
+            merchandiseId: 'gid://shopify/ProductVariant/46641915953372',
+            quantity: 1,
+          },
+        ],
+      });
     }
+    drawerRef.current?.onOpen();
   };
 
   return (
     <React.Fragment>
-      <CartDrawer ref={drawerRef} title="Your Cart">
+      <Drawer ref={drawerRef} title="Your Cart">
         <Cart />
-      </CartDrawer>
-      {variant === 'button' && <Button onClick={handleClick}>Buy Now</Button>}
+      </Drawer>
+      {variant === 'button' && (
+        <Button
+          className="h-15 text-base font-bold tracking-wider uppercase w-full"
+          onClick={handleClick}>
+          Add To Cart
+        </Button>
+      )}
       {variant === 'icon' && (
         <ShoppingBag
           className="cursor-pointer"

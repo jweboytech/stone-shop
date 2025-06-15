@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import { BaseCartLine } from '@/generated/graphql';
-import UPDATE_CART from '@/graphql/mutation/cart.gql';
+import UPDATE_CART from '@/graphql/mutation/cartLinesUpdate.gql';
 import gqlClient from '@/lib/graphqlClient';
 import Link from 'next/link';
 import clsx from 'clsx';

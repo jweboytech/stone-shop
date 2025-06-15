@@ -1,12 +1,7 @@
 import React from 'react';
+import { Loader2Icon } from 'lucide-react';
 
-import VisaIcon from '../icons/visa';
-import AmexIcon from '../icons/amex';
-import ApplePayIcon from '../icons/applePay';
-import PaypalIcon from '../icons/paypal';
-import GooglePayIcon from '../icons/googlePay';
-import MasterIcon from '../icons/master';
-import { CartDrawerProps } from '../drawer';
+import { DrawerProps } from '../drawer';
 import { Button } from '../ui/button';
 
 import ProductItem from './productItem';
@@ -15,10 +10,14 @@ import { formatPrice } from '@/utils';
 import gqlClient from '@/lib/graphqlClient';
 import localStorage from '@/utils/storage';
 import GET_CART from '@/graphql/query/cart.gql';
+import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
 import { GetCartQuery } from '@/generated/graphql';
+import { useRequest } from '@/hooks/useRequest';
+import Payments from './payments';
 
-const Cart = ({ isOpen }: CartDrawerProps) => {
+const Cart = ({ isOpen }: DrawerProps) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
+  const { request, isLoading } = useRequest<GetCartQuery>();
   const cart = localStorage.get('cart');
 
   React.useEffect(() => {
@@ -29,18 +28,15 @@ const Cart = ({ isOpen }: CartDrawerProps) => {
     }
   }, [isOpen]);
 
-  // const handleCheckout = () => {
-  //   checkout().then((data) => {
-  //     const { orderId, ...restData } = data;
+  const handleCheckout = () => {
+    request(GET_CHECKOUT_URL, { id: cart }).then((data) => {
+      const { checkoutUrl } = data.cart;
 
-  //     closeDrawer!();
-  //     setTimeout(() => {
-  //       const url = serializateUrl('/checkout/' + orderId, restData);
+      window.location.href = checkoutUrl;
+    });
+  };
 
-  //       router.push(url);
-  //     }, 300);
-  //   });
-  // };
+  console.log(details);
 
   return (
     <div className="flex flex-col h-full">
@@ -67,7 +63,9 @@ const Cart = ({ isOpen }: CartDrawerProps) => {
           <span className="uppercase font-bold text-14 tracking-wider">
             subtotal
           </span>
-          <span className="font-bold text-14">{formatPrice(79)}</span>
+          <span className="font-bold text-14">
+            {formatPrice(details?.cart?.cost.subtotalAmount.amount)}
+          </span>
         </div>
         <hr className="border-surface-muted" />
         <div className="flex items-center justify-between py-2">
@@ -78,17 +76,14 @@ const Cart = ({ isOpen }: CartDrawerProps) => {
             free
           </span>
         </div>
-        <Button className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest">
+        <Button
+          className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest"
+          disabled={isLoading}
+          onClick={handleCheckout}>
+          {isLoading && <Loader2Icon className="animate-spin" />}
           Safe Checkout
         </Button>
-        <div className="flex gap-2 items-center justify-center pt-4">
-          <AmexIcon />
-          <ApplePayIcon />
-          <GooglePayIcon />
-          <MasterIcon />
-          <PaypalIcon />
-          <VisaIcon />
-        </div>
+        <Payments />
       </div>
     </div>
   );
