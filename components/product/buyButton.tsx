@@ -20,9 +20,9 @@ const ProductBuyButton = ({
   variant?: 'icon' | 'button';
 }) => {
   const drawerRef = React.useRef<DrawerRef>(null);
-  const cart = localStorage.get('cart');
-
+  
   const handleClick = async () => {
+    const cart = localStorage.get('cart');
     if (localStorage.get('cart') == null) {
       const { cartCreate } = await gqlClient.request<{
         cartCreate: CartCreate;
