@@ -78,10 +78,6 @@ http.interceptors.response.use(
       return res.data;
     }
 
-    if (code === 109) {
-      window.location.href = '/login';
-    }
-
     return Promise.reject(msg);
   },
   function respHander(err: axios.AxiosError) {
@@ -90,13 +86,6 @@ http.interceptors.response.use(
 
     // let { msg } = data;
     const isTimeout = err.code === 'ECONNABORTED';
-
-    // if (status === 401) {
-    //   // window.location.href = "/account/login";
-    // } else {
-    //   toast.error(err.message);
-    //   // throw Error(err.message);
-    // }
 
     let msg;
     switch (status) {
@@ -168,6 +157,7 @@ export const get = <P extends PlainObject, T extends PlainObject>(
 ) => {
   const { url, data, contentType, responseType } = options;
   const _contentType = contentType || 'json';
+
   return request<T>({
     ...(_contentType === 'json' && { params: data }),
     ...(_contentType === 'form' && { data }),

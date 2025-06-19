@@ -1,0 +1,3 @@
+interface SliderProps {
+  images: string[];
+}

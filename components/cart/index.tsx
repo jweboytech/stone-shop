@@ -1,56 +1,89 @@
-import { Link } from '@nextui-org/link';
-import { Button } from '@nextui-org/button';
-import { Divider } from '@nextui-org/divider';
-import useSWRMutation from 'swr/mutation';
 import React from 'react';
+import { Loader2Icon } from 'lucide-react';
 
-import CommodityItem from './CommodityItem';
+import { DrawerProps } from '../drawer';
+import { Button } from '../ui/button';
 
-import { toUpperCase } from '@/utils';
-import { getFetcher } from '@/utils/request/fetcher';
-import { DrawerState } from '@/store/drawer';
+import ProductItem from './productItem';
 
-const Cart = ({ visible }: Partial<DrawerState>) => {
-  const { data, trigger } = useSWRMutation<Cart>('/cart', getFetcher);
+import { formatPrice } from '@/utils';
+import gqlClient from '@/lib/graphqlClient';
+import localStorage from '@/utils/storage';
+import GET_CART from '@/graphql/query/cart.gql';
+import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
+import { GetCartQuery } from '@/generated/graphql';
+import { useRequest } from '@/hooks/useRequest';
+import Payments from './payments';
+
+const Cart = ({ isOpen }: DrawerProps) => {
+  const [details, setDetails] = React.useState<GetCartQuery>();
+  const { request, isLoading } = useRequest<GetCartQuery>();
+  const cart = localStorage.get('cart');
 
   React.useEffect(() => {
-    if (visible) {
-      trigger();
+    if (isOpen) {
+      gqlClient.request<GetCartQuery>(GET_CART, { id: cart }).then((data) => {
+        setDetails(data);
+      });
     }
-  }, [visible]);
+  }, [isOpen]);
+
+  const handleCheckout = () => {
+    request(GET_CHECKOUT_URL, { id: cart }).then((data) => {
+      const { checkoutUrl } = data.cart;
+
+      window.location.href = checkoutUrl;
+    });
+  };
+
+  console.log(details);
 
   return (
-    <div className="grid grid-cols-1">
-      <div className="h-[calc(100vh-240px)] overflow-y-auto">
-        {data?.items.map((item) => (
-          <React.Fragment key={item.id}>
-            <CommodityItem
-              data={item.commodity}
-              quantity={item.quantity}
-              onRefresh={trigger}
-            />
-            <Divider />
-          </React.Fragment>
+    <div className="flex flex-col h-full">
+      {/* <div className="py-3 bg-surface-light border-t border-t-neutral-light border-b border-b-neutral-light">
+        <p className="text-center uppercase text-sm font-semibold text-amber">
+          new season sale
+        </p>
+        <p className="text-center uppercase text-sm font-bold">
+          Buy 1 & Get Any 2nd Free
+        </p>
+      </div> */}
+      <div className="flex-1 py-2 px-8">
+        {details?.cart?.lines.edges.map(({ node }) => (
+          <ProductItem
+            key={node.id}
+            cartId={cart}
+            data={node}
+            skuId={node.id}
+          />
         ))}
       </div>
-      <div className="mt-6 flex justify-between">
-        <span className="text-base">Subtotal</span>
-        <span className="text-lg">${data?.totalAmount} USD</span>
-      </div>
-      <div className="text-xs mb-4 text-foreground-500">
-        Taxes and shipping calculated at checkout
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Link href="/checkout">
-          <Button fullWidth color="primary">
-            {toUpperCase('check out')}
-          </Button>
-        </Link>
-        <Link href="/cart">
-          <Button fullWidth color="primary" variant="bordered">
-            {toUpperCase('view cart')}
-          </Button>
-        </Link>
+      <div className="px-8 pb-2 bg-surface-light">
+        <div className="flex items-center justify-between py-2">
+          <span className="uppercase font-bold text-14 tracking-wider">
+            subtotal
+          </span>
+          <span className="font-bold text-14">
+            {formatPrice(details?.cart?.cost.subtotalAmount.amount)}
+          </span>
+        </div>
+        <hr className="border-surface-muted" />
+        <div className="flex items-center justify-between py-2">
+          <span className="uppercase font-bold text-14 tracking-wider">
+            shipping
+          </span>
+          <span className="uppercase font-bold text-14 tracking-wider">
+            free
+          </span>
+        </div>
+        <Button
+          className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest"
+          disabled={isLoading}
+          onClick={handleCheckout}>
+          {isLoading && <Loader2Icon className="animate-spin" />}
+          Safe Checkout
+        </Button>
+        <Payments />
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
-import StarRatingIcon from "./icons/star-rating";
+import { PawPrint } from 'lucide-react';
 
 const StarRating = () => {
   return (
     <div className="flex items-center">
-      <StarRatingIcon isActive />
-      <StarRatingIcon isActive />
-      <StarRatingIcon isActive />
-      <StarRatingIcon />
-      <StarRatingIcon />
+      <PawPrint className="text-primary" fill="currentColor" size={18} />
+      <PawPrint className="text-primary" fill="currentColor" size={18} />
+      <PawPrint className="text-primary" fill="currentColor" size={18} />
+      <PawPrint className="text-primary" fill="currentColor" size={18} />
+      <PawPrint className="text-foreground-400" fill="currentColor" size={18} />
     </div>
   );
 };

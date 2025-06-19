@@ -1,17 +1,13 @@
-import '@/styles/globals.css';
-import '@/styles/animate.css';
+import '@/styles/global.css';
 import { Metadata, Viewport } from 'next';
-import { Link } from '@nextui-org/link';
 import clsx from 'clsx';
+import { Toaster } from 'react-hot-toast';
 
 import { Providers } from './providers';
 
 import { siteConfig } from '@/config/site';
-import { fontSans } from '@/config/fonts';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/footer';
-import Drawer from '@/components/drawer';
-import Popup from '@/components/popup';
+import { fontNunitoSans } from '@/config/fonts';
+import Footer from '@/layout/footer';
 
 export const metadata: Metadata = {
   title: {
@@ -39,30 +35,28 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
       <head />
+      {/* <Script
+        async
+        src="https://code.tidio.co/mrwtsim9x2wwbhk4enrywowlirpkqmvv.js"
+      />
+      <Script
+        async
+        crossOrigin="anonymous"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8674629285850264"
+      /> */}
       <body
         className={clsx(
-          'min-h-screen font-sans antialiased',
-          fontSans.variable,
+          'min-h-screen antialiased overflow-hidden',
+          fontNunitoSans.variable,
         )}>
         <Providers>
           <div className="relative flex flex-col h-screen">
-            <Navbar />
-            <main className="w-full pt-14 flex-grow">{children}</main>
-            {/* <Footer /> */}
-            {/* <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                isExternal
-                className="flex items-center gap-1 text-current"
-                href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-                title="nextui.org homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-primary">NextUI</p>
-              </Link>
-            </footer> */}
+            {/* <Navbar /> bg-[#f5f5f5] */}
+            <main>{children}</main>
+            <Footer />
           </div>
-          <Drawer />
-          {/* <Popup /> */}
+          <Toaster />
+          {/* <ConfirmModal /> */}
         </Providers>
       </body>
     </html>
