@@ -5,26 +5,30 @@ import { DrawerProps } from '../drawer';
 import { Button } from '../ui/button';
 
 import ProductItem from './productItem';
+import Payments from './payments';
 
-import { formatPrice } from '@/utils';
+import { formatPrice } from '@/utils/price';
 import gqlClient from '@/lib/graphqlClient';
 import localStorage from '@/utils/storage';
 import GET_CART from '@/graphql/query/cart.gql';
 import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
 import { GetCartQuery } from '@/generated/graphql';
 import { useRequest } from '@/hooks/useRequest';
-import Payments from './payments';
 
 const Cart = ({ isOpen }: DrawerProps) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
   const { request, isLoading } = useRequest<GetCartQuery>();
   const cart = localStorage.get('cart');
 
+  const handleGetDetails = () => {
+    gqlClient.request<GetCartQuery>(GET_CART, { id: cart }).then((data) => {
+      setDetails(data);
+    });
+  };
+
   React.useEffect(() => {
     if (isOpen) {
-      gqlClient.request<GetCartQuery>(GET_CART, { id: cart }).then((data) => {
-        setDetails(data);
-      });
+      handleGetDetails();
     }
   }, [isOpen]);
 
@@ -35,8 +39,6 @@ const Cart = ({ isOpen }: DrawerProps) => {
       window.location.href = checkoutUrl;
     });
   };
-
-  console.log(details);
 
   return (
     <div className="flex flex-col h-full">
@@ -49,13 +51,18 @@ const Cart = ({ isOpen }: DrawerProps) => {
         </p>
       </div> */}
       <div className="flex-1 py-2 px-8">
-        {details?.cart?.lines.edges.map(({ node }) => (
-          <ProductItem
-            key={node.id}
-            cartId={cart}
-            data={node}
-            skuId={node.id}
-          />
+        {details?.cart?.lines.edges.map(({ node }, index) => (
+          <React.Fragment key={node.id}>
+            <ProductItem
+              cartId={cart}
+              data={node}
+              skuId={node.id}
+              onRefresh={handleGetDetails}
+            />
+            {index < details?.cart?.lines.edges.length! - 1 && (
+              <hr className="my-4 border-surface-muted" />
+            )}
+          </React.Fragment>
         ))}
       </div>
       <div className="px-8 pb-2 bg-surface-light">

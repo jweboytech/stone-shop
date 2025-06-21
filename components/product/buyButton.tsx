@@ -39,13 +39,15 @@ const ProductBuyButton = ({
         localStorage.set('cart', cartCreate.cart.id);
         drawerRef.current?.onOpen();
       });
-    } else {
+    } else if (merchandiseId) {
       postUpdateCart(CART_LINES_ADD, {
         lines: [{ merchandiseId, quantity: 1 }],
         cartId: cart,
       }).then(() => {
         drawerRef.current?.onOpen();
       });
+    } else {
+      drawerRef.current?.onOpen();
     }
   };
 

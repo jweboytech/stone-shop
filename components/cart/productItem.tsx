@@ -12,10 +12,12 @@ const ProductItem = ({
   data,
   cartId,
   skuId,
+  onRefresh,
 }: {
   data: BaseCartLine;
   cartId: string;
   skuId: string;
+  onRefresh: VoidFunction;
 }) => {
   const [quantity, setQuantity] = React.useState<number>();
   const { merchandise } = data;
@@ -31,6 +33,7 @@ const ProductItem = ({
       })
       .then(() => {
         setQuantity(value);
+        onRefresh();
       })
       .finally(() => {
         setIsLoading(false);
@@ -38,11 +41,9 @@ const ProductItem = ({
   };
 
   const handleDecreseCount = () => {
-    if (Number(quantity) > 1) {
-      const result = Number(quantity) - 1;
+    const result = Number(quantity) - 1;
 
-      postUpdateQuantity(result);
-    }
+    postUpdateQuantity(result);
   };
 
   const handleIncreseCount = () => {
@@ -70,7 +71,7 @@ const ProductItem = ({
   }, [data.quantity]);
 
   return (
-    <div className="flex gap-5">
+    <div className="flex pt-1 gap-5">
       <Image
         alt="Product Image"
         className="cursor-pointer w-25 h-25"
