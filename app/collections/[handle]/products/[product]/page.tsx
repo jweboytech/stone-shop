@@ -6,7 +6,7 @@ import gqlClient from '@/lib/graphqlClient';
 import GET_PRODUCT_DETAILS from '@/graphql/query/product.gql';
 import { formatPrice } from '@/utils/price';
 import ProductMainImages from '@/components/product/mainImages';
-import ProductSkuAttribute from '@/components/product/vatiant';
+import ProductVariants from '@/components/product/vatiant';
 import ProductBuyButton from '@/components/product/buyButton';
 import { Product } from '@/generated/graphql';
 import Payments from '@/components/cart/payments';
@@ -17,18 +17,22 @@ const ProductDetailsPage = async ({
   params: { product: string };
 }) => {
   const { product } = await params;
-
   const { productByHandle } = await gqlClient.request<{
     productByHandle: Product;
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
   });
-  const { compareAtPriceRange, priceRange } = productByHandle;
+  const { compareAtPriceRange, priceRange, metafield, media } = productByHandle;
+  const metafields = metafield ? JSON.parse(metafield?.value!) : [];
+  const mainImages = media.edges
+    .filter(({ node }) => metafields.includes(node.id))
+    .map(({ node }) => node.previewImage);
+  // console.log('variantImages', variantImages);
 
   return (
     <div className="">
       <div className="flex gap-4 px-10 py-14">
-        <ProductMainImages items={productByHandle.images.nodes} />
+        <ProductMainImages items={mainImages} />
         <div className="flex-1 pl-4">
           <h2 className="font-medium text-22">{productByHandle.title}</h2>
           <div className="flex gap-4 items-center">
@@ -48,14 +52,15 @@ const ProductDetailsPage = async ({
             </span>
           </div>
           <hr className="my-4 border-surface-muted" />
-          <ProductSkuAttribute
+          <ProductVariants
+            handle={product}
             options={productByHandle.options}
             variants={productByHandle.variants.edges}
           />
-          <ProductBuyButton merchandiseId="gid://shopify/ProductVariant/46641902878940" />
+          <ProductBuyButton />
           <Payments />
           <hr className="my-4 border-surface-muted" />
-          <div className="border border-amber bg-surface-light p-4 rounded-lg">
+          {/* <div className="border border-amber bg-surface-light p-4 rounded-lg">
             <h3 className="uppercase text-caramel text-sm font-bold mb-1">
               new season sale
             </h3>
@@ -66,8 +71,8 @@ const ProductDetailsPage = async ({
               Add 2 items to your cart and your second is free. No code needed.
               Discount applies at checkout.
             </p>
-          </div>
-          <hr className="my-4 border-surface-muted" />
+          </div> <hr className="my-4 border-surface-muted" />*/}
+
           <ul className="flex flex-col gap-4">
             <li className="flex gap-3 items-center">
               <span>icon</span>

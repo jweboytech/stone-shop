@@ -1,0 +1,12 @@
+query getCartCount($id: ID!) {
+  cart(id: $id) {
+    id
+    lines(first: 1) {
+      edges {
+        node {
+          id
+        }
+      }
+    }
+  }
+}

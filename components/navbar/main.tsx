@@ -1,4 +1,4 @@
-import { Search, ShoppingBag } from 'lucide-react';
+import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -11,6 +11,7 @@ const MainBar = () => {
       <Search size={28} />
       <Link href="/home">
         <Image
+          priority
           alt="logo"
           className="cursor-pointer"
           height={36}

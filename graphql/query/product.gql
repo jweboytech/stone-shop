@@ -25,7 +25,7 @@ query getProductDetails($handle: String!) {
         }
       }
     }
-    variants(first: 10) {
+    variants(first: 50) {
       edges {
         node {
           id
@@ -44,11 +44,25 @@ query getProductDetails($handle: String!) {
         }
       }
     }
-    images(first: 10) {
+    images(first: 50) {
       nodes {
         url
         id
       }
+    }
+    media(first: 50) {
+      edges {
+        node {
+          id
+          previewImage {
+            url
+            id
+          }
+        }
+      }
+    }
+    metafield(namespace: "custom", key: "main_image") {
+      value
     }
     priceRange {
       maxVariantPrice {

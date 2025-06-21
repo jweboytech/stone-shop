@@ -31,6 +31,7 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
               )}
               onClick={handleChange(item.url)}>
               <Image
+                priority
                 alt="product"
                 className="w-full h-full cursor-pointer"
                 height={68}
@@ -43,6 +44,7 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
         <div className="w-184">
           {image && (
             <Image
+              priority
               alt="product"
               className="w-full h-full"
               height={748}

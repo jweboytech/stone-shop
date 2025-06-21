@@ -49,14 +49,6 @@ query getCart($id: ID!) {
         amount
         currencyCode
       }
-      totalTaxAmount {
-        amount
-        currencyCode
-      }
-      totalDutyAmount {
-        amount
-        currencyCode
-      }
     }
   }
 }
