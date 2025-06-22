@@ -17,7 +17,9 @@ const VariantItem = ({
   optionValues: ProductOptionValue[];
   variants: ProductVariantEdge[];
 }) => {
-  const onMerchandiseIdChange = useProductStore(state => state.onMerchandiseIdChange);
+  const onMerchandiseIdChange = useProductStore(
+    (state) => state.onMerchandiseIdChange,
+  );
   const [selectedOption, setSelectedOption] =
     React.useState<ProductOptionValue>();
 
@@ -30,25 +32,26 @@ const VariantItem = ({
     const matchVariant = variants.find(({ node }) =>
       node.selectedOptions.some((option) => option.value === data.name),
     );
-    if(matchVariant != null) {
-      onMerchandiseIdChange(matchVariant!.node.id)
+
+    if (matchVariant != null) {
+      onMerchandiseIdChange(matchVariant!.node.id);
     }
   };
 
   React.useEffect(() => {
-    if(variants.length > 0)   {
-      const defaultOption = optionValues.find(
-        (option) =>
-          variants[0].node.selectedOptions.some(
-            (selectedOption) => selectedOption.value === option.name,
-          ),
+    if (variants.length > 0) {
+      const defaultOption = optionValues.find((option) =>
+        variants[0].node.selectedOptions.some(
+          (selectedOption) => selectedOption.value === option.name,
+        ),
       );
+
       if (defaultOption != null) {
         setSelectedOption(defaultOption);
         onMerchandiseIdChange(variants[0].node.id);
       }
     }
-  }, [variants])
+  }, [variants]);
 
   return (
     <ul className="flex gap-2">
@@ -99,10 +102,12 @@ const VariantItem = ({
 
 const ProductVariants = ({
   options,
-  variants = [], handle
+  variants = [],
+  handle,
 }: {
   options: ProductOption[];
-  variants: ProductVariantEdge[];handle: string;
+  variants: ProductVariantEdge[];
+  handle: string;
 }) => {
   return (
     <div className="flex flex-col gap-2">

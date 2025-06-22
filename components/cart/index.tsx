@@ -10,20 +10,22 @@ import Payments from './payments';
 import { formatPrice } from '@/utils/price';
 import gqlClient from '@/lib/graphqlClient';
 import localStorage from '@/utils/storage';
-import GET_CART from '@/graphql/query/cart.gql';
+import GET_CART_DETAILS from '@/graphql/query/cartDetails.gql';
 import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
-import { GetCartQuery } from '@/generated/graphql';
+import { GetCartQuery, GetCartQueryResult } from '@/generated/graphql';
 import { useRequest } from '@/hooks/useRequest';
 
 const Cart = ({ isOpen }: DrawerProps) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
-  const { request, isLoading } = useRequest<GetCartQuery>();
+  const { request, isLoading } = useRequest<GetCartQueryResult>();
   const cart = localStorage.get('cart');
 
   const handleGetDetails = () => {
-    gqlClient.request<GetCartQuery>(GET_CART, { id: cart }).then((data) => {
-      setDetails(data);
-    });
+    gqlClient
+      .request<GetCartQuery>(GET_CART_DETAILS, { id: cart })
+      .then((data) => {
+        setDetails(data);
+      });
   };
 
   React.useEffect(() => {
@@ -50,7 +52,7 @@ const Cart = ({ isOpen }: DrawerProps) => {
           Buy 1 & Get Any 2nd Free
         </p>
       </div> */}
-      <div className="flex-1 py-2 px-8">
+      <div className="flex-1 pt-2 pb-4 px-8 overflow-y-auto">
         {details?.cart?.lines.edges.map(({ node }, index) => (
           <React.Fragment key={node.id}>
             <ProductItem

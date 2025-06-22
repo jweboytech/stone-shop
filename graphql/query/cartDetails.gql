@@ -1,4 +1,4 @@
-query getCart($id: ID!) {
+query getCartDetails($id: ID!) {
   cart(id: $id) {
     id
     createdAt
@@ -14,11 +14,21 @@ query getCart($id: ID!) {
                 title
                 description
                 handle
+                options {
+                  id
+                  name
+                }
                 collections(first: 1) {
                   edges {
                     node {
                       title
                     }
+                  }
+                }
+                priceRange {
+                  maxVariantPrice {
+                    amount
+                    currencyCode
                   }
                 }
               }
@@ -29,16 +39,8 @@ query getCart($id: ID!) {
               }
             }
           }
-          attributes {
-            key
-            value
-          }
         }
       }
-    }
-    attributes {
-      key
-      value
     }
     cost {
       totalAmount {

@@ -65,7 +65,7 @@ const Drawer = React.forwardRef<DrawerRef, DrawerProps>(
         open={isOpen}
         onOpenChange={hanldeOpenChange}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-        <DrawerContent className="w-20">
+        <DrawerContent>
           <DrawerHeader>
             <DrawerTitle className="flex items-center justify-between px-4">
               <span className="font-medium text-22">{title}</span>

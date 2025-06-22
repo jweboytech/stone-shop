@@ -1,12 +1,13 @@
 import { Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link';
+import clsx from 'clsx';
 
 import { BaseCartLine } from '@/generated/graphql';
 import UPDATE_CART from '@/graphql/mutation/cartLinesUpdate.gql';
 import gqlClient from '@/lib/graphqlClient';
-import Link from 'next/link';
-import clsx from 'clsx';
+import { formatPrice } from '@/utils/price';
 
 const ProductItem = ({
   data,
@@ -23,6 +24,12 @@ const ProductItem = ({
   const { merchandise } = data;
   const [isLoading, setIsLoading] = React.useState(false);
   const collection = merchandise.product.collections.edges[0]?.node.title;
+  const { options, priceRange } = merchandise.product;
+  const variants = merchandise.title.split('/');
+  const amount = formatPrice(
+    priceRange.maxVariantPrice.amount,
+    priceRange.maxVariantPrice.currencyCode,
+  );
 
   const postUpdateQuantity = (value: number) => {
     setIsLoading(true);
@@ -79,7 +86,7 @@ const ProductItem = ({
         src={merchandise.image?.url}
         width={100}
       />
-      <div>
+      <div className="flex flex-col gap-1 flex-1">
         <h3 className="text-18">
           <Link
             href={`/collections/${collection}/products/${merchandise.product.handle}`}
@@ -87,34 +94,42 @@ const ProductItem = ({
             {merchandise.product.title}
           </Link>
         </h3>
-        <p className="text-base">
-          <span className="font-bold">Choose Your Finish</span>: 18K Gold
-        </p>
-        <div className="border w-20 h-8 grid grid-cols-3">
-          <button
-            className={clsx(
-              'bg-transparent group hover:bg-black hover:text-white transition-colors duration-300 inline-flex items-center justify-center',
-              isLoading ? 'cursor-pointer' : 'cursor-default',
-            )}
-            disabled={isLoading}
-            onClick={handleDecreseCount}>
-            <Minus className="group-hover:text-white" size={14} />
-          </button>
-          <input
-            className="text-center text-xs px-1 outline-0"
-            disabled={isLoading}
-            value={quantity}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-          <button
-            className={clsx(
-              'cursor-pointer bg-transparent group hover:bg-black hover:text-white transition-colors duration-300 inline-flex items-center justify-center',
-            )}
-            disabled={isLoading}
-            onClick={handleIncreseCount}>
-            <Plus size={14} />
-          </button>
+        {options.map((item, index) => (
+          <React.Fragment key={item.id}>
+            <p className="text-base">
+              <span className="font-bold">Choose Your {item.name}</span>:{' '}
+              {variants[index]}
+            </p>
+          </React.Fragment>
+        ))}
+        <div className="flex justify-between items-start mt-2">
+          <div className="border w-20 h-8 grid grid-cols-3">
+            <button
+              className={clsx(
+                'bg-transparent group hover:bg-black hover:text-white transition-colors duration-300 inline-flex items-center justify-center',
+                isLoading ? 'cursor-pointer' : 'cursor-default',
+              )}
+              disabled={isLoading}
+              onClick={handleDecreseCount}>
+              <Minus className="group-hover:text-white" size={14} />
+            </button>
+            <input
+              className="text-center text-xs px-1 outline-0"
+              disabled={isLoading}
+              value={quantity}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+            <button
+              className={clsx(
+                'cursor-pointer bg-transparent group hover:bg-black hover:text-white transition-colors duration-300 inline-flex items-center justify-center',
+              )}
+              disabled={isLoading}
+              onClick={handleIncreseCount}>
+              <Plus size={14} />
+            </button>
+          </div>
+          <span className="text-base">{amount}</span>
         </div>
       </div>
     </div>
