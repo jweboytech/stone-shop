@@ -41,6 +41,18 @@ query getProductDetails($handle: String!) {
             name
             value
           }
+          metafield(namespace: "custom", key: "variant_image") {
+            key
+            value
+            reference {
+              ... on MediaImage {
+                mediaContentType
+                previewImage {
+                  url
+                }
+              }
+            }
+          }
         }
       }
     }

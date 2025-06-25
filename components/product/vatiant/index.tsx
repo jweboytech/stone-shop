@@ -1,13 +1,15 @@
 'use client';
 
+import Image from 'next/image';
+import React from 'react';
+import clsx from 'clsx';
+
 import {
+  MediaImage,
   ProductOption,
   ProductOptionValue,
   ProductVariantEdge,
 } from '@/generated/graphql';
-import Image from 'next/image';
-import React from 'react';
-import clsx from 'clsx';
 import { useProductStore } from '@/store/prouct';
 
 const VariantItem = ({
@@ -61,6 +63,7 @@ const VariantItem = ({
             (option) => option.value === optionValue.name,
           ),
         );
+        const reference = matchVariant?.node.metafield?.reference as MediaImage;
 
         return (
           <li
@@ -80,12 +83,12 @@ const VariantItem = ({
                 width={40}
               />
             ) : (
-              matchVariant?.node.image != null && (
+              reference?.previewImage?.url != null && (
                 <Image
                   alt="sku image"
                   className="rounded-full h-10 w-10 items-center justify-center"
                   height={40}
-                  src={matchVariant.node.image.url}
+                  src={reference.previewImage.url}
                   width={40}
                 />
               )
