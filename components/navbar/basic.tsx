@@ -4,9 +4,16 @@ import Link from 'next/link';
 import FacebookIcon from '../icons/facebook';
 import InstagramIcon from '../icons/instagram';
 
-const MediaBar = () => {
+import CountryList from './components/countryList';
+
+const BasicBar = async () => {
+  const { data } = await fetch(
+    process.env.NEXT_PUBLIC_SITE_URL + '/api/countries',
+  ).then((res) => res.json());
+  const result = data as PageList<Country>;
+
   return (
-    <div className="flex justify-between items-center px-15 py-1 shadow-xs">
+    <div className="flex justify-between items-center px-15 shadow-xs">
       <div>
         <Link className="py-1 px-2 w-fit text-sm font-medium" href="/help">
           Need Help?
@@ -24,10 +31,10 @@ const MediaBar = () => {
             <FacebookIcon />
           </Link>
         </div>
-        <select>country</select>
+        <CountryList data={result.items} />
       </div>
     </div>
   );
 };
 
-export default MediaBar;
+export default BasicBar;

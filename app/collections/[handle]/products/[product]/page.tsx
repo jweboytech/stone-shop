@@ -22,11 +22,8 @@ const ProductDetailsPage = async ({
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
   });
-  const { compareAtPriceRange, priceRange, metafield, media } = productByHandle;
-  const metafields = metafield ? JSON.parse(metafield?.value!) : [];
-  const mainImages = media.edges
-    .filter(({ node }) => metafields.includes(node.id))
-    .map(({ node }) => node.previewImage);
+  const { compareAtPriceRange, priceRange, media } = productByHandle;
+  const mainImages = media.edges.map(({ node }) => node.previewImage);
   // console.log('variantImages', variantImages);
 
   return (

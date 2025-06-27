@@ -15,7 +15,7 @@ import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
 import { GetCartQuery, GetCartQueryResult } from '@/generated/graphql';
 import { useRequest } from '@/hooks/useRequest';
 
-const Cart = ({ isOpen }: DrawerProps) => {
+const Cart = ({ visible }: DrawerProps) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
   const { request, isLoading } = useRequest<GetCartQueryResult>();
   const cart = localStorage.get('cart');
@@ -29,10 +29,10 @@ const Cart = ({ isOpen }: DrawerProps) => {
   };
 
   React.useEffect(() => {
-    if (isOpen) {
+    if (visible) {
       handleGetDetails();
     }
-  }, [isOpen]);
+  }, [visible]);
 
   const handleCheckout = () => {
     request(GET_CHECKOUT_URL, { id: cart }).then((data) => {

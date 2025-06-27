@@ -12,6 +12,8 @@ import {
 } from '@/generated/graphql';
 import { useProductStore } from '@/store/prouct';
 
+// TODO: 第二个sku的颜色列表图
+
 const VariantItem = ({
   optionValues,
   variants,
@@ -55,6 +57,8 @@ const VariantItem = ({
     }
   }, [variants]);
 
+  console.log(selectedOption);
+
   return (
     <ul className="flex gap-2">
       {optionValues.map((optionValue) => {
@@ -63,6 +67,7 @@ const VariantItem = ({
             (option) => option.value === optionValue.name,
           ),
         );
+        console.log(optionValues, variants, matchVariant);
         const reference = matchVariant?.node.metafield?.reference as MediaImage;
 
         return (

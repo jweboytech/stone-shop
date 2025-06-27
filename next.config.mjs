@@ -20,6 +20,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.shopify.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'assets.perperstone.com',
+      },
     ],
   },
   webpack(config) {
@@ -34,4 +38,3 @@ const nextConfig = {
 
 // module.exports = nextConfig;
 export default nextConfig;
-
