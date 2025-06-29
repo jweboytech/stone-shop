@@ -57,8 +57,6 @@ const VariantItem = ({
     }
   }, [variants]);
 
-  console.log(selectedOption);
-
   return (
     <ul className="flex gap-2">
       {optionValues.map((optionValue) => {
@@ -67,7 +65,6 @@ const VariantItem = ({
             (option) => option.value === optionValue.name,
           ),
         );
-        console.log(optionValues, variants, matchVariant);
         const reference = matchVariant?.node.metafield?.reference as MediaImage;
 
         return (

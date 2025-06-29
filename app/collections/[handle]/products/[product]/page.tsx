@@ -69,7 +69,6 @@ const ProductDetailsPage = async ({
               Discount applies at checkout.
             </p>
           </div> <hr className="my-4 border-surface-muted" />*/}
-
           <ul className="flex flex-col gap-4">
             <li className="flex gap-3 items-center">
               <span>icon</span>

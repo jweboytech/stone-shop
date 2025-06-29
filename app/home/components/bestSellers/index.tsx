@@ -1,23 +1,35 @@
 import React from 'react';
-
-import GoodsItem from '@/components/product/item';
 import Link from 'next/link';
 
-const BestSellers = () => {
+import { Button } from '@/components/ui/button';
+import gqlClient from '@/lib/graphqlClient';
+import GET_PRODUCTS_BY_COLLECTION from '@/graphql/query/productByCollection.gql';
+import ProductItem from '@/components/product/item';
+
+const BestSellers = async () => {
+  const data = await gqlClient.request<Collection>(GET_PRODUCTS_BY_COLLECTION, {
+    title: `title:best-sellers`,
+  });
+  const products = data?.collections.edges[0].node.products.edges;
+
   return (
     <div className="py-18">
       <h2 className="uppercase font-medium text-3xl text-center">
         Best Sellers
       </h2>
       <div className="flex flex-col gap-8 items-center px-15">
-        <button className="mt-4 capitalize">view all</button>
-        {/* <div className="grid grid-cols-5 gap-1">
-          <GoodsItem />
-          <GoodsItem />
-          <GoodsItem />
-          <GoodsItem />
-          <GoodsItem />
-        </div> */}
+        <Link href="/collections/best-sellers">
+          <Button
+            className="mt-4 capitalize font-semibold tracking-widest hover:border-black hover:bg-transparent"
+            variant="outline">
+            view all
+          </Button>
+        </Link>
+        <div className="grid grid-cols-5 gap-1">
+          {products.map(({ node }) => (
+            <ProductItem key={node.id} collection="best-sellers" data={node} />
+          ))}
+        </div>
         <div className="grid grid-cols-2 gap-5 w-full">
           <div className="p-4 h-185 bg-[url(https://celesteadore.com/cdn/shop/files/Celeste_Adore_Clover_Set_2.jpg?v=1741965959&width=832)] bg-cover">
             <div className="relative border-2 border-white w-full h-full">

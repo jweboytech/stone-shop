@@ -72,6 +72,10 @@ module.exports = {
         500: 500,
       },
       keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
         tada: {
           from: {
             transform: 'scale3d(1, 1, 1)',
@@ -121,6 +125,8 @@ module.exports = {
         fadeIn: 'fade-in 500ms ease',
         popupIn: 'popup-in 500ms ease',
         'zoom-fade-small': 'zoom-fade-small 1s ease forwards',
+        'scroll-infinite': 'scroll 10s linear infinite',
+        marquee: 'marquee 15s linear infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',

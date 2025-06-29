@@ -12,14 +12,21 @@ const ProductItem = ({
   collection: string;
 }) => {
   const [sourceImage, previewImage] = data.images.nodes;
+  const [variants] = data.options;
+  const variantItems =
+    variants != null
+      ? variants.optionValues.filter((item) => item.swatch != null)
+      : [];
 
   return (
     <Link href={`/collections/${collection}/products/${data.handle}`}>
       <div className="flex flex-col gap-1 cursor-pointer">
         <div className="relative group">
-          {/* <div className="absolute left-4 top-6 z-10 capitalize bg-[#f8f1e9] py-1 px-1.5 leading-none">
-          <span className="text-xs ">best seller</span>
-        </div> */}
+          {collection === 'best-sellers' && (
+            <div className="absolute left-4 top-6 z-50 capitalize bg-[#f8f1e9] py-1 px-1.5 leading-none">
+              <span className="text-xs ">best seller</span>
+            </div>
+          )}
           <Image
             alt={sourceImage.id}
             className="inset-0 w-full h-full transition-opacity duration-300 group-hover:opacity-0"
@@ -41,13 +48,13 @@ const ProductItem = ({
             <span className="line-through font-medium text-sm text-neutral-600">
               {formatPrice(data.compareAtPriceRange.minVariantPrice.amount)}
             </span>
-            <span className=" font-medium text-sm">
+            <span className=" font-semibold text-sm">
               {formatPrice(data.priceRange.minVariantPrice.amount)}
             </span>
           </div>
         </div>
         <ul className="flex gap-2 items-center">
-          {data.variants.nodes.map((item) => (
+          {variantItems.map((item) => (
             <li
               key={item.id}
               className="p-[2px] border border-surface-muted rounded-full">
@@ -56,7 +63,7 @@ const ProductItem = ({
                   alt={item.id}
                   className="w-full h-full object-cover"
                   height={20}
-                  src={item.image.url}
+                  src={item.swatch.image?.previewImage.url}
                   width={20}
                 />
               </div>

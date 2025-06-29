@@ -15,7 +15,7 @@ const MainLayout = ({ children }: BaseProps) => {
       <MainBar />
       <Navbar />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
