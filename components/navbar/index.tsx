@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { GET_COLLECTIONS } from '@/graphql/collection';
+import GET_COLLECTIONS from '@/graphql/query/collections.gql';
 import gqlClient from '@/lib/graphqlClient';
 
 const Navbar = async () => {

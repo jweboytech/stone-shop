@@ -31,44 +31,44 @@ const BestSellers = async () => {
           ))}
         </div>
         <div className="grid grid-cols-2 gap-5 w-full">
-          <div className="p-4 h-185 bg-[url(https://celesteadore.com/cdn/shop/files/Celeste_Adore_Clover_Set_2.jpg?v=1741965959&width=832)] bg-cover">
-            <div className="relative border-2 border-white w-full h-full">
-              <div className="absolute bottom-26 flex flex-col items-center gap-4 text-white w-full">
-                <h2 className="uppercase font-medium text-2xl">
-                  Clover Collection
-                </h2>
-                <p className="text-base">
-                  Choose any letter with our best selling clover pieces.
-                </p>
-                <Link href="/">
+          <Link href="/collections/clover-collection">
+            <div className="p-4 h-185 bg-[url(https://celesteadore.com/cdn/shop/files/Celeste_Adore_Clover_Set_2.jpg?v=1741965959&width=832)] bg-cover">
+              <div className="relative border-2 border-white w-full h-full">
+                <div className="absolute bottom-26 flex flex-col items-center gap-4 text-white w-full">
+                  <h2 className="uppercase font-medium text-2xl">
+                    Clover Collection
+                  </h2>
+                  <p className="text-base">
+                    Choose any letter with our best selling clover pieces.
+                  </p>
                   <div className="border-2 border-white py-2 px-5 rounded w-fit uppercase">
                     <span className="text-white text-sm font-bold tracking-[4px]">
                       shop now
                     </span>
                   </div>
-                </Link>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="p-4 h-185 bg-[url(https://celesteadore.com/cdn/shop/files/Celeste_Adore_Orla_Birthstone_Necklace_2.jpg?v=1744086397&width=832)] bg-cover">
-            <div className="relative border-2 border-white w-full h-full">
-              <div className="absolute bottom-26 flex flex-col items-center gap-4 text-white w-full">
-                <h2 className="uppercase font-medium text-2xl">
-                  Birthstone collection
-                </h2>
-                <p className="text-base">
-                  Find the perfect gift with our hand made birthstone pieces.
-                </p>
-                <Link href="/">
+          </Link>
+          <Link href="/collections/birthstone-jewellery">
+            <div className="p-4 h-185 bg-[url(https://celesteadore.com/cdn/shop/files/Celeste_Adore_Orla_Birthstone_Necklace_2.jpg?v=1744086397&width=832)] bg-cover">
+              <div className="relative border-2 border-white w-full h-full">
+                <div className="absolute bottom-26 flex flex-col items-center gap-4 text-white w-full">
+                  <h2 className="uppercase font-medium text-2xl">
+                    Birthstone collection
+                  </h2>
+                  <p className="text-base">
+                    Find the perfect gift with our hand made birthstone pieces.
+                  </p>
                   <div className="border-2 border-white py-2 px-5 rounded w-fit uppercase">
                     <span className="text-white text-sm font-bold tracking-[4px]">
                       shop now
                     </span>
                   </div>
-                </Link>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

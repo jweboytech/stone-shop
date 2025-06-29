@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { GET_COLLECTIONS } from '@/graphql/collection';
+import GET_COLLECTIONS from '@/graphql/query/collections.gql';
 import gqlClient from '@/lib/graphqlClient';
 
 const Collections = async () => {
