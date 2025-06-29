@@ -10,12 +10,14 @@ import Community from './components/community';
 import BestSellers from './components/bestSellers';
 
 import MarketingBanner from '@/components/banner/marketing';
+import Gift from '@/components/product/gift';
 
 const HomePage = () => {
   return (
     <div className="h-screen">
       <MarketingBanner />
       <BestSellers />
+      <Gift />
       <Collections />
       <Reviews />
       <Community />
