@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import React from 'react';
 
 import gqlClient from '@/lib/graphqlClient';
@@ -5,12 +7,15 @@ import GET_PRODUCTS_BY_COLLECTION from '@/graphql/query/collections.gql';
 import ProductItem from '@/components/product/item';
 import Collections from '@/components/product/collections';
 
-const CollectionPage = async ({ params }: { params: { handle: string } }) => {
-  const { handle } = await params;
+const CollectionPage = async ({
+  params,
+}: {
+  params: { collectionHandle: string };
+}) => {
+  const { collectionHandle } = await params;
   const data = await gqlClient.request<Collection>(GET_PRODUCTS_BY_COLLECTION, {
-    title: `title:${handle}`,
+    title: `title:${collectionHandle}`,
   });
-  console.log(data);
   const collection = data?.collections.edges[0].node;
   // const products = data?.collections.edges[0].node.products.edges;
 
