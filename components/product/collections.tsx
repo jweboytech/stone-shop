@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import GET_COLLECTIONS_BY_TITLE from '@/graphql/query/collectionsByTitle.gql';
 import gqlClient from '@/lib/graphqlClient';
@@ -19,20 +20,22 @@ const Collections = async () => {
         {data.collections.edges
           .filter(({ node }) => node.image != null)
           .map(({ node }) => (
-            <div key={node.id} className="relative">
-              <Image
-                alt="collection"
-                className="h-126 object-cover"
-                height={360}
-                src={node.image.url}
-                width={360}
-              />
-              <div className="uppercase absolute bottom-5 w-full text-center">
-                <span className="text-white font-medium text-2xl">
-                  {node.title}
-                </span>
+            <Link key={node.id} href={`/collections/${node.title}`}>
+              <div className="relative">
+                <Image
+                  alt="collection"
+                  className="h-126 object-cover"
+                  height={360}
+                  src={node.image.url}
+                  width={360}
+                />
+                <div className="uppercase absolute bottom-5 w-full text-center">
+                  <span className="text-white font-medium text-2xl">
+                    {node.title}
+                  </span>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </div>
