@@ -14,13 +14,13 @@ import Gift from '@/components/product/gift';
 
 const HomePage = () => {
   return (
-    <div className="h-screen">
+    <div>
       <MarketingBanner />
       <BestSellers />
       <Gift />
       <Collections />
-      <Reviews />
-      <Community />
+      {/* <Reviews /> */}
+      {/* <Community /> */}
       <Guarantee />
     </div>
   );

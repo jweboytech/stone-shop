@@ -1,12 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 
-import GET_COLLECTIONS from '@/graphql/query/collections.gql';
+import GET_COLLECTIONS_BY_TITLE from '@/graphql/query/collectionsByTitle.gql';
 import gqlClient from '@/lib/graphqlClient';
 
 const Collections = async () => {
-  const data = await gqlClient.request<Collection>(GET_COLLECTIONS, {
-    first: 4,
+  const data = await gqlClient.request<Collection>(GET_COLLECTIONS_BY_TITLE, {
+    query:
+      'title:"necklaces" OR title:"bracelets" OR title:"earrings" OR title:"rings"',
   });
 
   return (

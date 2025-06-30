@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import FacebookIcon from '../icons/facebook';
-import InstagramIcon from '../icons/instagram';
+import MediaChannels from '../medias';
 
 import CountryList from './components/countryList';
 
@@ -23,14 +22,7 @@ const BasicBar = async () => {
         </Link>
       </div>
       <div className="flex items-center gap-8">
-        <div className="flex gap-3">
-          <Link href="https://www.instagram.com/" target="_blank">
-            <InstagramIcon />
-          </Link>
-          <Link href="https://www.facebook.com/" target="_blank">
-            <FacebookIcon />
-          </Link>
-        </div>
+        <MediaChannels />
         <CountryList data={result.items} />
       </div>
     </div>

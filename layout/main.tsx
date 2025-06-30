@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toaster } from 'sonner';
 
 import Footer from './footer';
 
@@ -11,11 +12,12 @@ const MainLayout = ({ children }: BaseProps) => {
   return (
     <div className="overflow-y-auto h-screen">
       {/* <SaleBar /> */}
-      <BasicBar />
+      {/* <BasicBar /> */}
       <MainBar />
       <Navbar />
       {children}
-      {/* <Footer /> */}
+      <Footer />
+      <Toaster />
     </div>
   );
 };
