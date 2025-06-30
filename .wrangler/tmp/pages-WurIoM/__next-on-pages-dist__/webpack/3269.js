@@ -1,0 +1,1 @@
+var t={},a=(s,u,m)=>(t.__chunk_3269=(i,e,r)=>{"use strict";function n(c,o){return new Intl.NumberFormat("en-US",{style:"currency",currency:o||"USD",minimumFractionDigits:2}).format(Number(c))}r.d(e,{$:()=>n})},t);export{a as __getNamedExports};
