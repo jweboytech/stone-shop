@@ -67,7 +67,7 @@ const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-x-5 gap-y-8">
         {products != null &&
           collection != null &&
           products.map(({ node }) => (

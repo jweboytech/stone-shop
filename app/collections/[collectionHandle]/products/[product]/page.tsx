@@ -11,6 +11,11 @@ import ProductBuyButton from '@/components/product/buyButton';
 import { Product } from '@/generated/graphql';
 import Payments from '@/components/cart/payments';
 import Line from '@/components/line';
+import MarketingBanner from '@/components/banner/marketing';
+import GuaranteeBar from '@/components/navbar/guarantee';
+import Collections from '@/components/product/collections';
+import Guarantee from '@/components/guarantee';
+import Wondering from '@/components/wondering';
 
 const ProductDetailsPage = async ({
   params,
@@ -92,12 +97,13 @@ const ProductDetailsPage = async ({
           <div>Collapse TODO</div>
         </div>
       </div>
-      {/* <div className="my-2">
+      <div className="my-2">
         <GuaranteeBar />
+        <Wondering />
+        <Line />
+        <Collections />
+        <Guarantee />
       </div>
-      <RecommendedProdcuts />
-      <Collections />
-      <Guarantee /> */}
     </div>
   );
 };
