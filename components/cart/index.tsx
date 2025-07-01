@@ -14,6 +14,7 @@ import GET_CART_DETAILS from '@/graphql/query/cartDetails.gql';
 import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
 import { GetCartQuery, GetCartQueryResult } from '@/generated/graphql';
 import { useRequest } from '@/hooks/useRequest';
+import Line from '../line';
 
 const Cart = ({ visible }: DrawerProps) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
@@ -61,9 +62,7 @@ const Cart = ({ visible }: DrawerProps) => {
               skuId={node.id}
               onRefresh={handleGetDetails}
             />
-            {index < details?.cart?.lines.edges.length! - 1 && (
-              <hr className="my-4 border-surface-muted" />
-            )}
+            {index < details?.cart?.lines.edges.length! - 1 && <Line />}
           </React.Fragment>
         ))}
       </div>
@@ -76,7 +75,7 @@ const Cart = ({ visible }: DrawerProps) => {
             {formatPrice(details?.cart?.cost.subtotalAmount.amount)}
           </span>
         </div>
-        <hr className="border-surface-muted" />
+        <Line />
         <div className="flex items-center justify-between py-2">
           <span className="uppercase font-bold text-14 tracking-wider">
             shipping

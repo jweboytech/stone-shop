@@ -9,6 +9,7 @@ import ProductItem from '@/components/product/item';
 const BestSellers = async () => {
   const data = await gqlClient.request<Collection>(GET_PRODUCTS_BY_COLLECTION, {
     title: `title:best-sellers`,
+    sortKey: 'BEST_SELLING',
   });
   const products = data?.collections.edges[0].node.products.edges;
 

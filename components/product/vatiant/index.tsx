@@ -11,6 +11,7 @@ import {
   ProductVariantEdge,
 } from '@/generated/graphql';
 import { useProductStore } from '@/store/prouct';
+import Line from '@/components/line';
 
 // TODO: 第二个sku的颜色列表图
 
@@ -124,7 +125,7 @@ const ProductVariants = ({
             variants={variants}
             handle={handle}
           />
-          <hr className="my-4 border-surface-muted" />
+          <Line />
         </div>
       ))}
     </div>

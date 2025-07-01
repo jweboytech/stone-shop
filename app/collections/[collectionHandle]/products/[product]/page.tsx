@@ -10,6 +10,7 @@ import ProductVariants from '@/components/product/vatiant';
 import ProductBuyButton from '@/components/product/buyButton';
 import { Product } from '@/generated/graphql';
 import Payments from '@/components/cart/payments';
+import Line from '@/components/line';
 
 const ProductDetailsPage = async ({
   params,
@@ -48,7 +49,7 @@ const ProductDetailsPage = async ({
               )}
             </span>
           </div>
-          <hr className="my-4 border-surface-muted" />
+          <Line />
           <ProductVariants
             handle={product}
             options={productByHandle.options}
@@ -56,7 +57,7 @@ const ProductDetailsPage = async ({
           />
           <ProductBuyButton />
           <Payments />
-          <hr className="my-4 border-surface-muted" />
+          <Line />
           {/* <div className="border border-amber bg-surface-light p-4 rounded-lg">
             <h3 className="uppercase text-caramel text-sm font-bold mb-1">
               new season sale
@@ -68,7 +69,7 @@ const ProductDetailsPage = async ({
               Add 2 items to your cart and your second is free. No code needed.
               Discount applies at checkout.
             </p>
-          </div> <hr className="my-4 border-surface-muted" />*/}
+          </div> <Line />*/}
           <ul className="flex flex-col gap-4">
             <li className="flex gap-3 items-center">
               <span>icon</span>
@@ -87,7 +88,7 @@ const ProductDetailsPage = async ({
               <span className="text-base">100% Satisfaction Guarantee</span>
             </li>
           </ul>
-          <hr className="my-4 border-surface-muted" />
+          <Line />
           <div>Collapse TODO</div>
         </div>
       </div>
