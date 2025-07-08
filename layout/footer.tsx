@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
+import SubscribeInput from './components/subscribeInput';
+
 import GET_COLLECTIONS_BY_TITLE from '@/graphql/query/collectionsByTitle.gql';
 import gqlClient from '@/lib/graphqlClient';
 import Payments from '@/components/cart/payments';
 import MediaChannels from '@/components/medias';
-import { Input } from '@/components/ui/input';
-import SubscribeInput from './components/subscribeInput';
 
 const HELP_OPTIONS: Option[] = [
   { label: 'Order Tracking', value: 'order-tracking' },
@@ -54,7 +54,7 @@ const Footer = async () => {
           <ul className="flex flex-col gap-2">
             <li className="mb-3 text-sm font-semibold">Need help?</li>
             {POLICIES_OPTIONS.map((item) => (
-              <Link key={item.value} href={`/collections/${item.value}`}>
+              <Link key={item.value} href={`/${item.value}`}>
                 <span className="text-sm capitalize">{item.label}</span>
               </Link>
             ))}

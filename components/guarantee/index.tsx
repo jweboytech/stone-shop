@@ -1,21 +1,21 @@
-import { Dot, Medal, Shield, Star, Truck } from 'lucide-react';
+import { Medal, ShieldX, Truck } from 'lucide-react';
 import React from 'react';
 
 const items: Array<Option & { icon: React.ReactElement }> = [
   {
     label: 'satisfaction guarantee',
     value: 'satisfactionGuarantee',
-    icon: <Medal size={64} />,
+    icon: <Medal color="#bd8443" size={64} strokeWidth={1} />,
   },
   {
     label: 'lifetime warranty',
     value: 'lifetimeWarranty',
-    icon: <Shield size={64} />,
+    icon: <ShieldX color="#bd8443" size={64} strokeWidth={1} />,
   },
   {
     label: 'free shipping worldwide',
     value: 'freeShipping',
-    icon: <Truck size={64} />,
+    icon: <Truck color="#bd8443" size={64} strokeWidth={1} />,
   },
 ];
 
