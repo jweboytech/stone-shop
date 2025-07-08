@@ -14,7 +14,7 @@ const Payments = () => {
       <ApplePayIcon />
       {/* <GooglePayIcon /> */}
       <MasterIcon />
-      <PaypalIcon />
+      {/* <PaypalIcon /> */}
       <VisaIcon />
     </div>
   );

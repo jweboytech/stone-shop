@@ -1,6 +1,9 @@
 export const runtime = 'edge';
 
+import { CircleCheckBig, Heart, Package, ShieldCheck } from 'lucide-react';
 import React from 'react';
+
+import Description from './components/description';
 
 import gqlClient from '@/lib/graphqlClient';
 import GET_PRODUCT_DETAILS from '@/graphql/query/product.gql';
@@ -11,7 +14,6 @@ import ProductBuyButton from '@/components/product/buyButton';
 import { Product } from '@/generated/graphql';
 import Payments from '@/components/cart/payments';
 import Line from '@/components/line';
-import MarketingBanner from '@/components/banner/marketing';
 import GuaranteeBar from '@/components/navbar/guarantee';
 import Collections from '@/components/product/collections';
 import Guarantee from '@/components/guarantee';
@@ -75,26 +77,26 @@ const ProductDetailsPage = async ({
               Discount applies at checkout.
             </p>
           </div> <Line />*/}
-          <ul className="flex flex-col gap-4">
-            <li className="flex gap-3 items-center">
-              <span>icon</span>
+          <ul className="flex flex-col gap-3">
+            <li className="flex gap-2 items-center">
+              <Package size={24} strokeWidth={1.5} />
               <span className="text-base">Free Shipping Worldwide</span>
             </li>
-            <li className="flex gap-3 items-center">
-              <span>icon</span>
+            <li className="flex gap-2 items-center">
+              <ShieldCheck size={24} strokeWidth={1.5} />
               <span className="text-base">Lifetime Replacement Warranty</span>
             </li>
-            <li className="flex gap-3 items-center">
-              <span>icon</span>
+            <li className="flex gap-2 items-center">
+              <CircleCheckBig size={24} strokeWidth={1.5} />
               <span className="text-base">Waterproof & Tarnish Free</span>
             </li>
-            <li className="flex gap-3 items-center">
-              <span>icon</span>
+            <li className="flex gap-2 items-center">
+              <Heart size={24} strokeWidth={1.5} />
               <span className="text-base">100% Satisfaction Guarantee</span>
             </li>
           </ul>
           <Line />
-          <div>Collapse TODO</div>
+          <Description description={productByHandle.descriptionHtml} />
         </div>
       </div>
       <div className="my-2">

@@ -22,6 +22,9 @@ const VariantItem = ({
   optionValues: ProductOptionValue[];
   variants: ProductVariantEdge[];
 }) => {
+  const onVariantPreviewImageChange = useProductStore(
+    (state) => state.onVariantPreviewImageChange,
+  );
   const onMerchandiseIdChange = useProductStore(
     (state) => state.onMerchandiseIdChange,
   );
@@ -30,17 +33,23 @@ const VariantItem = ({
 
   const handleClick = (data: ProductOptionValue) => () => {
     setSelectedOption(data);
-    // gqlClient.request(GET_PRODUCT_VARIANT, {
-    //   handle,
-    //   selectedOption: data
-    // })
     const matchVariant = variants.find(({ node }) =>
       node.selectedOptions.some((option) => option.value === data.name),
     );
 
     if (matchVariant != null) {
       onMerchandiseIdChange(matchVariant!.node.id);
+
+      // 二级 SKU
+      if (data.swatch == null) {
+        onVariantPreviewImageChange(matchVariant?.node.image?.url);
+      }
     }
+
+    // gqlClient.request(GET_PRODUCT_VARIANT, {
+    //   handle,
+    //   selectedOption: data
+    // })
   };
 
   React.useEffect(() => {

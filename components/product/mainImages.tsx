@@ -4,8 +4,13 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import React from 'react';
 
+import { useProductStore } from '@/store/prouct';
+
 const ProductMainImages = ({ items }: { items: any[] }) => {
   const [image, setImage] = React.useState<string>();
+  const variantPreviewImage = useProductStore(
+    (state) => state.variantPreviewImage,
+  );
 
   const handleChange = (url: string) => () => {
     setImage(url);
@@ -16,6 +21,16 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
       setImage(items[0].url);
     }
   }, [items]);
+
+  React.useEffect(() => {
+    if (!!variantPreviewImage) {
+      const record = items.find((item) => item.url === variantPreviewImage);
+
+      if (record != null) {
+        setImage(record?.url);
+      }
+    }
+  }, [variantPreviewImage]);
 
   return (
     items.length > 0 && (
@@ -46,7 +61,7 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
             <Image
               priority
               alt="product"
-              className="w-full h-full"
+              className="w-[748px] h-[748px]"
               height={748}
               src={image!}
               width={748}
