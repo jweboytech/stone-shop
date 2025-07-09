@@ -12,7 +12,7 @@ const MainLayout = ({ children }: BaseProps) => {
   return (
     <div className="overflow-y-auto h-screen">
       {/* <SaleBar /> */}
-      <BasicBar />
+      {/* <BasicBar /> */}
       <MainBar />
       <Navbar />
       {children}

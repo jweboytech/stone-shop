@@ -166,10 +166,7 @@ const TeamsConditionsPage = () => {
         </h3>
         <p>
           Any questions regarding the Terms of Service, please contact us at{' '}
-          <Link
-            className="underline font-bold"
-            href={`mailto:`}
-            target="_blank">
+          <Link className="underline font-bold" href={'/'} target="_blank">
             <em>hello@celesteadoresupport.com</em>
           </Link>
         </p>

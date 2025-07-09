@@ -32,7 +32,7 @@ const Footer = async () => {
   });
 
   return (
-    <div className="p-15 px-10">
+    <div className="p-15 px-10 border-t border-t-surface-muted">
       <div className="flex flex-col">
         <div className="flex justify-evenly gap-5">
           <ul className="flex flex-col gap-2">
