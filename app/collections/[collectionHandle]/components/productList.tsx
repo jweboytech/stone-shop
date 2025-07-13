@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRequest } from '@/hooks/useRequest';
+import { Loader2, Loader2Icon } from 'lucide-react';
 
 const OPTIONS: Option[] = [
   { label: 'Best selling', value: 'BEST_SELLING' },
@@ -26,7 +27,7 @@ const OPTIONS: Option[] = [
 
 const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
   const [orderKey, setOrderKey] = React.useState(OPTIONS[0].value);
-  const { request, data } = useRequest<Collection>();
+  const { request, data, isLoading } = useRequest<Collection>();
   const collection = data?.collections.edges[0]?.node;
   const products = collection?.products.edges;
 
@@ -67,17 +68,23 @@ const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid grid-cols-4 gap-x-5 gap-y-8">
-        {products != null &&
-          collection != null &&
-          products.map(({ node }) => (
-            <ProductItem
-              key={node.id}
-              collection={collection.title}
-              data={node}
-            />
-          ))}
-      </div>
+      {!isLoading ? (
+        <div className="grid grid-cols-4 gap-x-5 gap-y-8">
+          {products != null &&
+            collection != null &&
+            products.map(({ node }) => (
+              <ProductItem
+                key={node.id}
+                collection={collection.title}
+                data={node}
+              />
+            ))}
+        </div>
+      ) : (
+        <div className="flex justify-center py-8">
+          <Loader2Icon className="animate-spin" />
+        </div>
+      )}
     </div>
   );
 };
