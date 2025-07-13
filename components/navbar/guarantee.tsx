@@ -5,7 +5,7 @@ type ScrollOption = Option & { icon: React.ReactElement };
 
 const options: ScrollOption[] = [
   { label: 'free shipping', value: 'freeShipping', icon: <Star size={16} /> },
-  { label: '90 day returns', value: 'returnDays', icon: <Star size={16} /> },
+  { label: '60 day returns', value: 'returnDays', icon: <Star size={16} /> },
   {
     label: 'personalised fine jewellery',
     value: 'jewellery',
@@ -14,7 +14,7 @@ const options: ScrollOption[] = [
   { label: 'lifetime warranty', value: 'lifetime', icon: <Star size={16} /> },
 
   { label: 'free shipping', value: 'freeShipping1', icon: <Star size={16} /> },
-  { label: '90 day returns', value: 'returnDays1', icon: <Star size={16} /> },
+  { label: '60 day returns', value: 'returnDays1', icon: <Star size={16} /> },
   {
     label: 'personalised fine jewellery',
     value: 'jewellery1',

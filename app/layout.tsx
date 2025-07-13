@@ -35,15 +35,6 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
       <head />
-      {/* <Script
-        async
-        src="https://code.tidio.co/mrwtsim9x2wwbhk4enrywowlirpkqmvv.js"
-      />
-      <Script
-        async
-        crossOrigin="anonymous"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8674629285850264"
-      /> */}
       <body
         className={clsx(
           'min-h-screen antialiased overflow-hidden',
@@ -51,12 +42,10 @@ export default function RootLayout({
         )}>
         <Providers>
           <div className="relative flex flex-col h-screen">
-            {/* <Navbar /> bg-[#f5f5f5] */}
             <main>{children}</main>
             <Footer />
           </div>
           <Toaster />
-          {/* <ConfirmModal /> */}
         </Providers>
       </body>
     </html>

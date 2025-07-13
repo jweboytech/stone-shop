@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
+import { Loader2Icon } from 'lucide-react';
 
 import GET_PRODUCTS_BY_COLLECTION from '@/graphql/query/productByCollection.gql';
 import ProductItem from '@/components/product/item';
@@ -13,7 +14,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRequest } from '@/hooks/useRequest';
-import { Loader2, Loader2Icon } from 'lucide-react';
 
 const OPTIONS: Option[] = [
   { label: 'Best selling', value: 'BEST_SELLING' },
