@@ -80,6 +80,13 @@ query getProductDetails($handle: String!) {
       key
       value
     }
+    birthstoneSelectMetafield: metafield(
+      namespace: "custom"
+      key: "birthstone_select"
+    ) {
+      key
+      value
+    }
     priceRange {
       maxVariantPrice {
         amount

@@ -39,7 +39,7 @@ function Description({ description }: { description: string }) {
           />
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-2">
+      {/*  <AccordionItem value="item-2">
         <AccordionTrigger>
           <AccordionTitle icon={<Sparkle size={16} />} title="materials" />
         </AccordionTrigger>
@@ -85,7 +85,7 @@ function Description({ description }: { description: string }) {
             replace it, no questions asked.
           </p>
         </AccordionContent>
-      </AccordionItem>
+      </AccordionItem> */}
       <AccordionItem value="item-3">
         <AccordionTrigger>
           <AccordionTitle

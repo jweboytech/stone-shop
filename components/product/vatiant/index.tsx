@@ -12,14 +12,24 @@ import {
 } from '@/generated/graphql';
 import { useProductStore } from '@/store/prouct';
 import Line from '@/components/line';
-import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const VariantItem = ({
   optionValues,
   variants,
+  isSelectVariant,
+  categoryName,
 }: {
   optionValues: ProductOptionValue[];
   variants: ProductVariantEdge[];
+  isSelectVariant?: boolean;
+  categoryName?: string;
 }) => {
   const onVariantPreviewImageChange = useProductStore(
     (state) => state.onVariantPreviewImageChange,
@@ -31,6 +41,8 @@ const VariantItem = ({
   // const variantData = useProductStore((state) => state.variantData);
   const [selectedOption, setSelectedOption] =
     React.useState<ProductOptionValue>();
+  const [birthstone, setBirthstone] = React.useState('');
+  const isShowSelect = isSelectVariant && categoryName === 'Birthstone';
 
   const handleClick = (data: ProductOptionValue) => () => {
     setSelectedOption(data);
@@ -78,6 +90,35 @@ const VariantItem = ({
       }
     }
   }, [variants]);
+
+  React.useEffect(() => {
+    if (isShowSelect && optionValues.length > 0) {
+      const item = optionValues[0];
+
+      setBirthstone(item.id);
+    }
+  }, [isShowSelect]);
+
+  if (isShowSelect) {
+    const handleChange = (value: string) => {
+      console.log(value);
+    };
+
+    return (
+      <Select value={birthstone} onValueChange={handleChange}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Please select" />
+        </SelectTrigger>
+        <SelectContent>
+          {optionValues.map((item) => (
+            <SelectItem key={item.id} value={item.id}>
+              {item.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    );
+  }
 
   return (
     <ul className="flex gap-2 flex-wrap">
@@ -134,12 +175,12 @@ const ProductVariants = ({
   options,
   variants = [],
   handle,
-  control,
+  isSelectVariant,
 }: {
   options: ProductOption[];
   variants: ProductVariantEdge[];
   handle: string;
-  control;
+  isSelectVariant?: boolean;
 }) => {
   return (
     <ul className="flex flex-col gap-2">
@@ -147,9 +188,11 @@ const ProductVariants = ({
         <li key={item.id}>
           <h3 className="text-base mb-3">Choose Your {item.name}</h3>
           <VariantItem
+            categoryName={item.name}
             handle={handle}
             optionValues={item.optionValues}
             variants={variants}
+            isSelectVariant={isSelectVariant}
           />
           <Line />
         </li>

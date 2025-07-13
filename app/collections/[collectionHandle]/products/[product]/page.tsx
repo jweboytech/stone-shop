@@ -23,18 +23,31 @@ const ProductDetailsPage = async ({
 }) => {
   const { product } = await params;
   const { productByHandle } = await gqlClient.request<{
-    productByHandle: Product & { letterInputMetafield: Option };
+    productByHandle: Product & {
+      letterInputMetafield: Option;
+      birthstoneSelectMetafield: Option;
+    };
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
   });
-  const { compareAtPriceRange, priceRange, media, letterInputMetafield } =
-    productByHandle;
+  const {
+    compareAtPriceRange,
+    priceRange,
+    media,
+    letterInputMetafield,
+    birthstoneSelectMetafield,
+  } = productByHandle;
   const mainImages = media.edges.map(({ node }) => node.previewImage);
   const isShowLetterInput =
     letterInputMetafield != null
       ? JSON.parse(letterInputMetafield.value)
       : false;
-  // console.log('render', letterInputMetafield, isShowLetterInput);
+  const isSelectVariant =
+    birthstoneSelectMetafield != null
+      ? JSON.parse(birthstoneSelectMetafield.value)
+      : false;
+
+  // console.log('render', letterInputMetafield, isSelectVariant);
 
   return (
     <div className="">
@@ -60,6 +73,7 @@ const ProductDetailsPage = async ({
           </div>
           <Line />
           <Buy
+            isSelectVariant={isSelectVariant}
             needLetter={isShowLetterInput}
             product={product}
             productByHandle={productByHandle}

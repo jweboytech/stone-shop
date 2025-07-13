@@ -26,8 +26,10 @@ const Buy = ({
   product,
   productByHandle,
   needLetter,
+  isSelectVariant,
 }: {
-  needLetter: boolean;
+  needLetter?: boolean;
+  isSelectVariant?: boolean;
 }) => {
   const onLetterChange = useProductStore((state) => state.onLetterChange);
   const variantData = useProductStore((state) => state.variantData);
@@ -50,6 +52,7 @@ const Buy = ({
     return (
       <React.Fragment>
         <ProductVariants
+          isSelectVariant={isSelectVariant}
           control={form.control}
           handle={product}
           options={productByHandle?.options || []}
@@ -89,6 +92,7 @@ const Buy = ({
   return (
     <React.Fragment>
       <ProductVariants
+        isSelectVariant={isSelectVariant}
         control={form.control}
         handle={product}
         options={productByHandle?.options || []}
