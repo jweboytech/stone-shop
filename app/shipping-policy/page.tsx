@@ -1,3 +1,4 @@
+import ContactEmail from '@/components/contact';
 import Link from 'next/link';
 import React from 'react';
 
@@ -8,61 +9,56 @@ const ShippingPolicyPage = () => {
         <strong>Shipping Policy</strong>
       </h1>
       <p>
-        Thank you for visiting and shopping at Celeste Adore Following are the
-        terms and conditions that constitute our Shipping Policy.
+        Thank you for choosing <b>Perper Stone</b>. Below are the terms and
+        details of our shipping policy.
       </p>
       <h3 className="font-medium text-22 mt-15 mb-6 uppercase">
-        <strong>Domestic & International Shipping Policy</strong>
+        <strong>Domestic & International Shipping</strong>
       </h3>
       <p className="mb-6">
-        All orders are custom made on demand. Due to this, orders are processed
-        within 5-10 business days. Orders are not shipped or delivered on
-        weekends or holidays.
+        All orders are custom made to order and typically take{' '}
+        <b>14-20 business days</b> to process and ship. Please note that we do
+        not ship on weekends or public holidays.
       </p>
       <p>
-        If we are experiencing a high volume of orders, shipments may be delayed
-        by a few days. Please allow additional days in transit for delivery. If
-        there will be a significant delay in shipment of your order, we will
-        contact you via email or telephone.
+        During periods of high demand, processing times may be extended. We
+        kindly ask you to allow extra time for delivery. Should there be any
+        significant delay, we will notify you promptly via email or phone.
       </p>
       <p className="font-bold text-base mt-15 mb-6">
-        <strong>Shipping rates & delivery estimates</strong>
+        <strong>Shipping Rates & Delivery Estimates</strong>
       </p>
-      <p className="mb-6">All orders are offered free shipping.</p>
+      <p className="mb-6">We offer free standard shipping on all orders.</p>
       <p className="font-bold text-base mt-15 mb-6">
-        <strong>Shipment confirmation & Order tracking</strong>
+        <strong>Shipment Confirmation & Tracking</strong>
       </p>
       <p className="mb-6">
-        You will receive a Shipment Confirmation email once your order has
-        shipped containing your tracking number(s). The tracking number will be
-        active within 24 hours.
+        Once your order has shipped, you will receive a confirmation email with
+        your tracking number. Tracking information usually becomes active within{' '}
+        <b>24-48 hours</b> after shipment, allowing you to monitor your package
+        in real time.
       </p>
       <p className="font-bold text-base mt-15 mb-6">
-        <strong>Customs, Duties and Taxes</strong>
+        <strong>Customs, Duties & Taxes</strong>
       </p>
       <p className="mb-6">
-        Celeste Adore is not responsible for any customs and taxes applied to
-        your order. All fees imposed during or after shipping are the
-        responsibility of the customer (tariffs, taxes, etc.).
+        Perper Stone is not responsible for any customs fees, duties, or taxes
+        incurred. Any such charges are the responsibility of the customer.
       </p>
       <p className="font-bold text-base mt-15 mb-6">
-        <strong>Damages</strong>
+        <strong>Damages in Transit</strong>
       </p>
       <p className="mb-6">
-        Celeste Adore insures all shipping orders. If you received your order
-        damaged, please contact us at{' '}
-        <span className="underline">hello@celesteadoresupport.com</span>.
+        All shipments are insured. If your order arrives damaged, please contact
+        us promptly at:
+        <ContactEmail />
       </p>
       <p className="font-bold text-base mt-15 mb-6">
         <strong>Returns Policy</strong>
       </p>
       <p>
-        Our{' '}
-        <Link className="underline" href="/refund-policy">
-          Return & Refund Policy
-        </Link>{' '}
-        provides detailed information about options and procedures for returning
-        your order.
+        For detailed information on returns and refunds, please refer to our
+        Return & Refund Policy.
       </p>
     </div>
   );

@@ -101,7 +101,24 @@ const VariantItem = ({
 
   if (isShowSelect) {
     const handleChange = (value: string) => {
-      console.log(value);
+      console.log(value, variants);
+
+      //  const matchVariant = variants.find(({ node }) =>
+      //    node.selectedOptions.some((option) => option.value === data.name),
+      //  );
+
+      //  if (matchVariant != null) {
+      //    onMerchandiseIdChange(matchVariant!.node.id);
+      //    onVariantChange({
+      //      merchandiseId: matchVariant!.node.id,
+      //      variantName: matchVariant.node.selectedOptions[0].value,
+      //    });
+
+      //    // 二级 SKU
+      //    if (data.swatch == null) {
+      //      onVariantPreviewImageChange(matchVariant?.node.image?.url);
+      //    }
+      //  }
     };
 
     return (

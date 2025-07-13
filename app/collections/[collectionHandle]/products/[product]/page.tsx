@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { CircleCheckBig, Heart, Package, ShieldCheck } from 'lucide-react';
 import React from 'react';
 

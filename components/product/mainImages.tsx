@@ -34,8 +34,20 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
 
   return (
     items.length > 0 && (
-      <React.Fragment>
-        <ul className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
+        <div className="w-[748px] h-[748px] bg-surface-light">
+          {image && (
+            <Image
+              priority
+              alt="product"
+              className="w-full"
+              height={748}
+              src={image!}
+              width={748}
+            />
+          )}
+        </div>
+        <ul className="flex gap-4">
           {items.map((item) => (
             <li
               key={item.id}
@@ -56,19 +68,7 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
             </li>
           ))}
         </ul>
-        <div className="w-[748px] h-[748px] bg-surface-light">
-          {image && (
-            <Image
-              priority
-              alt="product"
-              className="w-full"
-              height={748}
-              src={image!}
-              width={748}
-            />
-          )}
-        </div>
-      </React.Fragment>
+      </div>
     )
   );
 };
