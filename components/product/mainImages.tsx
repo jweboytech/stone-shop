@@ -1,8 +1,15 @@
 'use client';
 
-import clsx from 'clsx';
 import Image from 'next/image';
 import React from 'react';
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../ui/carousel';
 
 import { useProductStore } from '@/store/prouct';
 
@@ -34,8 +41,8 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
 
   return (
     items.length > 0 && (
-      <div className="flex flex-col gap-6">
-        <div className="w-[748px] h-[748px] bg-surface-light">
+      <div className="grid flex-col gap-6 w-[748px]">
+        <div className=" bg-surface-light w-full">
           {image && (
             <Image
               priority
@@ -47,27 +54,27 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
             />
           )}
         </div>
-        <ul className="flex gap-4">
-          {items.map((item) => (
-            <li
-              key={item.id}
-              aria-hidden
-              className={clsx(
-                'border-2  w-18 h-18',
-                image === item.url ? 'border-black' : 'border-transparent',
-              )}
-              onClick={handleChange(item.url)}>
-              <Image
-                priority
-                alt="product"
-                className="w-full h-full cursor-pointer"
-                height={68}
-                src={item.url}
-                width={68}
-              />
-            </li>
-          ))}
-        </ul>
+        <Carousel>
+          <CarouselContent>
+            {items.map((item) => (
+              <CarouselItem
+                key={item.id}
+                className="basis-1/5"
+                onClick={handleChange(item.url)}>
+                <Image
+                  priority
+                  alt="product"
+                  className="w-full h-full cursor-pointer"
+                  height={68}
+                  src={item.url}
+                  width={68}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
     )
   );

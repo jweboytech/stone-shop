@@ -53,7 +53,7 @@ const ProductDetailsPage = async ({
 
   return (
     <div className="">
-      <div className="flex gap-4 px-10 py-14">
+      <div className="grid grid-cols-2 gap-4 px-10 py-14">
         <ProductMainImages items={mainImages} />
         <div className="flex-1 pl-4">
           <h2 className="font-medium text-22">{productByHandle.title}</h2>
