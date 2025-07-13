@@ -1,16 +1,18 @@
 'use client';
 
 import React from 'react';
+import toast from 'react-hot-toast';
 import { Loader2Icon, ShoppingBag } from 'lucide-react';
 
 import { Button } from '../ui/button';
-import Drawer, { DrawerRef } from '../drawer';
+import Drawer from '../drawer';
 import Cart from '../cart';
 
-import { CREATE_CART } from '@/graphql/cart';
-import GET_CART_COUNT from '@/graphql/query/cartCount.gql';
+import CREATE_CART from '@/graphql/mutation/cartCreate.gql';
 import localStorage from '@/utils/storage';
+import GET_CART_COUNT from '@/graphql/query/cartCount.gql';
 import CART_LINES_ADD from '@/graphql/mutation/cartLinesAdd.gql';
+import CART_NOTE_UPDATE from '@/graphql/mutation/cartNoteUpdate.gql';
 import { useProductStore } from '@/store/prouct';
 import { useRequest } from '@/hooks/useRequest';
 import gqlClient from '@/lib/graphqlClient';
@@ -18,44 +20,24 @@ import { GetCartQuery } from '@/generated/graphql';
 import { usePageVisible } from '@/hooks/usePageVisible';
 import { useDrawerStore } from '@/store';
 import { usePrevious } from '@/hooks/usePrevious';
+import { useCartMutation } from '@/hooks/useCartMutation';
 
 const ProductBuyButton = ({
   variant = 'button',
+  buttonType = 'default',
+  triggerLoading,
 }: {
   variant?: 'icon' | 'button';
+  buttonType?: 'submit' | 'default';
+  triggerLoading?: boolean;
 }) => {
   const { visible } = usePageVisible();
   const openDrawer = useDrawerStore((state) => state.openDrawer);
   const drawerVisible = useDrawerStore((state) => state.visible);
-  const merchandiseId = useProductStore((state) => state.merchandiseId);
   const prevDrawerVisible = usePrevious(drawerVisible);
   const [isEmptyCart, setIsEmptyCart] = React.useState<boolean>();
-  const { request: postUpdateCart, isLoading } = useRequest();
-  const { request: postCreateCart, isLoading: isLoading1 } = useRequest<{
-    cartCreate: CartCreate;
-  }>();
-
-  const handleClick = async () => {
-    const cart = localStorage.get('cart');
-
-    // 初次创建购物车
-    if (cart == null) {
-      postCreateCart(CREATE_CART, {
-        input: { lines: [{ merchandiseId, quantity: 1 }] },
-      }).then(({ cartCreate }) => {
-        localStorage.set('cart', cartCreate.cart.id);
-        openDrawer();
-      });
-    } else if (merchandiseId) {
-      // 后续更新购物车
-      postUpdateCart(CART_LINES_ADD, {
-        lines: [{ merchandiseId, quantity: 1 }],
-        cartId: cart,
-      }).then(() => {
-        openDrawer();
-      });
-    }
-  };
+  const { trigger, isLoading } = useCartMutation();
+  const isButtonLoading = triggerLoading || isLoading;
 
   React.useEffect(() => {
     const cart = localStorage.get('cart');
@@ -66,7 +48,7 @@ const ProductBuyButton = ({
         gqlClient
           .request<GetCartQuery>(GET_CART_COUNT, { id: cart })
           .then((data) => {
-            setIsEmptyCart(data.cart?.lines.edges.length === 0);
+            setIsEmptyCart(!data.cart);
           });
       }
     }
@@ -78,15 +60,26 @@ const ProductBuyButton = ({
         <Cart />
       </Drawer>
       {variant === 'button' && (
-        <Button
-          className="h-15 text-base font-bold tracking-wider uppercase w-full"
-          disabled={isLoading || isLoading1}
-          onClick={handleClick}>
-          {(isLoading || isLoading1) && (
-            <Loader2Icon className="animate-spin" />
+        <React.Fragment>
+          {buttonType === 'default' && (
+            <Button
+              className="h-15 text-base font-bold tracking-wider uppercase w-full"
+              disabled={isButtonLoading}
+              onClick={trigger}>
+              {isButtonLoading && <Loader2Icon className="animate-spin" />}
+              Add To Cart
+            </Button>
           )}
-          Add To Cart
-        </Button>
+          {buttonType === 'submit' && (
+            <Button
+              className="h-15 text-base font-bold tracking-wider uppercase w-full"
+              disabled={isButtonLoading}
+              type="submit">
+              {isButtonLoading && <Loader2Icon className="animate-spin" />}
+              Add To Cart
+            </Button>
+          )}
+        </React.Fragment>
       )}
       {variant === 'icon' && (
         <div className="relative">

@@ -56,12 +56,12 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
             </li>
           ))}
         </ul>
-        <div className="w-184">
+        <div className="w-[748px] h-[748px] bg-surface-light">
           {image && (
             <Image
               priority
               alt="product"
-              className="w-[748px] h-[748px]"
+              className="w-full"
               height={748}
               src={image!}
               width={748}

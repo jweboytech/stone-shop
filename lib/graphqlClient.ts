@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 
-const endpoint = 'https://t0mixa-kq.myshopify.com/api/2025-04/graphql.json';
+const endpoint = 'https://t0mixa-kq.myshopify.com/api/2025-07/graphql.json';
 
 const gqlClient = new GraphQLClient(endpoint, {
   headers: {

@@ -12,8 +12,7 @@ import {
 } from '@/generated/graphql';
 import { useProductStore } from '@/store/prouct';
 import Line from '@/components/line';
-
-// TODO: 第二个sku的颜色列表图
+import { Input } from '@/components/ui/input';
 
 const VariantItem = ({
   optionValues,
@@ -28,6 +27,8 @@ const VariantItem = ({
   const onMerchandiseIdChange = useProductStore(
     (state) => state.onMerchandiseIdChange,
   );
+  const onVariantChange = useProductStore((state) => state.onVariantChange);
+  // const variantData = useProductStore((state) => state.variantData);
   const [selectedOption, setSelectedOption] =
     React.useState<ProductOptionValue>();
 
@@ -39,6 +40,10 @@ const VariantItem = ({
 
     if (matchVariant != null) {
       onMerchandiseIdChange(matchVariant!.node.id);
+      onVariantChange({
+        merchandiseId: matchVariant!.node.id,
+        variantName: matchVariant.node.selectedOptions[0].value,
+      });
 
       // 二级 SKU
       if (data.swatch == null) {
@@ -61,14 +66,21 @@ const VariantItem = ({
       );
 
       if (defaultOption != null) {
+        const item = variants[0];
+
         setSelectedOption(defaultOption);
-        onMerchandiseIdChange(variants[0].node.id);
+        onMerchandiseIdChange(item.node.id);
+
+        onVariantChange({
+          merchandiseId: item.node.id,
+          variantName: item.node.selectedOptions[0].value,
+        });
       }
     }
   }, [variants]);
 
   return (
-    <ul className="flex gap-2">
+    <ul className="flex gap-2 flex-wrap">
       {optionValues.map((optionValue) => {
         const matchVariant = variants.find(({ node }) =>
           node.selectedOptions.some(
@@ -78,37 +90,40 @@ const VariantItem = ({
         const reference = matchVariant?.node.metafield?.reference as MediaImage;
 
         return (
-          <li
-            key={optionValue.id}
-            aria-hidden
-            className={clsx(
-              'w-25 h-25 border flex flex-col gap-2 items-center justify-center cursor-pointer transition-colors duration-300',
-              selectedOption?.id === optionValue.id ? 'border-black' : 'border',
-            )}
-            onClick={handleClick(optionValue)}>
-            {optionValue.swatch?.image != null ? (
-              <Image
-                alt="sku image"
-                className="rounded-full h-10 w-10 items-center justify-center"
-                height={40}
-                src={optionValue.swatch.image.previewImage?.url}
-                width={40}
-              />
-            ) : (
-              reference?.previewImage?.url != null && (
+          <React.Fragment key={optionValue.id}>
+            <li
+              aria-hidden
+              className={clsx(
+                'w-25 h-25 border flex flex-col gap-2 items-center justify-center cursor-pointer transition-colors duration-300',
+                selectedOption?.id === optionValue.id
+                  ? 'border-black'
+                  : 'border',
+              )}
+              onClick={handleClick(optionValue)}>
+              {optionValue.swatch?.image != null ? (
                 <Image
                   alt="sku image"
                   className="rounded-full h-10 w-10 items-center justify-center"
                   height={40}
-                  src={reference.previewImage.url}
+                  src={optionValue.swatch.image.previewImage?.url}
                   width={40}
                 />
-              )
-            )}
-            <span className="text-xs font-semibold text-center">
-              {optionValue.name}
-            </span>
-          </li>
+              ) : (
+                reference?.previewImage?.url != null && (
+                  <Image
+                    alt="sku image"
+                    className="rounded-full h-10 w-10 items-center justify-center"
+                    height={40}
+                    src={reference.previewImage.url}
+                    width={40}
+                  />
+                )
+              )}
+              <span className="text-xs font-semibold text-center">
+                {optionValue.name}
+              </span>
+            </li>
+          </React.Fragment>
         );
       })}
     </ul>
@@ -119,25 +134,27 @@ const ProductVariants = ({
   options,
   variants = [],
   handle,
+  control,
 }: {
   options: ProductOption[];
   variants: ProductVariantEdge[];
   handle: string;
+  control;
 }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-2">
       {options.map((item) => (
-        <div key={item.id}>
+        <li key={item.id}>
           <h3 className="text-base mb-3">Choose Your {item.name}</h3>
           <VariantItem
+            handle={handle}
             optionValues={item.optionValues}
             variants={variants}
-            handle={handle}
           />
           <Line />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

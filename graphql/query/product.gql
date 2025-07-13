@@ -76,6 +76,10 @@ query getProductDetails($handle: String!) {
     metafield(namespace: "custom", key: "main_image") {
       value
     }
+    letterInputMetafield: metafield(namespace: "custom", key: "letter_input") {
+      key
+      value
+    }
     priceRange {
       maxVariantPrice {
         amount

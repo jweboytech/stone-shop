@@ -27,7 +27,7 @@ const OPTIONS: Option[] = [
 const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
   const [orderKey, setOrderKey] = React.useState(OPTIONS[0].value);
   const { request, data } = useRequest<Collection>();
-  const collection = data?.collections.edges[0].node;
+  const collection = data?.collections.edges[0]?.node;
   const products = collection?.products.edges;
 
   const handleChange = (value: string) => {

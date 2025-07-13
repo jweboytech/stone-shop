@@ -1,16 +1,13 @@
-export const runtime = 'edge';
-
 import { CircleCheckBig, Heart, Package, ShieldCheck } from 'lucide-react';
 import React from 'react';
 
 import Description from './components/description';
+import Buy from './components/buy';
 
 import gqlClient from '@/lib/graphqlClient';
 import GET_PRODUCT_DETAILS from '@/graphql/query/product.gql';
 import { formatPrice } from '@/utils/price';
 import ProductMainImages from '@/components/product/mainImages';
-import ProductVariants from '@/components/product/vatiant';
-import ProductBuyButton from '@/components/product/buyButton';
 import { Product } from '@/generated/graphql';
 import Payments from '@/components/cart/payments';
 import Line from '@/components/line';
@@ -26,13 +23,18 @@ const ProductDetailsPage = async ({
 }) => {
   const { product } = await params;
   const { productByHandle } = await gqlClient.request<{
-    productByHandle: Product;
+    productByHandle: Product & { letterInputMetafield: Option };
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
   });
-  const { compareAtPriceRange, priceRange, media } = productByHandle;
+  const { compareAtPriceRange, priceRange, media, letterInputMetafield } =
+    productByHandle;
   const mainImages = media.edges.map(({ node }) => node.previewImage);
-  // console.log('variantImages', variantImages);
+  const isShowLetterInput =
+    letterInputMetafield != null
+      ? JSON.parse(letterInputMetafield.value)
+      : false;
+  // console.log('render', letterInputMetafield, isShowLetterInput);
 
   return (
     <div className="">
@@ -57,12 +59,11 @@ const ProductDetailsPage = async ({
             </span>
           </div>
           <Line />
-          <ProductVariants
-            handle={product}
-            options={productByHandle.options}
-            variants={productByHandle.variants.edges}
+          <Buy
+            needLetter={isShowLetterInput}
+            product={product}
+            productByHandle={productByHandle}
           />
-          <ProductBuyButton />
           <Payments />
           <Line />
           {/* <div className="border border-amber bg-surface-light p-4 rounded-lg">

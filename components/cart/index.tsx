@@ -3,6 +3,7 @@ import { Loader2Icon } from 'lucide-react';
 
 import { DrawerProps } from '../drawer';
 import { Button } from '../ui/button';
+import Line from '../line';
 
 import ProductItem from './productItem';
 import Payments from './payments';
@@ -14,7 +15,6 @@ import GET_CART_DETAILS from '@/graphql/query/cartDetails.gql';
 import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
 import { GetCartQuery, GetCartQueryResult } from '@/generated/graphql';
 import { useRequest } from '@/hooks/useRequest';
-import Line from '../line';
 
 const Cart = ({ visible }: DrawerProps) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
