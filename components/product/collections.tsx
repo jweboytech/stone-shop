@@ -24,7 +24,7 @@ const Collections = async () => {
               <div className="relative">
                 <Image
                   alt="collection"
-                  className="h-126 object-cover"
+                  className="h-auto object-cover"
                   height={360}
                   src={node.image.url}
                   width={360}

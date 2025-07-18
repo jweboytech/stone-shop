@@ -5,6 +5,7 @@ interface VariantPayload {
   merchandiseId?: string;
   variantName?: string;
   remark?: string;
+  category?: string;
 }
 
 export interface ProductState {
@@ -26,6 +27,7 @@ export const useProductStore = create<ProductState>((set) => ({
     variantName: '',
     remarkMap: {},
     remark: '',
+    category: '',
   },
   letterMap: {},
   onMerchandiseIdChange: (payload) =>
@@ -52,25 +54,23 @@ export const useProductStore = create<ProductState>((set) => ({
         for (const key in payload) {
           const value = payload[key as keyof VariantPayload];
 
-          if (value !== undefined) {
-            if (key === 'remark') {
-              state.variantData.remarkMap[state.variantData.variantName] =
-                payload.remark;
+          if (key === 'remark') {
+            state.variantData.remarkMap[state.variantData.variantName] =
+              payload.remark;
 
-              state.variantData.remark = Object.entries(
-                state.variantData.remarkMap,
-              )
-                .reduce<string[]>((arr, obj) => {
-                  const [key, value] = obj;
+            state.variantData.remark = Object.entries(
+              state.variantData.remarkMap,
+            )
+              .reduce<string[]>((arr, obj) => {
+                const [key, value] = obj;
 
-                  arr.push(`${key}: ${value}`);
+                arr.push(`${key}: ${value}`);
 
-                  return arr;
-                }, [])
-                .join(',');
-            } else {
-              state.variantData[key] = value;
-            }
+                return arr;
+              }, [])
+              .join(',');
+          } else {
+            state.variantData[key] = value;
           }
         }
       }),

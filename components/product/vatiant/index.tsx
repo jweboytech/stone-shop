@@ -19,85 +19,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { groupVariantsByOption } from '@/utils';
 
 const VariantItem = ({
   optionValues,
-  variants,
   isSelectVariant,
   categoryName,
+  variantData,
 }: {
   optionValues: ProductOptionValue[];
   variants: ProductVariantEdge[];
   isSelectVariant?: boolean;
   categoryName?: string;
+  variantData;
 }) => {
-  const onVariantPreviewImageChange = useProductStore(
-    (state) => state.onVariantPreviewImageChange,
-  );
-  const onMerchandiseIdChange = useProductStore(
-    (state) => state.onMerchandiseIdChange,
-  );
-  const onVariantChange = useProductStore((state) => state.onVariantChange);
-  // const variantData = useProductStore((state) => state.variantData);
-  const [selectedOption, setSelectedOption] =
-    React.useState<ProductOptionValue>();
   const [birthstone, setBirthstone] = React.useState('');
   const isShowSelect = isSelectVariant && categoryName === 'Birthstone';
+  const variants = [...variantData.values()];
 
-  const handleClick = (data: ProductOptionValue) => () => {
-    setSelectedOption(data);
-    const matchVariant = variants.find(({ node }) =>
-      node.selectedOptions.some((option) => option.value === data.name),
-    );
+  // React.useEffect(() => {
+  //   if (isShowSelect && optionValues.length > 0) {
+  //     const item = optionValues[0];
 
-    if (matchVariant != null) {
-      onMerchandiseIdChange(matchVariant!.node.id);
-      onVariantChange({
-        merchandiseId: matchVariant!.node.id,
-        variantName: matchVariant.node.selectedOptions[0].value,
-      });
-
-      // 二级 SKU
-      if (data.swatch == null) {
-        onVariantPreviewImageChange(matchVariant?.node.image?.url);
-      }
-    }
-
-    // gqlClient.request(GET_PRODUCT_VARIANT, {
-    //   handle,
-    //   selectedOption: data
-    // })
-  };
-
-  React.useEffect(() => {
-    if (variants.length > 0) {
-      const defaultOption = optionValues.find((option) =>
-        variants[0].node.selectedOptions.some(
-          (selectedOption) => selectedOption.value === option.name,
-        ),
-      );
-
-      if (defaultOption != null) {
-        const item = variants[0];
-
-        setSelectedOption(defaultOption);
-        onMerchandiseIdChange(item.node.id);
-
-        onVariantChange({
-          merchandiseId: item.node.id,
-          variantName: item.node.selectedOptions[0].value,
-        });
-      }
-    }
-  }, [variants]);
-
-  React.useEffect(() => {
-    if (isShowSelect && optionValues.length > 0) {
-      const item = optionValues[0];
-
-      setBirthstone(item.id);
-    }
-  }, [isShowSelect]);
+  //     setBirthstone(item.id);
+  //   }
+  // }, [isShowSelect]);
 
   if (isShowSelect) {
     const handleChange = (value: string) => {
@@ -136,85 +82,213 @@ const VariantItem = ({
       </Select>
     );
   }
+};
+
+const NewVariantItem = ({
+  name,
+  onClick,
+  categoryName,
+  id,
+  image,
+  active,
+  previewImage,
+}: VariantItem) => {
+  const handleClick = () => {
+    onClick({ name, categoryName, id, previewImage });
+  };
 
   return (
-    <ul className="flex gap-2 flex-wrap">
-      {optionValues.map((optionValue) => {
-        const matchVariant = variants.find(({ node }) =>
-          node.selectedOptions.some(
-            (option) => option.value === optionValue.name,
-          ),
-        );
-        const reference = matchVariant?.node.metafield?.reference as MediaImage;
-
-        return (
-          <React.Fragment key={optionValue.id}>
-            <li
-              aria-hidden
-              className={clsx(
-                'w-25 h-25 border flex flex-col gap-2 items-center justify-center cursor-pointer transition-colors duration-300',
-                selectedOption?.id === optionValue.id
-                  ? 'border-black'
-                  : 'border',
-              )}
-              onClick={handleClick(optionValue)}>
-              {optionValue.swatch?.image != null ? (
-                <Image
-                  alt="sku image"
-                  className="rounded-full h-10 w-10 items-center justify-center"
-                  height={40}
-                  src={optionValue.swatch.image.previewImage?.url}
-                  width={40}
-                />
-              ) : (
-                reference?.previewImage?.url != null && (
-                  <Image
-                    alt="sku image"
-                    className="rounded-full h-10 w-10 items-center justify-center"
-                    height={40}
-                    src={reference.previewImage.url}
-                    width={40}
-                  />
-                )
-              )}
-              <span className="text-xs font-semibold text-center">
-                {optionValue.name}
-              </span>
-            </li>
-          </React.Fragment>
-        );
-      })}
-    </ul>
+    <li
+      aria-hidden
+      className={clsx(
+        'w-25 h-25 border flex flex-col gap-2 items-center justify-center cursor-pointer transition-colors duration-300',
+        active ? 'border-black' : 'border',
+      )}
+      onClick={handleClick}>
+      {image && (
+        <Image
+          alt="sku image"
+          className="rounded-full h-10 w-10 items-center justify-center"
+          height={40}
+          src={image}
+          width={40}
+        />
+      )}
+      <span className="text-xs font-semibold text-center">{name}</span>
+    </li>
   );
 };
 
+type VariantItem = {
+  name: string;
+  onClick: VariantChange;
+  categoryName?: string;
+  id: string;
+  image: string;
+  active: boolean;
+  previewImage?: string;
+};
+
+interface VariantChange {
+  (
+    param: Pick<VariantItem, 'categoryName' | 'id' | 'name' | 'previewImage'>,
+  ): void;
+}
+
+type Variant = {
+  id: string;
+  name: string;
+  options?: Map<string, ProductOptionValue & { image: string }>;
+  subOptions?: Record<string, ProductVariantEdge[]>;
+};
+
+// TODO: 一级选中之后默认选中二级第一个
+
 const ProductVariants = ({
-  options,
+  options = [],
   variants = [],
-  handle,
   isSelectVariant,
 }: {
   options: ProductOption[];
   variants: ProductVariantEdge[];
-  handle: string;
   isSelectVariant?: boolean;
 }) => {
+  const variantData = useProductStore((state) => state.variantData);
+  const onVariantChange = useProductStore((state) => state.onVariantChange);
+  const selectedKeyMapRef = React.useRef(new Map());
+  const onVariantPreviewImageChange = useProductStore(
+    (state) => state.onVariantPreviewImageChange,
+  );
+  const [subVariants, setSubVariants] = React.useState<
+    Array<ProductVariantEdge>
+  >([]);
+
+  const primaryVariant = React.useMemo(() => {
+    const mapper = new Map<string, Variant>();
+
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i];
+
+      const payload: Variant = {
+        id: option.id,
+        name: option.name,
+      };
+
+      if (i === 0) {
+        payload.options = option.optionValues.reduce((map, item) => {
+          map.set(item.name, {
+            id: item.id,
+            name: item.name,
+            swatch: item.swatch,
+          });
+
+          return map;
+        }, new Map());
+
+        payload.subOptions = groupVariantsByOption(variants, option.name);
+      }
+
+      mapper.set(option.name, payload);
+    }
+
+    return { items: [...mapper.values()], map: mapper };
+  }, [variants, options]);
+
+  const handleClick: VariantChange = (data) => {
+    onVariantChange({
+      merchandiseId: data.id,
+      variantName: data.name,
+      category: data.categoryName,
+    });
+
+    // 二级 SKU 默认切换产品预览图
+    if (!data.categoryName && data.previewImage) {
+      onVariantPreviewImageChange(data.previewImage);
+    }
+
+    // gqlClient.request(GET_PRODUCT_VARIANT, {
+    //   handle,
+    //   selectedOption: data
+    // })
+  };
+
+  React.useEffect(() => {
+    if (primaryVariant.map.size > 0) {
+      const firstItem = primaryVariant.items[0];
+      const value = firstItem.options!.values().next().value;
+
+      handleClick({
+        categoryName: firstItem.name,
+        name: value!.name,
+        id: value!.id,
+      });
+    }
+  }, []);
+
+  // 切换一级 SKU 刷新对应二级的 SKU， 切换二级 SKU 直接跳过
+  React.useEffect(() => {
+    if (variantData.category) {
+      const current = primaryVariant.map.get(variantData.category!);
+
+      if (current != null) {
+        setSubVariants(current.subOptions![variantData.variantName!]);
+      }
+    }
+  }, [variantData]);
+
+  // SKU 选中的 Key 值列表
+  const selectedKeys = React.useMemo(() => {
+    const key = variantData.category ? 0 : 1;
+
+    selectedKeyMapRef.current.set(key, variantData.merchandiseId);
+
+    return [...selectedKeyMapRef.current.values()];
+  }, [variantData]);
+
+  // console.log('render', variantData, selectedKeyMapRef.current, selectedKeys);
+
   return (
-    <ul className="flex flex-col gap-2">
-      {options.map((item) => (
-        <li key={item.id}>
+    <div className="flex flex-col gap-2">
+      {primaryVariant.items.map((item) => (
+        <React.Fragment key={item.id}>
           <h3 className="text-base mb-3">Choose Your {item.name}</h3>
-          <VariantItem
-            categoryName={item.name}
-            handle={handle}
-            optionValues={item.optionValues}
-            variants={variants}
-            isSelectVariant={isSelectVariant}
-          />
-          <Line />
-        </li>
+          <ul className="flex gap-2 flex-wrap">
+            {item.options &&
+              [...item.options.values()].map((option) => {
+                return (
+                  <NewVariantItem
+                    key={option.id}
+                    active={selectedKeys.includes(option.id)}
+                    categoryName={item.name}
+                    id={option.id}
+                    image={option?.swatch?.image?.previewImage?.url}
+                    name={option.name}
+                    onClick={handleClick}
+                  />
+                );
+              })}
+          </ul>
+        </React.Fragment>
       ))}
-    </ul>
+      <ul className="flex gap-2 flex-wrap">
+        {subVariants.map(({ node }) => {
+          const { selectedOptions, id, image, metafield } = node;
+          const option = selectedOptions[1];
+
+          return (
+            <NewVariantItem
+              key={id}
+              active={selectedKeys.includes(id)}
+              id={id}
+              image={(metafield?.reference as AnyObject)?.previewImage?.url}
+              name={option.value}
+              previewImage={image?.url}
+              onClick={handleClick}
+            />
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

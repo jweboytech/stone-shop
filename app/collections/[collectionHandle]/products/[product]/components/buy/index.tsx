@@ -53,10 +53,8 @@ const Buy = ({
       <React.Fragment>
         <ProductVariants
           isSelectVariant={isSelectVariant}
-          control={form.control}
-          handle={product}
-          options={productByHandle?.options || []}
-          variants={productByHandle?.variants.edges || []}
+          options={productByHandle?.options}
+          variants={productByHandle?.variants.edges}
         />
         <h3 className="text-base mb-3">Choose Your Letter</h3>
         <Form {...form}>
