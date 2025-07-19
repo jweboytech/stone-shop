@@ -143,6 +143,10 @@ type Variant = {
 };
 
 // TODO: 一级选中之后默认选中二级第一个
+// TODO: 没有库存的时候不能点击
+// TODO: 测试只有一级的加入购物车
+// TODO: 三级有单选列表的
+// TODO: 三级/四级有输入框的
 
 const ProductVariants = ({
   options = [],

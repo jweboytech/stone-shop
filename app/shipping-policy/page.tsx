@@ -1,6 +1,4 @@
 import ContactEmail from '@/components/contact';
-import Link from 'next/link';
-import React from 'react';
 
 const ShippingPolicyPage = () => {
   return (

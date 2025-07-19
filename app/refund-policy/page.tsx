@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ContactEmail from '@/components/contact';
 import Line from '@/components/line';
 
