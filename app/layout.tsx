@@ -3,6 +3,7 @@ import { Metadata, Viewport } from 'next';
 import clsx from 'clsx';
 import { Toaster } from 'react-hot-toast';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 import { siteConfig } from '@/config/site';
 import { fontNunitoSans } from '@/config/fonts';
@@ -45,6 +46,7 @@ export default function RootLayout({
         </div>
         <Toaster />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
