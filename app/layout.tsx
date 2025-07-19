@@ -2,8 +2,7 @@ import '@/styles/global.css';
 import { Metadata, Viewport } from 'next';
 import clsx from 'clsx';
 import { Toaster } from 'react-hot-toast';
-
-import { Providers } from './providers';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { siteConfig } from '@/config/site';
 import { fontNunitoSans } from '@/config/fonts';
@@ -40,13 +39,12 @@ export default function RootLayout({
           'min-h-screen antialiased overflow-hidden',
           fontNunitoSans.variable,
         )}>
-        <Providers>
-          <div className="relative flex flex-col h-screen">
-            <main>{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-        </Providers>
+        <div className="relative flex flex-col h-screen">
+          <main>{children}</main>
+          <Footer />
+        </div>
+        <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
