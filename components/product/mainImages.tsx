@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 
-import { useProductStore } from '@/store/prouct';
+import { useProductStore } from '@/store/product';
 
 const ProductMainImages = ({ items }: { items: any[] }) => {
   const [image, setImage] = React.useState<string>();

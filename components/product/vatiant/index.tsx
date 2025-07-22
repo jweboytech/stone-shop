@@ -10,7 +10,7 @@ import {
   ProductOptionValue,
   ProductVariantEdge,
 } from '@/generated/graphql';
-import { useProductStore } from '@/store/prouct';
+import { useProductStore } from '@/store/product';
 import Line from '@/components/line';
 import {
   Select,
@@ -66,22 +66,28 @@ const VariantItem = ({
       //    }
       //  }
     };
-
-    return (
-      <Select value={birthstone} onValueChange={handleChange}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Please select" />
-        </SelectTrigger>
-        <SelectContent>
-          {optionValues.map((item) => (
-            <SelectItem key={item.id} value={item.id}>
-              {item.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    );
   }
+};
+
+const SelectVariantItem = () => {
+  const [birthstone, setBirthstone] = React.useState('');
+  const isShowSelect = isSelectVariant && categoryName === 'Birthstone';
+  const variants = [...variantData.values()];
+
+  return (
+    <Select value={birthstone} onValueChange={handleChange}>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Please select" />
+      </SelectTrigger>
+      <SelectContent>
+        {optionValues.map((item) => (
+          <SelectItem key={item.id} value={item.id}>
+            {item.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
 };
 
 const NewVariantItem = ({
@@ -143,9 +149,6 @@ type Variant = {
 };
 
 // TODO: 没有库存的时候不能点击
-// TODO: 测试只有一级的加入购物车
-// TODO: 三级有单选列表的
-// TODO: 三级/四级有输入框的
 
 const ProductVariants = ({
   options = [],
@@ -166,36 +169,12 @@ const ProductVariants = ({
     Array<ProductVariantEdge>
   >([]);
 
-  const primaryVariant = React.useMemo(() => {
-    const mapper = new Map<string, Variant>();
-
-    for (let i = 0; i < options.length; i++) {
-      const option = options[i];
-
-      const payload: Variant = {
-        id: option.id,
-        name: option.name,
-      };
-
-      if (i === 0) {
-        payload.options = option.optionValues.reduce((map, item) => {
-          map.set(item.name, {
-            id: item.id,
-            name: item.name,
-            swatch: item.swatch,
-          });
-
-          return map;
-        }, new Map());
-
-        payload.subOptions = groupVariantsByOption(variants, option.name);
-      }
-
-      mapper.set(option.name, payload);
-    }
-
-    return { items: [...mapper.values()], map: mapper };
-  }, [variants, options]);
+  const handleChange = (value: string) => {
+    onVariantChange({
+      merchandiseId: value,
+      category: undefined,
+    });
+  };
 
   const handleClick: VariantChange = (data) => {
     onVariantChange({
@@ -214,6 +193,73 @@ const ProductVariants = ({
     //   selectedOption: data
     // })
   };
+
+  const primaryVariant = React.useMemo(() => {
+    const mapper = new Map<string, Variant>();
+
+    if (options.length >= 2) {
+      for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+
+        const payload: Variant = {
+          id: option.id,
+          name: option.name,
+        };
+
+        if (i === 0) {
+          payload.options = option.optionValues.reduce((map, item) => {
+            map.set(item.name, {
+              id: item.id,
+              name: item.name,
+              swatch: item.swatch,
+            });
+
+            return map;
+          }, new Map());
+
+          payload.subOptions = groupVariantsByOption(variants, option.name);
+        }
+
+        mapper.set(option.name, payload);
+      }
+    } else {
+      for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+
+        const payload: Variant = {
+          id: option.id,
+          name: option.name,
+        };
+
+        if (i === 0) {
+          payload.options = variants.reduce((map, { node }) => {
+            const option = node.selectedOptions[0];
+            const current = options.reduce<any>((obj, item) => {
+              obj = item.optionValues.find(
+                (child) => child.name === option.value,
+              );
+
+              return obj;
+            }, {});
+
+            map.set(option.value, {
+              id: node.id,
+              name: option.value,
+              swatch: current?.swatch,
+            });
+
+            return map;
+          }, new Map());
+
+          payload.subOptions = groupVariantsByOption(variants, option.name);
+        }
+
+        mapper.set(option.name, payload);
+      }
+    }
+
+    return { items: [...mapper.values()], map: mapper };
+  }, [variants, options]);
 
   React.useEffect(() => {
     if (primaryVariant.map.size > 0) {
@@ -256,7 +302,6 @@ const ProductVariants = ({
     }, 0);
   }, [subVariants, selectedKeys]);
 
-  console.log('render ', selectedKeys);
   // console.log('render', variantData, selectedKeyMapRef.current, selectedKeys);
 
   return (
@@ -283,22 +328,44 @@ const ProductVariants = ({
         </React.Fragment>
       ))}
       <ul className="flex gap-2 flex-wrap">
-        {subVariants.map(({ node }) => {
-          const { selectedOptions, id, image, metafield } = node;
-          const option = selectedOptions[1];
+        {!isSelectVariant ? (
+          <React.Fragment>
+            {subVariants.map(({ node }) => {
+              const { selectedOptions, id, image, metafield } = node;
+              const option = selectedOptions[1];
 
-          return (
-            <NewVariantItem
-              key={id}
-              active={selectedKeys.includes(id)}
-              id={id}
-              image={(metafield?.reference as AnyObject)?.previewImage?.url}
-              name={option.value}
-              previewImage={image?.url}
-              onClick={handleClick}
-            />
-          );
-        })}
+              return (
+                <NewVariantItem
+                  key={id}
+                  active={selectedKeys.includes(id)}
+                  id={id}
+                  image={(metafield?.reference as AnyObject)?.previewImage?.url}
+                  name={option.value}
+                  previewImage={image?.url}
+                  onClick={handleClick}
+                />
+              );
+            })}
+          </React.Fragment>
+        ) : (
+          <Select onValueChange={handleChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Please select" />
+            </SelectTrigger>
+            <SelectContent>
+              {subVariants.map(({ node }) => {
+                const { selectedOptions } = node;
+                const option = selectedOptions[1];
+
+                return (
+                  <SelectItem key={node.id} value={node.id}>
+                    {option.value}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        )}
       </ul>
     </div>
   );

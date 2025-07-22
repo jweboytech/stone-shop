@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useProductStore } from '@/store/prouct';
+import { useProductStore } from '@/store/product';
 import { useCartMutation } from '@/hooks/useCartMutation';
 
 const schema = z.object({

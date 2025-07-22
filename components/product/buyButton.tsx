@@ -8,13 +8,8 @@ import { Button } from '../ui/button';
 import Drawer from '../drawer';
 import Cart from '../cart';
 
-import CREATE_CART from '@/graphql/mutation/cartCreate.gql';
 import localStorage from '@/utils/storage';
 import GET_CART_COUNT from '@/graphql/query/cartCount.gql';
-import CART_LINES_ADD from '@/graphql/mutation/cartLinesAdd.gql';
-import CART_NOTE_UPDATE from '@/graphql/mutation/cartNoteUpdate.gql';
-import { useProductStore } from '@/store/prouct';
-import { useRequest } from '@/hooks/useRequest';
 import gqlClient from '@/lib/graphqlClient';
 import { GetCartQuery } from '@/generated/graphql';
 import { usePageVisible } from '@/hooks/usePageVisible';
