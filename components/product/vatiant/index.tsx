@@ -142,7 +142,6 @@ type Variant = {
   subOptions?: Record<string, ProductVariantEdge[]>;
 };
 
-// TODO: 一级选中之后默认选中二级第一个
 // TODO: 没有库存的时候不能点击
 // TODO: 测试只有一级的加入购物车
 // TODO: 三级有单选列表的
@@ -159,10 +158,10 @@ const ProductVariants = ({
 }) => {
   const variantData = useProductStore((state) => state.variantData);
   const onVariantChange = useProductStore((state) => state.onVariantChange);
-  const selectedKeyMapRef = React.useRef(new Map());
   const onVariantPreviewImageChange = useProductStore(
     (state) => state.onVariantPreviewImageChange,
   );
+  const selectedKeys = useProductStore((state) => state.selectedKeys);
   const [subVariants, setSubVariants] = React.useState<
     Array<ProductVariantEdge>
   >([]);
@@ -235,20 +234,29 @@ const ProductVariants = ({
       const current = primaryVariant.map.get(variantData.category!);
 
       if (current != null) {
-        setSubVariants(current.subOptions![variantData.variantName!]);
+        const subVariants = current.subOptions![variantData.variantName!];
+
+        setSubVariants(subVariants);
       }
     }
-  }, [variantData]);
+  }, [variantData.variantName, variantData.category]);
 
-  // SKU 选中的 Key 值列表
-  const selectedKeys = React.useMemo(() => {
-    const key = variantData.category ? 0 : 1;
+  React.useEffect(() => {
+    setTimeout(() => {
+      if (!selectedKeys[1] && subVariants.length > 0) {
+        const defaultVariant = subVariants[0];
+        const subOption = defaultVariant.node.selectedOptions[1];
 
-    selectedKeyMapRef.current.set(key, variantData.merchandiseId);
+        onVariantChange({
+          merchandiseId: defaultVariant.node.id,
+          variantName: subOption.value,
+          category: undefined,
+        });
+      }
+    }, 0);
+  }, [subVariants, selectedKeys]);
 
-    return [...selectedKeyMapRef.current.values()];
-  }, [variantData]);
-
+  console.log('render ', selectedKeys);
   // console.log('render', variantData, selectedKeyMapRef.current, selectedKeys);
 
   return (

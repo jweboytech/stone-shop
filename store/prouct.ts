@@ -13,6 +13,7 @@ export interface ProductState {
   variantPreviewImage?: string;
   variantData: VariantPayload;
   letterMap: Record<string, string>;
+  selectedKeys: string[];
   onMerchandiseIdChange: (merchandiseId: string) => void;
   onVariantPreviewImageChange: (merchandiseId: string) => void;
   onVariantChange: (payload: VariantPayload) => void;
@@ -29,6 +30,7 @@ export const useProductStore = create<ProductState>((set) => ({
     remark: '',
     category: '',
   },
+  selectedKeys: [],
   letterMap: {},
   onMerchandiseIdChange: (payload) =>
     set(
@@ -71,6 +73,15 @@ export const useProductStore = create<ProductState>((set) => ({
               .join(',');
           } else {
             state.variantData[key] = value;
+          }
+        }
+
+        if (payload.merchandiseId) {
+          if (payload.category) {
+            state.selectedKeys[0] = payload.merchandiseId;
+            state.selectedKeys[1] = undefined;
+          } else {
+            state.selectedKeys[1] = payload.merchandiseId;
           }
         }
       }),
