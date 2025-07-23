@@ -7,7 +7,7 @@ import Description from './components/description';
 import Buy from './components/buy';
 
 import gqlClient from '@/lib/graphqlClient';
-import GET_PRODUCT_DETAILS from '@/graphql/query/product.gql';
+import GET_PRODUCT_DETAILS from '@/graphql/query/productByHandle.gql';
 import { formatPrice } from '@/utils/price';
 import ProductMainImages from '@/components/product/mainImages';
 import { Product } from '@/generated/graphql';
