@@ -5,13 +5,11 @@ import React from 'react';
 import clsx from 'clsx';
 
 import {
-  MediaImage,
   ProductOption,
   ProductOptionValue,
   ProductVariantEdge,
 } from '@/generated/graphql';
 import { useProductStore } from '@/store/product';
-import Line from '@/components/line';
 import {
   Select,
   SelectContent,
@@ -20,75 +18,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { groupVariantsByOption } from '@/utils';
-
-const VariantItem = ({
-  optionValues,
-  isSelectVariant,
-  categoryName,
-  variantData,
-}: {
-  optionValues: ProductOptionValue[];
-  variants: ProductVariantEdge[];
-  isSelectVariant?: boolean;
-  categoryName?: string;
-  variantData;
-}) => {
-  const [birthstone, setBirthstone] = React.useState('');
-  const isShowSelect = isSelectVariant && categoryName === 'Birthstone';
-  const variants = [...variantData.values()];
-
-  // React.useEffect(() => {
-  //   if (isShowSelect && optionValues.length > 0) {
-  //     const item = optionValues[0];
-
-  //     setBirthstone(item.id);
-  //   }
-  // }, [isShowSelect]);
-
-  if (isShowSelect) {
-    const handleChange = (value: string) => {
-      console.log(value, variants);
-
-      //  const matchVariant = variants.find(({ node }) =>
-      //    node.selectedOptions.some((option) => option.value === data.name),
-      //  );
-
-      //  if (matchVariant != null) {
-      //    onMerchandiseIdChange(matchVariant!.node.id);
-      //    onVariantChange({
-      //      merchandiseId: matchVariant!.node.id,
-      //      variantName: matchVariant.node.selectedOptions[0].value,
-      //    });
-
-      //    // 二级 SKU
-      //    if (data.swatch == null) {
-      //      onVariantPreviewImageChange(matchVariant?.node.image?.url);
-      //    }
-      //  }
-    };
-  }
-};
-
-const SelectVariantItem = () => {
-  const [birthstone, setBirthstone] = React.useState('');
-  const isShowSelect = isSelectVariant && categoryName === 'Birthstone';
-  const variants = [...variantData.values()];
-
-  return (
-    <Select value={birthstone} onValueChange={handleChange}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="Please select" />
-      </SelectTrigger>
-      <SelectContent>
-        {optionValues.map((item) => (
-          <SelectItem key={item.id} value={item.id}>
-            {item.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-};
 
 const NewVariantItem = ({
   name,
@@ -147,8 +76,6 @@ type Variant = {
   options?: Map<string, ProductOptionValue & { image: string }>;
   subOptions?: Record<string, ProductVariantEdge[]>;
 };
-
-// TODO: 没有库存的时候不能点击
 
 const ProductVariants = ({
   options = [],
