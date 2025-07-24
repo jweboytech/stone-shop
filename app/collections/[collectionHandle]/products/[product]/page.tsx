@@ -28,6 +28,7 @@ const ProductDetailsPage = async ({
     productByHandle: Product & {
       letterInputMetafield: Option;
       birthstoneSelectMetafield: Option;
+      letterInputLengthMetafield: Option;
     };
   }>(GET_PRODUCT_DETAILS, {
     handle: product,
@@ -38,6 +39,7 @@ const ProductDetailsPage = async ({
     media,
     letterInputMetafield,
     birthstoneSelectMetafield,
+    letterInputLengthMetafield,
   } = productByHandle;
   const mainImages = media.edges.map(({ node }) => node.previewImage);
   const isShowLetterInput =
@@ -49,7 +51,12 @@ const ProductDetailsPage = async ({
       ? JSON.parse(birthstoneSelectMetafield.value)
       : false;
 
-  // console.log('render', letterInputMetafield, isSelectVariant);
+  // console.log(
+  //   'render',
+  //   letterInputLengthMetafield,
+  //   letterInputMetafield,
+  //   isSelectVariant,
+  // );
 
   return (
     <div className="">
@@ -75,6 +82,7 @@ const ProductDetailsPage = async ({
           </div>
           <Buy
             isSelectVariant={isSelectVariant}
+            letterLength={letterInputLengthMetafield?.value}
             needLetter={isShowLetterInput}
             product={product}
             productByHandle={productByHandle}

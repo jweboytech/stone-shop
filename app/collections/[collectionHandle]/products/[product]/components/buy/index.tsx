@@ -28,9 +28,11 @@ const Buy = ({
   productByHandle,
   needLetter,
   isSelectVariant,
+  letterLength = 1,
 }: {
   needLetter?: boolean;
   isSelectVariant?: boolean;
+  letterLength: string | number;
 }) => {
   const onLetterChange = useProductStore((state) => state.onLetterChange);
   const variantData = useProductStore((state) => state.variantData);
@@ -72,8 +74,8 @@ const Buy = ({
                       <Input
                         {...field}
                         className="h-12"
-                        maxLength={1}
-                        placeholder="Example: Julia etc"
+                        maxLength={Number(letterLength)}
+                        placeholder="Please enter letter"
                       />
                     </FormControl>
                     <FormMessage />

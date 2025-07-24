@@ -80,6 +80,13 @@ query productByHandle($handle: String!) {
       key
       value
     }
+    letterInputLengthMetafield: metafield(
+      namespace: "custom"
+      key: "letter_input_length"
+    ) {
+      key
+      value
+    }
     birthstoneSelectMetafield: metafield(
       namespace: "custom"
       key: "birthstone_select"
