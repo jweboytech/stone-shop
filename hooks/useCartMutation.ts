@@ -33,7 +33,7 @@ export const useCartMutation = () => {
     try {
       setIsLoading(true);
 
-      if (note) {
+      if (note && cartId != null) {
         // 如果有订单备注就更新备注
         await postUpdateCartNote(CART_NOTE_UPDATE, { cartId, note });
       }

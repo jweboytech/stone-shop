@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import toast from 'react-hot-toast';
 import { Loader2Icon, ShoppingBag } from 'lucide-react';
 
 import { Button } from '../ui/button';
@@ -26,33 +25,43 @@ const ProductBuyButton = ({
   buttonType?: 'submit' | 'default';
   triggerLoading?: boolean;
 }) => {
-  const { visible } = usePageVisible();
+  const { pageVisible } = usePageVisible();
   const openDrawer = useDrawerStore((state) => state.openDrawer);
   const drawerVisible = useDrawerStore((state) => state.visible);
   const prevDrawerVisible = usePrevious(drawerVisible);
   const [isEmptyCart, setIsEmptyCart] = React.useState<boolean>();
   const { trigger, isLoading } = useCartMutation();
   const isButtonLoading = triggerLoading || isLoading;
+  const [cartNotes, setCartNotes] = React.useState<AnyObject>({});
 
   React.useEffect(() => {
     const cart = localStorage.get('cart');
 
     if (cart != null) {
       // 页面切换显示 || 打开购物车抽屉之后关闭
-      if (visible || (prevDrawerVisible && !drawerVisible)) {
+      if (pageVisible || (prevDrawerVisible && !drawerVisible)) {
         gqlClient
           .request<GetCartQuery>(GET_CART_COUNT, { id: cart })
           .then((data) => {
-            setIsEmptyCart(!data.cart);
+            const notes = data.cart?.note?.split(',').reduce((obj, item) => {
+              const [label, value] = item.split(':');
+
+              obj[label] = value;
+
+              return obj;
+            }, {});
+
+            setCartNotes(notes);
+            setIsEmptyCart(!data.cart?.lines.edges.length);
           });
       }
     }
-  }, [visible, drawerVisible]);
+  }, [pageVisible, drawerVisible]);
 
   return (
     <React.Fragment>
       <Drawer title="Your Cart">
-        <Cart />
+        <Cart cartNotes={cartNotes} />
       </Drawer>
       {variant === 'button' && (
         <React.Fragment>

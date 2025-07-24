@@ -16,7 +16,10 @@ import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
 import { GetCartQuery, GetCartQueryResult } from '@/generated/graphql';
 import { useRequest } from '@/hooks/useRequest';
 
-const Cart = ({ visible }: DrawerProps) => {
+const Cart = ({
+  visible,
+  cartNotes,
+}: DrawerProps & { cartNotes: AnyObject }) => {
   const [details, setDetails] = React.useState<GetCartQuery>();
   const { request, isLoading } = useRequest<GetCartQueryResult>();
   const cart = localStorage.get('cart');
@@ -61,6 +64,7 @@ const Cart = ({ visible }: DrawerProps) => {
               data={node}
               skuId={node.id}
               onRefresh={handleGetDetails}
+              cartNotes={cartNotes}
             />
             {index < details?.cart?.lines.edges.length! - 1 && <Line />}
           </React.Fragment>

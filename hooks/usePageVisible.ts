@@ -19,5 +19,5 @@ export function usePageVisible() {
     };
   }, []);
 
-  return { visible };
+  return { pageVisible: visible };
 }

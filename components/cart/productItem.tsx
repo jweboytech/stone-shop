@@ -13,11 +13,13 @@ const ProductItem = ({
   data,
   cartId,
   skuId,
+  cartNotes,
   onRefresh,
 }: {
   data: BaseCartLine;
   cartId: string;
   skuId: string;
+  cartNotes: AnyObject;
   onRefresh: VoidFunction;
 }) => {
   const [quantity, setQuantity] = React.useState<number>();
@@ -94,14 +96,24 @@ const ProductItem = ({
             {merchandise.product.title}
           </Link>
         </h3>
-        {options.map((item, index) => (
-          <React.Fragment key={item.id}>
-            <p className="text-base">
-              <span className="font-bold">Choose Your {item.name}</span>:{' '}
-              {variants[index]}
-            </p>
-          </React.Fragment>
-        ))}
+        {options.map((item, index) => {
+          const variantName = variants[index];
+          const note = cartNotes[variantName];
+
+          return (
+            <React.Fragment key={item.id}>
+              <p className="text-base">
+                <span className="font-bold">Choose Your {item.name}</span>:{' '}
+                {variants[index]}
+              </p>
+              {note && (
+                <p className="text-base">
+                  <span className="font-bold">Letter</span>: {note}
+                </p>
+              )}
+            </React.Fragment>
+          );
+        })}
         <div className="flex justify-between items-start mt-2">
           <div className="border w-20 h-8 grid grid-cols-3">
             <button
