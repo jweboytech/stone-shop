@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useProductStore } from '@/store/product';
 import { useCartMutation } from '@/hooks/useCartMutation';
+import Line from '@/components/line';
 
 const schema = z.object({
   letter: z.string({ message: 'Please enter letter' }),
@@ -96,6 +97,7 @@ const Buy = ({
         options={productByHandle?.options || []}
         variants={productByHandle?.variants.edges || []}
       />
+      <Line />
       <ProductBuyButton />
     </React.Fragment>
   );

@@ -53,9 +53,9 @@ const ProductDetailsPage = async ({
 
   return (
     <div className="">
-      <div className="grid grid-cols-2 gap-4 px-10 py-14">
+      <div className="grid grid-cols-2 px-10 py-14">
         <ProductMainImages items={mainImages} />
-        <div className="flex-1 pl-4">
+        <div className="pl-4">
           <h2 className="font-medium text-22">{productByHandle.title}</h2>
           <div className="flex gap-4 items-center">
             {Number(compareAtPriceRange.minVariantPrice.amount) > 0 && (
@@ -73,13 +73,13 @@ const ProductDetailsPage = async ({
               )}
             </span>
           </div>
-          <Line />
           <Buy
             isSelectVariant={isSelectVariant}
             needLetter={isShowLetterInput}
             product={product}
             productByHandle={productByHandle}
           />
+
           <Payments />
           <Line />
           {/* <div className="border border-amber bg-surface-light p-4 rounded-lg">

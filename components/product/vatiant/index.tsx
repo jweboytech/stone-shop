@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { groupVariantsByOption } from '@/utils';
+import Line from '@/components/line';
 
 const NewVariantItem = ({
   name,
@@ -235,7 +236,8 @@ const ProductVariants = ({
     <div className="flex flex-col gap-2">
       {primaryVariant.items.map((item) => (
         <React.Fragment key={item.id}>
-          <h3 className="text-base mb-3">Choose Your {item.name}</h3>
+          <Line />
+          <h3 className="text-base">Choose Your {item.name}</h3>
           <ul className="flex gap-2 flex-wrap">
             {item.options &&
               [...item.options.values()].map((option) => {
