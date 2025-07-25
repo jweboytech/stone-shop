@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useParams } from 'next/navigation';
 import { Loader2Icon } from 'lucide-react';
 
 import GET_PRODUCTS_BY_COLLECTION from '@/graphql/query/productByCollection.gql';
@@ -14,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRequest } from '@/hooks/useRequest';
+import { fromSlug } from '@/utils';
 
 const OPTIONS: Option[] = [
   { label: 'Best selling', value: 'BEST_SELLING' },
@@ -35,7 +35,7 @@ const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
     const [sortKey, orderKey] = value.split(',');
 
     request(GET_PRODUCTS_BY_COLLECTION, {
-      title: `title:${collectionHandle}`,
+      title: `title:${fromSlug(collectionHandle)}`,
       reverse: orderKey === 'DESC',
       sortKey,
     }).then(() => {

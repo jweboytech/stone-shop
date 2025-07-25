@@ -96,3 +96,17 @@ export function groupVariantsByOption(
     return arr;
   }, {});
 }
+
+export function fromSlug(slug: string) {
+  return slug
+    .replace(/-/g, ' ') // 将连字符替换为空格
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // 每个单词首字母大写
+}
+
+export function toSlug(str: string) {
+  return str
+    .trim() // 去除前后空格
+    .toLowerCase() // 转小写
+    .replace(/\s+/g, '-') // 所有空格换成 -
+    .replace(/[^\w-]+/g, ''); // 移除非单词字符（可选）
+}
