@@ -43,14 +43,14 @@ const Footer = async () => {
               </Link>
             ))}
           </ul>
-          <ul className="flex flex-col gap-2">
+          {/* <ul className="flex flex-col gap-2">
             <li className="mb-3 text-sm font-semibold">Need help?</li>
             {HELP_OPTIONS.map((item) => (
               <Link key={item.value} href={`/collections/${item.value}`}>
                 <span className="text-sm capitalize">{item.label}</span>
               </Link>
             ))}
-          </ul>
+          </ul> */}
           <ul className="flex flex-col gap-2">
             <li className="mb-3 text-sm font-semibold">Need help?</li>
             {POLICIES_OPTIONS.map((item) => (

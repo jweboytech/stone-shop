@@ -2,6 +2,7 @@ query getProductsByCollection(
   $title: String!
   $sortKey: ProductCollectionSortKeys!
   $reverse: Boolean = false
+  $first: Int = 50
 ) {
   collections(query: $title, first: 1) {
     edges {
@@ -11,7 +12,7 @@ query getProductsByCollection(
         image {
           url
         }
-        products(first: 50, sortKey: $sortKey, reverse: $reverse) {
+        products(first: $first, sortKey: $sortKey, reverse: $reverse) {
           edges {
             node {
               id

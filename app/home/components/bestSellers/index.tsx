@@ -10,6 +10,7 @@ const BestSellers = async () => {
   const data = await gqlClient.request<Collection>(GET_PRODUCTS_BY_COLLECTION, {
     title: `title:best-sellers`,
     sortKey: 'BEST_SELLING',
+    first: 5,
   });
   const products = data?.collections.edges[0].node.products.edges;
 

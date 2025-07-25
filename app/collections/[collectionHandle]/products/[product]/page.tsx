@@ -124,7 +124,7 @@ const ProductDetailsPage = async ({
           <Description description={productByHandle.descriptionHtml} />
         </div>
       </div>
-      <div className="my-2">
+      <div className="mt-2">
         <GuaranteeBar />
         <Wondering />
         <Line />

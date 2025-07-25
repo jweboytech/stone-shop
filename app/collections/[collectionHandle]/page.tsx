@@ -33,7 +33,6 @@ const CollectionPage = async ({ params }: { params: AnyObject }) => {
         <Line />
       </div>
       <Collections />
-      <Line />
     </div>
   );
 };
