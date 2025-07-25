@@ -21,7 +21,7 @@ export interface DrawerProps extends BaseProps {
 
 const NavbarDrawer = ({ children, trigger, title }: DrawerProps) => {
   return (
-    <ShadnDrawer>
+    <ShadnDrawer direction="left">
       <DrawerTrigger>
         <AlignJustify className="block lg:hidden" size={24} />
       </DrawerTrigger>

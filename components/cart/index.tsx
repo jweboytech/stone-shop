@@ -23,6 +23,7 @@ const Cart = ({
   const [details, setDetails] = React.useState<GetCartQuery>();
   const { request, isLoading } = useRequest<GetCartQueryResult>();
   const cart = localStorage.get('cart');
+  const products = details?.cart?.lines.edges || [];
 
   const handleGetDetails = () => {
     gqlClient
@@ -57,7 +58,7 @@ const Cart = ({
         </p>
       </div> */}
       <div className="flex-1 py-5 px-5 lg:pt-2 lg:pb-4 lg:px-8">
-        {details?.cart?.lines.edges.map(({ node }, index) => (
+        {products.map(({ node }, index) => (
           <React.Fragment key={node.id}>
             <ProductItem
               cartId={cart}
@@ -66,7 +67,7 @@ const Cart = ({
               onRefresh={handleGetDetails}
               cartNotes={cartNotes}
             />
-            {index < details?.cart?.lines.edges.length! - 1 && <Line />}
+            {index < products.length! - 1 && <Line />}
           </React.Fragment>
         ))}
       </div>
@@ -90,7 +91,7 @@ const Cart = ({
         </div>
         <Button
           className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest"
-          disabled={isLoading}
+          disabled={isLoading || products.length === 0}
           onClick={handleCheckout}>
           {isLoading && <Loader2Icon className="animate-spin" />}
           Safe Checkout
