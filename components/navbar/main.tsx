@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react';
+// import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -8,7 +8,8 @@ import ProductBuyButton from '../product/buyButton';
 const MainBar = () => {
   return (
     <div className="px-15 h-14 flex justify-between items-center shadow-xs">
-      <Search size={28} />
+      {/* <Search size={28} /> */}
+      <div />
       <Link href="/home">
         <Image
           priority

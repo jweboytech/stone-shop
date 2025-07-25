@@ -14,9 +14,9 @@ const BasicBar = async () => {
   return (
     <div className="flex justify-between items-center px-15 shadow-xs h-11">
       <div>
-        <Link className="py-1 px-2 w-fit text-sm font-medium" href="/help">
+        {/* <Link className="py-1 px-2 w-fit text-sm font-medium" href="/help">
           Need Help?
-        </Link>
+        </Link> */}
         <Link
           className="py-1 px-2 w-fit text-sm font-medium"
           href="/track/order">
