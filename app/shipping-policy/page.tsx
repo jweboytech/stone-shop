@@ -2,8 +2,8 @@ import ContactEmail from '@/components/contact';
 
 const ShippingPolicyPage = () => {
   return (
-    <div className="py-10 px-4 text-18">
-      <h1 className="uppercase font-bold text-28">
+    <div className="text-base lg:text-18 py-8 lg:pt-0 ">
+      <h1 className="uppercase font-medium lg:font-bold text-28">
         <strong>Shipping Policy</strong>
       </h1>
       <p>

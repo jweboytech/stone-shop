@@ -1,9 +1,10 @@
+import DocsLayout from '@/layout/docs';
 import MainLayout from '@/layout/main';
 
 const Layout = ({ children }: BaseProps) => {
   return (
     <MainLayout>
-      <div className="mx-62 px-10 pt-20 pb-10">{children}</div>
+      <DocsLayout>{children}</DocsLayout>
     </MainLayout>
   );
 };

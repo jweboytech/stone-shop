@@ -3,14 +3,16 @@ import Line from '@/components/line';
 
 const PrivatePolicyPage = () => {
   return (
-    <div className="flex flex-col gap-6 text-18">
-      <h1 className="font-medium text-4xl uppercase">Return & Refund Policy</h1>
+    <div className="flex flex-col gap-6 py-8 lg:py-0 text-base lg:text-18">
+      <h1 className="font-medium text-2xl lg:text-28 lg:text-4xl uppercase">
+        Return & Refund Policy
+      </h1>
       <p>
         Thank you for choosing <b>Perper Stone</b>. We hope you love your
         purchase, but if for any reason you wish to return an item, please
         carefully read our full Return & Refund Policy below.
       </p>
-      <h2 className="font-medium text-28 mt-9 uppercase">
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
         Customized Products
       </h2>
       <ul className="list-disc pl-10">
@@ -21,7 +23,7 @@ const PrivatePolicyPage = () => {
         </li>
       </ul>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
         Non-Customized Products
       </h2>
       <p>
@@ -35,7 +37,9 @@ const PrivatePolicyPage = () => {
         of receiving your order.
       </p>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">General Returns</h2>
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
+        General Returns
+      </h2>
       <p>
         We accept returns within 60 days of your purchase date. To be eligible
         for a return, your item must meet the following conditions:
@@ -70,7 +74,7 @@ const PrivatePolicyPage = () => {
         </li>
       </ul>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
         Non-Returnable Items
       </h2>
       <p>We are unable to accept returns for the following:</p>
@@ -85,7 +89,7 @@ const PrivatePolicyPage = () => {
         <li>Change of mind: We do not accept returns for change of mind.</li>
       </ul>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
         Damages or Incorrect Items
       </h2>
       <p>
@@ -106,7 +110,9 @@ const PrivatePolicyPage = () => {
         </li>
       </ul>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">Exchanges</h2>
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
+        Exchanges
+      </h2>
       <p>
         If you wish to exchange an item, the quickest way is to return your
         original item (if eligible) and place a new order. In some cases, we may
@@ -114,7 +120,9 @@ const PrivatePolicyPage = () => {
         team at <ContactEmail /> to discuss your options.
       </p>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">Refunds</h2>
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
+        Refunds
+      </h2>
       <p>
         Once your return is received and inspected, we will notify you whether
         the refund has been approved. If approved, your refund will be processed
@@ -143,7 +151,7 @@ const PrivatePolicyPage = () => {
         </li>
       </ul>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
         Order Cancellations & Modifications
       </h2>
       <p>
@@ -169,7 +177,7 @@ const PrivatePolicyPage = () => {
         hesitate to reach out.
       </p>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
         European Union 14-Day Cooling-Off Period
       </h2>
       <p>
@@ -180,7 +188,9 @@ const PrivatePolicyPage = () => {
         packaging intact, and accompanied by proof of purchase.
       </p>
       <Line />
-      <h2 className="font-medium text-28 mt-9 uppercase">Contact Us</h2>
+      <h2 className="font-medium text-2xl lg:text-28 mt-9 uppercase">
+        Contact Us
+      </h2>
       <p>
         For any questions regarding returns, refunds, or exchanges, please do
         not hesitate to contact our team at <ContactEmail />. We&apos;re always

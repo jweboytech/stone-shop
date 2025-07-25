@@ -4,8 +4,10 @@ import ContactEmail from '@/components/contact';
 
 const TeamsConditionsPage = () => {
   return (
-    <div className="text-18">
-      <h3 className="font-medium text-22 mb-6 uppercase">Overview</h3>
+    <div className="text-base py-8 lg:pt-0 lg:text-18">
+      <h3 className="font-medium text-18 lg:text-22 mb-6 uppercase">
+        Overview
+      </h3>
       <p>
         This website is owned and operated by Perper Stone. Throughout the site,
         the terms &quot;we&quot;, &quot;us&quot;, and &quot;our&quot; refer to
