@@ -17,7 +17,9 @@ const BasicBar = async () => {
         <Link className="py-1 px-2 w-fit text-sm font-medium" href="/help">
           Need Help?
         </Link>
-        <Link className="py-1 px-2 w-fit text-sm font-medium" href="/order">
+        <Link
+          className="py-1 px-2 w-fit text-sm font-medium"
+          href="/track/order">
           Track Order
         </Link>
       </div>
