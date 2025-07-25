@@ -56,7 +56,7 @@ export const useProductStore = create<ProductState>((set) => ({
         for (const key in payload) {
           const value = payload[key as keyof VariantPayload];
 
-          if (key === 'remark') {
+          if (key === 'remark' && payload.remark) {
             state.variantData.remarkMap[state.variantData.variantName] =
               payload.remark;
 

@@ -61,7 +61,7 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
   }, [variantPreviewImage, mainApi, thumbApi, items]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 lg:gap-6 mb-4 lg:mb-0">
       <div className="bg-surface-light w-full">
         <Carousel setApi={setMainApi}>
           <CarouselContent>
@@ -80,13 +80,13 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
           </CarouselContent>
         </Carousel>
       </div>
-      <div className="relative px-12">
+      <div className="relative px-16 lg:px-12">
         <Carousel setApi={setThumbApi}>
           <CarouselContent>
             {items.map((item, index) => (
               <CarouselItem
                 key={item.id}
-                className="basis-1/5"
+                className="basis-1/4 lg:basis-1/5"
                 onClick={handleThumbnailClick(index)}>
                 <Image
                   priority

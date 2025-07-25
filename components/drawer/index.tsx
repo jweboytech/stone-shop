@@ -30,7 +30,7 @@ const Drawer = ({ children, trigger, title }: DrawerProps) => {
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle className="flex items-center justify-between px-4">
+          <DrawerTitle className="flex items-center justify-between lg:px-4">
             <span className="font-medium text-22">{title}</span>
             <DrawerClose>
               <X className="cursor-pointer" />

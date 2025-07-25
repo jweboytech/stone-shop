@@ -22,7 +22,7 @@ const ProductItem = ({
   cartNotes: AnyObject;
   onRefresh: VoidFunction;
 }) => {
-  const [quantity, setQuantity] = React.useState<number>();
+  const [quantity, setQuantity] = React.useState<number | string>('');
   const { merchandise } = data;
   const [isLoading, setIsLoading] = React.useState(false);
   const collection = merchandise.product.collections.edges[0]?.node.title;
@@ -80,7 +80,7 @@ const ProductItem = ({
   }, [data.quantity]);
 
   return (
-    <div className="flex pt-1 gap-5">
+    <div className="flex pt-1 gap-2 lg:gap-5">
       <Image
         alt="Product Image"
         className="cursor-pointer w-25 h-25"
@@ -88,8 +88,8 @@ const ProductItem = ({
         src={merchandise.image?.url}
         width={100}
       />
-      <div className="flex flex-col gap-1 flex-1">
-        <h3 className="text-18">
+      <div className="flex flex-col gap-2 flex-1">
+        <h3 className="text-sm font-medium lg:font-normal lg:text-18 leading-none">
           <Link
             href={`/collections/${collection}/products/${merchandise.product.handle}`}
             target="_blank">
@@ -102,19 +102,19 @@ const ProductItem = ({
 
           return (
             <React.Fragment key={item.id}>
-              <p className="text-base">
+              <p className="text-12 font-medium lg:font-normal lg:text-base">
                 <span className="font-bold">Choose Your {item.name}</span>:{' '}
                 {variants[index]}
               </p>
               {note && (
-                <p className="text-base">
+                <p className="text-12 lg:text-base">
                   <span className="font-bold">Letter</span>: {note}
                 </p>
               )}
             </React.Fragment>
           );
         })}
-        <div className="flex justify-between items-start mt-2">
+        <div className="flex justify-between items-end mt-2">
           <div className="border w-20 h-8 grid grid-cols-3">
             <button
               className={clsx(

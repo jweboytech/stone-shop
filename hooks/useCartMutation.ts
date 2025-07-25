@@ -30,6 +30,8 @@ export const useCartMutation = () => {
       .map(([key, value]) => `${key}:${value}`)
       .join(',');
 
+    console.log(letterMap);
+
     try {
       setIsLoading(true);
 

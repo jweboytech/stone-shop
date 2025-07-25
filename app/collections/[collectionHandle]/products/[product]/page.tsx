@@ -59,11 +59,13 @@ const ProductDetailsPage = async ({
   // );
 
   return (
-    <div className="">
-      <div className="grid grid-cols-2 px-10 py-14">
+    <React.Fragment>
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:px-10 lg:py-14">
         <ProductMainImages items={mainImages} />
-        <div className="pl-4">
-          <h2 className="font-medium text-22">{productByHandle.title}</h2>
+        <div className="pl-4 pr-4 lg:pr-0">
+          <h2 className="font-medium text-22 mb-4 lg:mb-0">
+            {productByHandle.title}
+          </h2>
           <div className="flex gap-4 items-center">
             {Number(compareAtPriceRange.minVariantPrice.amount) > 0 && (
               <span className="text-base line-through text-neutral-foreground">
@@ -126,12 +128,11 @@ const ProductDetailsPage = async ({
       </div>
       <div className="mt-2">
         <GuaranteeBar />
-        <Wondering />
-        <Line />
+        {/* <Wondering /> */}
         <Collections />
         <Guarantee />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

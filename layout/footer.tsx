@@ -40,7 +40,7 @@ const Footer = async () => {
   return (
     <div className="lg:p-15 px-4 lg:px-10 border-t border-t-surface-muted">
       <div className="flex flex-col">
-        <Accordion type="multiple">
+        <Accordion className="block lg:hidden" type="multiple">
           <AccordionItem value="ourRange">
             <AccordionTrigger>
               <div className="font-medium text-center w-full">
