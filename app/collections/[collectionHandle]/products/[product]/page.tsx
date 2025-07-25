@@ -59,10 +59,12 @@ const ProductDetailsPage = async ({
   // );
 
   return (
-    <React.Fragment>
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:px-10 lg:py-14">
-        <ProductMainImages items={mainImages} />
-        <div className="pl-4 pr-4 lg:pr-0">
+    <div className="">
+      <div className="flex flex-col lg:flex-row lg:px-10 lg:py-14 max-w-350 mx-auto">
+        <div className="lg:w-3/5">
+          <ProductMainImages items={mainImages} />
+        </div>
+        <div className="pl-8 pr-4 lg:pr-0 lg:w-2/5">
           <h2 className="font-medium text-22 mb-4 lg:mb-0">
             {productByHandle.title}
           </h2>
@@ -132,7 +134,7 @@ const ProductDetailsPage = async ({
         <Collections />
         <Guarantee />
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

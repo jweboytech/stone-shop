@@ -61,7 +61,7 @@ const ProductMainImages = ({ items }: { items: any[] }) => {
   }, [variantPreviewImage, mainApi, thumbApi, items]);
 
   return (
-    <div className="flex flex-col gap-4 lg:gap-6 mb-4 lg:mb-0">
+    <div className="flex flex-col gap-4 lg:gap-6 mb-4 lg:mb-0 ">
       <div className="bg-surface-light w-full">
         <Carousel setApi={setMainApi}>
           <CarouselContent>
