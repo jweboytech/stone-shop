@@ -1,7 +1,7 @@
 import '@/styles/global.css';
 import { Metadata, Viewport } from 'next';
 import clsx from 'clsx';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'sonner';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -44,7 +44,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </div>
-        <Toaster />
+        <Toaster richColors />
         <SpeedInsights />
         <Analytics />
       </body>

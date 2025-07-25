@@ -12,11 +12,11 @@ const Collections = async () => {
   });
 
   return (
-    <div className="px-15 pt-11 pb-10 flex flex-col gap-8">
-      <h2 className="text-3xl font-medium text-center uppercase">
+    <div className="px-4 lg:px-15 pt-5 lg:pt-11 pb-10 flex flex-col gap-7 lg:gap-8">
+      <h2 className="text-2xl lg:text-3xl font-medium text-center uppercase">
         view our collections
       </h2>
-      <div className="grid grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {data.collections.edges
           .filter(({ node }) => node.image != null)
           .map(({ node }) => (
@@ -24,13 +24,13 @@ const Collections = async () => {
               <div className="relative">
                 <Image
                   alt="collection"
-                  className="h-auto object-cover"
+                  className="w-full h-62 sm:h-120 lg:h-auto object-cover"
                   height={360}
                   src={node.image.url}
                   width={360}
                 />
                 <div className="uppercase absolute bottom-5 w-full text-center">
-                  <span className="text-white font-medium text-2xl">
+                  <span className="text-white font-medium text-xl lg:text-2xl">
                     {node.title}
                   </span>
                 </div>

@@ -15,7 +15,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/client';
 
 const schema = z.object({
@@ -43,7 +42,7 @@ const SubscribeInput = () => {
           .from('subscribe_emails')
           .upsert({ email: values.email })
           .then(() => {
-            toast('Thanks for subscribing');
+            toast.success('Thanks for subscribing');
             form.reset();
           });
       } else {
@@ -51,7 +50,7 @@ const SubscribeInput = () => {
         form.reset();
       }
     } catch (error) {
-      toast('Submission failed. Please try again later.');
+      toast.error('Submission failed. Please try again later.');
     }
   };
 

@@ -89,7 +89,7 @@ const ProductBuyButton = ({
         <div className="relative">
           <ShoppingBag
             className="cursor-pointer"
-            size={28}
+            size={24}
             onClick={openDrawer}
           />
           {isEmptyCart != null && !isEmptyCart && (

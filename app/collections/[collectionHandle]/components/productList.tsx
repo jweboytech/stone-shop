@@ -53,10 +53,10 @@ const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
   }, []);
 
   return (
-    <div className="mx-4 px-10 py-8">
+    <div className="lg:mx-4 px-2 lg:px-10 py-5 lg:py-8">
       <div className="mb-4 flex justify-end">
         <Select value={orderKey} onValueChange={handleChange}>
-          <SelectTrigger className="w-64 border-black focus-visible:ring-0">
+          <SelectTrigger className="w-1/2 lg:w-64 border-black focus-visible:ring-0">
             <SelectValue placeholder="Please select" />
           </SelectTrigger>
           <SelectContent>
@@ -69,7 +69,7 @@ const ProductList = ({ collectionHandle }: { collectionHandle: string }) => {
         </Select>
       </div>
       {!isLoading ? (
-        <div className="grid grid-cols-4 gap-x-5 gap-y-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-1 lg:gap-x-5 gap-y-1 lg:gap-y-8">
           {products != null &&
             collection != null &&
             products.map(({ node }) => (

@@ -6,9 +6,9 @@ import { Button } from '../ui/button';
 const Gift = () => {
   return (
     <div className="bg-surface-light pt-10 pb-15 px-10">
-      <div className="mx-21 flex gap-20 items-center">
+      <div className="lg:mx-21 flex gap-20 items-center justify-center">
         <div className="w-[476px]">
-          <h2 className="uppercase font-medium text-4xl mb-4 text-center">
+          <h2 className="uppercase font-medium text-28 lg:text-4xl mb-2 lg:mb-4 text-center">
             find the perfect gift for her
           </h2>
           <p className="text-base mb-4 text-center">
@@ -24,7 +24,7 @@ const Gift = () => {
             </Link>
           </div>
         </div>
-        <div className="w-[624px] h-[624px] bg-gray-200 flex items-center justify-center">
+        <div className="hidden lg:flex w-[624px] h-[624px] bg-gray-200  items-center justify-center">
           Placeholder
         </div>
       </div>

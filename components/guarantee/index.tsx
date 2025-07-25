@@ -22,13 +22,15 @@ const items: Array<Option & { icon: React.ReactElement }> = [
 const Guarantee = () => {
   return (
     <div className="border-t-4 border-t-amber border-b-4 border-b-amber bg-surface-light pt-8 pb-5 overflow-hidden">
-      <ul className="grid grid-cols-3 px-15">
+      <ul className="grid grid-cols-1 lg:grid-cols-3 px-4 lg:px-15">
         {items.map((item) => (
           <li
             key={item.value}
-            className="uppercase flex flex-col gap-2 items-center p-8">
+            className="uppercase flex flex-col gap-2 items-center mb-15 lg:mb-0 lg:p-8">
             {item.icon}
-            <span className="text-base font-medium text-22">{item.label}</span>
+            <span className="text-xl lg:text-base font-medium text-22">
+              {item.label}
+            </span>
           </li>
         ))}
       </ul>

@@ -11,15 +11,15 @@ const CollectionPage = async ({ params }: { params: AnyObject }) => {
   const { collectionHandle } = await params;
 
   return (
-    <div className="py-4">
+    <React.Fragment>
       <div>
-        <div className="w-150 pt-20 pb-10 m-auto">
+        <div className="lg:w-150 pt-10 lg:pt-20 pb-10 px-4 m-auto">
           <h2
-            className="font-medium text-28 uppercase text-center underline decoration-[#e1d2b866] decoration-[6px] -underline-offset-4"
+            className="font-medium text-2xl lg:text-28 uppercase text-center underline decoration-[#e1d2b866] decoration-[6px] -underline-offset-4"
             style={{ textDecorationSkipInk: 'none' }}>
             {collectionHandle?.replace(/-/, ' ')}
           </h2>
-          <p className="text-18 text-center mt-2">
+          <p className="text-base lg:text-18 text-center mt-2">
             <strong>Crafted to last a lifetime.</strong> Our{' '}
             <strong>waterproof pieces</strong>
             are backed by a <strong>lifetime guarantee</strong> and delivered in
@@ -33,7 +33,7 @@ const CollectionPage = async ({ params }: { params: AnyObject }) => {
         <Line />
       </div>
       <Collections />
-    </div>
+    </React.Fragment>
   );
 };
 
