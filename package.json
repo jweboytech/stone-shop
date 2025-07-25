@@ -7,11 +7,7 @@
     "build": "next build",
     "start": "next start --port=4200",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy",
-    "deploy:test": "npm run pages:build && wrangler pages deploy --branch=dev --commit-dirty=true",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
+    "sitemap": "next-sitemap  --config next-sitemap.config.cjs"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
@@ -82,6 +78,7 @@
     "graphql-loader": "^1.2.1",
     "graphql-tag": "^2.12.6",
     "graphql-tag-pluck": "^0.8.7",
+    "next-sitemap": "^4.2.3",
     "postcss": "8.4.38",
     "prettier": "3.3.3",
     "tailwind-variants": "0.1.20",
