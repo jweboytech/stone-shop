@@ -1,5 +1,5 @@
 import InputField from '@/components/form/input';
-import { fontLilitaOne } from '@/config/fonts';
+// import { fontLilitaOne } from '@/config/fonts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@nextui-org/button';
 import clsx from 'clsx';
@@ -26,7 +26,7 @@ const Subscribe = () => {
         <h2
           className={clsx(
             'text-4xl font-semibold font-lilita-one uppercase text-danger',
-            fontLilitaOne.variable,
+            // fontLilitaOne.variable,
           )}>
           Stay in touch
         </h2>

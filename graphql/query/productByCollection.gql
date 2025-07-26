@@ -1,0 +1,77 @@
+query getProductsByCollection(
+  $title: String!
+  $sortKey: ProductCollectionSortKeys!
+  $reverse: Boolean = false
+  $first: Int = 50
+) {
+  collections(query: $title, first: 1) {
+    edges {
+      node {
+        id
+        title
+        image {
+          url
+        }
+        products(first: $first, sortKey: $sortKey, reverse: $reverse) {
+          edges {
+            node {
+              id
+              title
+              handle
+              images(first: 2) {
+                nodes {
+                  url
+                  id
+                }
+              }
+              priceRange {
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              compareAtPriceRange {
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              variants(first: 10) {
+                nodes {
+                  id
+                  image {
+                    url
+                  }
+                }
+              }
+              options {
+                name
+                id
+                optionValues {
+                  name
+                  id
+                  swatch {
+                    image {
+                      id
+                      previewImage {
+                        url
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

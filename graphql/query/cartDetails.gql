@@ -1,0 +1,56 @@
+query getCartDetails($id: ID!) {
+  cart(id: $id) {
+    id
+    createdAt
+    updatedAt
+    lines(first: 10) {
+      edges {
+        node {
+          id
+          quantity
+          merchandise {
+            ... on ProductVariant {
+              product {
+                title
+                description
+                handle
+                options {
+                  id
+                  name
+                }
+                collections(first: 1) {
+                  edges {
+                    node {
+                      title
+                    }
+                  }
+                }
+                priceRange {
+                  maxVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+              id
+              title
+              image {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+    cost {
+      totalAmount {
+        amount
+        currencyCode
+      }
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+    }
+  }
+}

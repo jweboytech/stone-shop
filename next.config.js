@@ -1,3 +1,9 @@
+import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
+
+if (process.env.NODE_ENV === 'development') {
+  await setupDevPlatform();
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -9,33 +15,44 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'nextuipro.nyc3.cdn.digitaloceanspaces.com',
-      },
+      { protocol: 'https', hostname: 'celesteadore.com' },
       {
         protocol: 'https',
         hostname: 'cdn.shopify.com',
       },
       {
         protocol: 'https',
-        hostname: 'beyours-theme-beauty.myshopify.com',
+        hostname: 'assets.perperstone.com',
       },
-      {
-        protocol: 'https',
-        hostname: 'assets.jweboy.asia',
-      },
-      {
-        protocol: 'https',
-        hostname: 'img-comparison-slider.sneas.io',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.westpaw.com',
-      },
-      { protocol: 'https', hostname: 'octaneairsrc.com' },
     ],
   },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      use: [{ loader: 'graphql-tag/loader' }],
+    });
+
+    return config;
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/ingest/static/:path*',
+        destination: 'https://eu-assets.i.posthog.com/static/:path*',
+      },
+      {
+        source: '/ingest/:path*',
+        destination: 'https://eu.i.posthog.com/:path*',
+      },
+      {
+        source: '/ingest/flags',
+        destination: 'https://eu.i.posthog.com/flags',
+      },
+    ];
+  },
+  // This is required to support PostHog trailing slash API requests
+  skipTrailingSlashRedirect: true,
 };
 
-module.exports = nextConfig;
+export default nextConfig;

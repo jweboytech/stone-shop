@@ -1,77 +1,102 @@
-import { Link } from '@nextui-org/link';
-import { Button } from '@nextui-org/button';
-import { Divider } from '@nextui-org/divider';
-import useSWRMutation from 'swr/mutation';
-import { useRouter } from 'next/navigation';
 import React from 'react';
+import { Loader2Icon } from 'lucide-react';
 
-import CommodityItem from './CommodityItem';
+import { DrawerProps } from '../drawer';
+import { Button } from '../ui/button';
+import Line from '../line';
 
-import { formatPrice, serializateUrl, toUpperCase } from '@/utils';
-import { getFetcher, postFetcher } from '@/utils/request/fetcher';
-import { DrawerState } from '@/store/drawer';
+import ProductItem from './productItem';
+import Payments from './payments';
 
-const Cart = ({ visible, closeDrawer }: Partial<DrawerState>) => {
-  const router = useRouter();
-  const { data, trigger } = useSWRMutation<Cart>('/cart/details', getFetcher);
-  const { trigger: checkout, isMutating } = useSWRMutation<Cart>(
-    '/payment/checkout',
-    postFetcher,
-  );
+import { formatPrice } from '@/utils/price';
+import gqlClient from '@/lib/graphqlClient';
+import localStorage from '@/utils/storage';
+import GET_CART_DETAILS from '@/graphql/query/cartDetails.gql';
+import GET_CHECKOUT_URL from '@/graphql/query/checkoutUrl.gql';
+import { GetCartQuery, GetCartQueryResult } from '@/generated/graphql';
+import { useRequest } from '@/hooks/useRequest';
 
-  const handleCheckout = () => {
-    checkout().then((data) => {
-      const { orderId, ...restData } = data;
+const Cart = ({
+  visible,
+  cartNotes,
+}: DrawerProps & { cartNotes: AnyObject }) => {
+  const [details, setDetails] = React.useState<GetCartQuery>();
+  const { request, isLoading } = useRequest<GetCartQueryResult>();
+  const cart = localStorage.get('cart');
+  const products = details?.cart?.lines.edges || [];
 
-      closeDrawer!();
-      setTimeout(() => {
-        const url = serializateUrl('/checkout/' + orderId, restData);
-
-        router.push(url);
-      }, 300);
-    });
+  const handleGetDetails = () => {
+    gqlClient
+      .request<GetCartQuery>(GET_CART_DETAILS, { id: cart })
+      .then((data) => {
+        setDetails(data);
+      });
   };
 
   React.useEffect(() => {
     if (visible) {
-      trigger();
+      handleGetDetails();
     }
   }, [visible]);
 
+  const handleCheckout = () => {
+    request(GET_CHECKOUT_URL, { id: cart }).then((data) => {
+      const { checkoutUrl } = data.cart;
+
+      window.location.href = checkoutUrl;
+    });
+  };
+
   return (
-    <div className="grid grid-cols-1">
-      <div className="h-[calc(100vh-240px)] overflow-y-auto">
-        {data?.items.map((item) => (
-          <React.Fragment key={item.id}>
-            <CommodityItem
-              data={item.commodity}
-              quantity={item.quantity}
-              onRefresh={trigger}
+    <div className="flex flex-col h-full overflow-y-auto">
+      {/* <div className="py-3 bg-surface-light border-t border-t-neutral-light border-b border-b-neutral-light">
+        <p className="text-center uppercase text-sm font-semibold text-amber">
+          new season sale
+        </p>
+        <p className="text-center uppercase text-sm font-bold">
+          Buy 1 & Get Any 2nd Free
+        </p>
+      </div> */}
+      <div className="flex-1 py-5 px-5 lg:pt-2 lg:pb-4 lg:px-8">
+        {products.map(({ node }, index) => (
+          <React.Fragment key={node.id}>
+            <ProductItem
+              cartId={cart}
+              data={node}
+              skuId={node.id}
+              onRefresh={handleGetDetails}
+              cartNotes={cartNotes}
             />
-            <Divider />
+            {index < products.length! - 1 && <Line />}
           </React.Fragment>
         ))}
       </div>
-      <div className="mt-6 flex justify-between">
-        <span className="text-base">Subtotal</span>
-        <span className="text-lg">{formatPrice(data?.totalAmount)} USD</span>
-      </div>
-      <div className="text-xs mb-4 text-foreground-500">
-        Taxes and shipping calculated at checkout
-      </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="px-5 lg:px-8 pb-4 lg:pb-2 bg-surface-light">
+        <div className="flex items-center justify-between py-2">
+          <span className="uppercase font-bold text-14 tracking-wider">
+            subtotal
+          </span>
+          <span className="font-bold text-14">
+            {formatPrice(details?.cart?.cost.subtotalAmount.amount)}
+          </span>
+        </div>
+        <Line className="my-0" />
+        <div className="flex items-center justify-between py-2">
+          <span className="uppercase font-bold text-14 tracking-wider">
+            shipping
+          </span>
+          <span className="uppercase font-bold text-14 tracking-wider">
+            free
+          </span>
+        </div>
         <Button
-          fullWidth
-          color="primary"
-          isLoading={isMutating}
+          className="w-full h-15 font-bold text-base uppercase mt-1 tracking-widest"
+          disabled={isLoading || products.length === 0}
           onClick={handleCheckout}>
-          {toUpperCase('check out')}
+          {isLoading && <Loader2Icon className="animate-spin" />}
+          Safe Checkout
         </Button>
-        <Link href="/cart">
-          <Button fullWidth color="primary" variant="bordered">
-            {toUpperCase('view cart')}
-          </Button>
-        </Link>
+        <Payments />
       </div>
     </div>
   );
