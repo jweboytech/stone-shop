@@ -92,6 +92,8 @@ const ProductDetailsPage = async ({
               isSelectVariant={isSelectVariant}
               letterLength={letterInputLengthMetafield?.value}
               needLetter={isShowLetterInput}
+              productByHandle={productByHandle}
+              product={product}
             />
             <Payments />
             <Line />
