@@ -69,7 +69,7 @@ const ProductItem = ({
 
   const handleBlur = () => {
     if (quantity) {
-      postUpdateQuantity(quantity);
+      postUpdateQuantity(Number(quantity));
     }
   };
 

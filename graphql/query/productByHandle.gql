@@ -4,8 +4,23 @@ query productByHandle($handle: String!) {
     productType
     createdAt
     descriptionHtml
+    totalInventory
     category {
       name
+    }
+    images(first: 50) {
+      edges {
+        node {
+          url
+        }
+      }
+    }
+    collections(first: 10) {
+      edges {
+        node {
+          handle
+        }
+      }
     }
     encodedVariantAvailability
     encodedVariantExistence

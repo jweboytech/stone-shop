@@ -24,7 +24,7 @@ export const META_DATA: Metadata = {
   metadataBase: new URL('https://perperstone.com'),
 };
 
-export const HOME_JSON = {
+export const HOME_JSON = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Perperstone Handmade Jewelry',
@@ -53,4 +53,4 @@ export const HOME_JSON = {
     'https://www.instagram.com/perperstone',
     'https://www.pinterest.com/perperstone',
   ],
-};
+});

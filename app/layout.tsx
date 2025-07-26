@@ -22,7 +22,7 @@ function RootLayout({ children }: BaseProps) {
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
       <head>
         <Script
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(HOME_JSON) }}
+          dangerouslySetInnerHTML={{ __html: HOME_JSON }}
           id="home-json"
           type="application/ld+json"
         />

@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { formatPrice } from '@/utils/price';
+import { toSlug } from '@/utils';
 
 const ProductItem = ({
   data,
@@ -19,7 +20,7 @@ const ProductItem = ({
       : [];
 
   return (
-    <Link href={`/collections/${collection}/products/${data.handle}`}>
+    <Link href={`/collections/${toSlug(collection)}/products/${data.handle}`}>
       <div className="flex flex-col gap-1 cursor-pointer">
         <div className="relative group">
           {collection === 'best-sellers' && (
