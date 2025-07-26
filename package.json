@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "NODE_ENV=development next dev --port=4200",
     "build": "NODE_ENV=production next build",
+    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "start": "next start --port=4200",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
-    "sitemap": "next-sitemap  --config next-sitemap.config.cjs"
+    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
