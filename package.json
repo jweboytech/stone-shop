@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "NODE_ENV=development next dev --port=4200",
     "build": "NODE_ENV=production next build",
-    "postbuild": "next-sitemap",
+    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "start": "next start --port=4200",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
-    "sitemap": "next-sitemap  --config next-sitemap.config.cjs"
+    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
@@ -87,5 +86,6 @@
     "tw-animate-css": "^1.3.4",
     "typescript": "5.0.4"
   },
+  "type": "module",
   "packageManager": "pnpm@10.11.1+sha256.211e9990148495c9fc30b7e58396f7eeda83d9243eb75407ea4f8650fb161f7c"
 }
