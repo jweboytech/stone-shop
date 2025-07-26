@@ -1,40 +1,32 @@
-import '@/styles/global.css';
-import { Metadata, Viewport } from 'next';
+import { Viewport } from 'next';
 import clsx from 'clsx';
 import { Toaster } from 'sonner';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
 
-import { siteConfig } from '@/config/site';
+import { HOME_JSON, META_DATA } from './metadata';
+
 import { fontNunitoSans } from '@/config/fonts';
 import Footer from '@/layout/footer';
+import '@/styles/global.css';
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+export const metadata = META_DATA;
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  themeColor: [{ media: '(prefers-color-scheme: light)', color: 'white' }],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function RootLayout({ children }: BaseProps) {
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
-      <head />
+      <head>
+        <Script
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(HOME_JSON) }}
+          id="home-json"
+          type="application/ld+json"
+        />
+      </head>
       <body
         className={clsx(
           'min-h-screen antialiased overflow-hidden',
@@ -51,3 +43,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default RootLayout;
