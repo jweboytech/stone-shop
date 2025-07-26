@@ -1,0 +1,13 @@
+query getCollections($first: Int = 8) {
+  collections(first: $first) {
+    edges {
+      node {
+        id
+        title
+        image {
+          url
+        }
+      }
+    }
+  }
+}

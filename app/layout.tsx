@@ -1,64 +1,47 @@
-import '@/styles/global.css';
-import { Metadata, Viewport } from 'next';
+import { Viewport } from 'next';
 import clsx from 'clsx';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'sonner';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
 
-import { Providers } from './providers';
+import { HOME_JSON, META_DATA } from './metadata';
 
-import { siteConfig } from '@/config/site';
 import { fontNunitoSans } from '@/config/fonts';
 import Footer from '@/layout/footer';
+import '@/styles/global.css';
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+export const metadata = META_DATA;
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  themeColor: [{ media: '(prefers-color-scheme: light)', color: 'white' }],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function RootLayout({ children }: BaseProps) {
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
-      <head />
-      {/* <Script
-        async
-        src="https://code.tidio.co/mrwtsim9x2wwbhk4enrywowlirpkqmvv.js"
-      />
-      <Script
-        async
-        crossOrigin="anonymous"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8674629285850264"
-      /> */}
+      <head>
+        <Script
+          dangerouslySetInnerHTML={{ __html: HOME_JSON }}
+          id="home-json"
+          type="application/ld+json"
+        />
+      </head>
       <body
         className={clsx(
           'min-h-screen antialiased overflow-hidden',
           fontNunitoSans.variable,
         )}>
-        <Providers>
-          <div className="relative flex flex-col h-screen">
-            {/* <Navbar /> bg-[#f5f5f5] */}
-            <main>{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-          {/* <ConfirmModal /> */}
-        </Providers>
+        <div className="relative flex flex-col h-screen">
+          <main>{children}</main>
+          <Footer />
+        </div>
+        <Toaster richColors />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
 }
+
+export default RootLayout;

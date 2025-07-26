@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://perperstone.com
+
+# Sitemaps
+Sitemap: https://perperstone.com/sitemap.xml

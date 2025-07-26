@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import QueryString from 'qs';
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
+
+// import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { ProductVariantEdge } from '@/generated/graphql';
 
 export function toUpperCase(str: string) {
   return str.toUpperCase();
@@ -47,9 +49,9 @@ export function getCardLast(cardNo?: string) {
   }
 }
 
-export function getFingerprint() {
-  return FingerprintJS.load().then((res) => res.get());
-}
+// export function getFingerprint() {
+//   return FingerprintJS.load().then((res) => res.get());
+// }
 
 export async function generateFingerprint() {
   const userAgent = navigator.userAgent;
@@ -73,4 +75,38 @@ export async function generateFingerprint() {
     .join('');
 
   return hashHex;
+}
+
+export function groupVariantsByOption(
+  data: ProductVariantEdge[],
+  optionName: string,
+) {
+  return data.reduce<Record<string, ProductVariantEdge[]>>((arr, item) => {
+    const option = item.node.selectedOptions.find(
+      (item) => item.name === optionName,
+    );
+    const key = option?.value || 'Unknown';
+
+    if (!arr[key]) {
+      arr[key] = [];
+    } else {
+      arr[key].push(item);
+    }
+
+    return arr;
+  }, {});
+}
+
+export function fromSlug(slug: string) {
+  return slug
+    .replace(/-/g, ' ') // 将连字符替换为空格
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // 每个单词首字母大写
+}
+
+export function toSlug(str: string) {
+  return str
+    .trim() // 去除前后空格
+    .toLowerCase() // 转小写
+    .replace(/\s+/g, '-') // 所有空格换成 -
+    .replace(/[^\w-]+/g, ''); // 移除非单词字符（可选）
 }

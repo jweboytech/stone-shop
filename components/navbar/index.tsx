@@ -1,18 +1,19 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { GET_COLLECTIONS } from '@/graphql/collection';
+import GET_COLLECTIONS from '@/graphql/query/collections.gql';
 import gqlClient from '@/lib/graphqlClient';
+import { toSlug } from '@/utils';
 
 const Navbar = async () => {
   const data = await gqlClient.request<Collection>(GET_COLLECTIONS);
 
   return (
-    <div className="px-15 flex justify-center">
+    <div className="hidden px-15 lg:flex justify-center shadow-xs">
       <ul className="h-full uppercase flex">
         {data?.collections.edges.map(({ node }) => (
-          <li className="px-4 py-3 font-medium" key={node.id}>
-            <Link href={'/collections/' + node.title}>
+          <li key={node.id} className="px-4 py-3 font-medium">
+            <Link href={'/collections/' + toSlug(node.title)}>
               {node.title.replace(/-/, ' ')}
             </Link>
           </li>

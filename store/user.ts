@@ -2,23 +2,16 @@ import { produce } from 'immer';
 import { create } from 'zustand';
 
 export interface UserState {
-  loginStatus?: 'ONLINE' | 'OFFLINE';
-  logout: VoidFunction;
-  login: VoidFunction;
+  merchandiseId?: string
+  onMerchandiseIdChange: (merchandiseId: string) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  loginStatus: 'OFFLINE',
-  logout: () =>
+  merchandiseId: '',
+  onMerchandiseIdChange: (merchandiseId: string) =>
     set(
       produce((state) => {
-        state.loginStatus = 'OFFLINE';
-      }),
-    ),
-  login: () =>
-    set(
-      produce((state) => {
-        state.loginStatus = 'ONLINE';
+        state.merchandiseId = merchandiseId;
       }),
     ),
 }));

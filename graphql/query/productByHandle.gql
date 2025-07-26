@@ -1,0 +1,133 @@
+query productByHandle($handle: String!) {
+  productByHandle(handle: $handle) {
+    title
+    productType
+    createdAt
+    descriptionHtml
+    totalInventory
+    category {
+      name
+    }
+    images(first: 50) {
+      edges {
+        node {
+          url
+        }
+      }
+    }
+    collections(first: 10) {
+      edges {
+        node {
+          handle
+        }
+      }
+    }
+    encodedVariantAvailability
+    encodedVariantExistence
+    options {
+      name
+      id
+      optionValues {
+        name
+        id
+        swatch {
+          image {
+            id
+            previewImage {
+              url
+            }
+          }
+        }
+      }
+    }
+    variants(first: 50) {
+      edges {
+        node {
+          id
+          image {
+            url
+          }
+          price {
+            amount
+            currencyCode
+          }
+          availableForSale
+          selectedOptions {
+            name
+            value
+          }
+          metafield(namespace: "custom", key: "variant_image") {
+            key
+            value
+            reference {
+              ... on MediaImage {
+                mediaContentType
+                previewImage {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    images(first: 50) {
+      nodes {
+        url
+        id
+      }
+    }
+    media(first: 50) {
+      edges {
+        node {
+          id
+          previewImage {
+            url
+            id
+          }
+        }
+      }
+    }
+    metafield(namespace: "custom", key: "main_image") {
+      value
+    }
+    letterInputMetafield: metafield(namespace: "custom", key: "letter_input") {
+      key
+      value
+    }
+    letterInputLengthMetafield: metafield(
+      namespace: "custom"
+      key: "letter_input_length"
+    ) {
+      key
+      value
+    }
+    birthstoneSelectMetafield: metafield(
+      namespace: "custom"
+      key: "birthstone_select"
+    ) {
+      key
+      value
+    }
+    priceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    compareAtPriceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+  }
+}

@@ -1,9 +1,11 @@
-import { Dot, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import React from 'react';
 
-const items: Array<Option & { icon: React.ReactElement }> = [
+type ScrollOption = Option & { icon: React.ReactElement };
+
+const options: ScrollOption[] = [
   { label: 'free shipping', value: 'freeShipping', icon: <Star size={16} /> },
-  { label: '90 day returns', value: 'returnDays', icon: <Star size={16} /> },
+  { label: '60 day returns', value: 'returnDays', icon: <Star size={16} /> },
   {
     label: 'personalised fine jewellery',
     value: 'jewellery',
@@ -12,7 +14,7 @@ const items: Array<Option & { icon: React.ReactElement }> = [
   { label: 'lifetime warranty', value: 'lifetime', icon: <Star size={16} /> },
 
   { label: 'free shipping', value: 'freeShipping1', icon: <Star size={16} /> },
-  { label: '90 day returns', value: 'returnDays1', icon: <Star size={16} /> },
+  { label: '60 day returns', value: 'returnDays1', icon: <Star size={16} /> },
   {
     label: 'personalised fine jewellery',
     value: 'jewellery1',
@@ -21,14 +23,23 @@ const items: Array<Option & { icon: React.ReactElement }> = [
   { label: 'lifetime warranty', value: 'lifetime1', icon: <Star size={16} /> },
 ];
 
+const items = Array.from<ScrollOption>({ length: 10 }).reduce<ScrollOption[]>(
+  (arr) => {
+    arr.push(...options);
+
+    return arr;
+  },
+  [],
+);
+
 const GuaranteeBar = () => {
   return (
-    <div className="text-white bg-black py-5 overflow-hidden">
-      <ul className="flex gap-8 items-center overflow-x-auto w-1000">
-        {items.map((item) => (
-          <li key={item.value} className="uppercase flex gap-2 items-center ">
+    <div className="text-white bg-black h-16 overflow-hidden relative flex items-center">
+      <ul className="flex gap-8 items-center w-full absolute left-0 animate-marquee will-change-transform backface-hidden transform-gpu">
+        {items.map((item, index) => (
+          <li key={index} className="uppercase flex gap-2 items-center ">
             {item.icon}
-            <span className="text-base font-medium">{item.label}</span>
+            <div className="text-base font-medium w-max">{item.label}</div>
           </li>
         ))}
       </ul>

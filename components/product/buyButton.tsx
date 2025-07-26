@@ -1,66 +1,101 @@
 'use client';
 
 import React from 'react';
-import { ShoppingBag } from 'lucide-react';
+import { Loader2Icon, ShoppingBag } from 'lucide-react';
 
 import { Button } from '../ui/button';
-import Drawer, { DrawerRef } from '../drawer';
+import Drawer from '../drawer';
 import Cart from '../cart';
 
-import gqlClient from '@/lib/graphqlClient';
-import { CREATE_CART } from '@/graphql/cart';
 import localStorage from '@/utils/storage';
-import CART_LINES_ADD from '@/graphql/mutation/cartLinesAdd.gql';
+import GET_CART_COUNT from '@/graphql/query/cartCount.gql';
+import gqlClient from '@/lib/graphqlClient';
+import { GetCartQuery } from '@/generated/graphql';
+import { usePageVisible } from '@/hooks/usePageVisible';
+import { useDrawerStore } from '@/store';
+import { usePrevious } from '@/hooks/usePrevious';
+import { useCartMutation } from '@/hooks/useCartMutation';
 
 const ProductBuyButton = ({
-  merchandiseId,
   variant = 'button',
+  buttonType = 'default',
+  triggerLoading,
 }: {
-  merchandiseId?: string;
   variant?: 'icon' | 'button';
+  buttonType?: 'submit' | 'default';
+  triggerLoading?: boolean;
 }) => {
-  const drawerRef = React.useRef<DrawerRef>(null);
-  
-  const handleClick = async () => {
-    const cart = localStorage.get('cart');
-    if (localStorage.get('cart') == null) {
-      const { cartCreate } = await gqlClient.request<{
-        cartCreate: CartCreate;
-      }>(CREATE_CART, { input: { lines: [{ merchandiseId, quantity: 1 }] } });
+  const { pageVisible } = usePageVisible();
+  const openDrawer = useDrawerStore((state) => state.openDrawer);
+  const drawerVisible = useDrawerStore((state) => state.visible);
+  const prevDrawerVisible = usePrevious(drawerVisible);
+  const [isEmptyCart, setIsEmptyCart] = React.useState<boolean>();
+  const { trigger, isLoading } = useCartMutation();
+  const isButtonLoading = triggerLoading || isLoading;
+  const [cartNotes, setCartNotes] = React.useState<AnyObject>({});
 
-      localStorage.set('cart', cartCreate.cart.id);
-    } else {
-      await gqlClient.request(CART_LINES_ADD, {
-        cartId: cart,
-        lines: [
-          {
-            merchandiseId: 'gid://shopify/ProductVariant/46641915953372',
-            quantity: 1,
-          },
-        ],
-      });
+  React.useEffect(() => {
+    const cart = localStorage.get('cart');
+
+    if (cart != null) {
+      // 页面切换显示 || 打开购物车抽屉之后关闭
+      if (pageVisible || (prevDrawerVisible && !drawerVisible)) {
+        gqlClient
+          .request<GetCartQuery>(GET_CART_COUNT, { id: cart })
+          .then((data) => {
+            const notes = data.cart?.note?.split(',').reduce((obj, item) => {
+              const [label, value] = item.split(':');
+
+              obj[label] = value;
+
+              return obj;
+            }, {});
+
+            setCartNotes(notes);
+            setIsEmptyCart(!data.cart?.lines.edges.length);
+          });
+      }
     }
-    drawerRef.current?.onOpen();
-  };
+  }, [pageVisible, drawerVisible]);
 
   return (
     <React.Fragment>
-      <Drawer ref={drawerRef} title="Your Cart">
-        <Cart />
+      <Drawer title="Your Cart">
+        <Cart cartNotes={cartNotes} />
       </Drawer>
       {variant === 'button' && (
-        <Button
-          className="h-15 text-base font-bold tracking-wider uppercase w-full"
-          onClick={handleClick}>
-          Add To Cart
-        </Button>
+        <React.Fragment>
+          {buttonType === 'default' && (
+            <Button
+              className="h-15 text-base font-bold tracking-wider uppercase w-full"
+              disabled={isButtonLoading}
+              onClick={trigger}>
+              {isButtonLoading && <Loader2Icon className="animate-spin" />}
+              Add To Cart
+            </Button>
+          )}
+          {buttonType === 'submit' && (
+            <Button
+              className="h-15 text-base font-bold tracking-wider uppercase w-full"
+              disabled={isButtonLoading}
+              type="submit">
+              {isButtonLoading && <Loader2Icon className="animate-spin" />}
+              Add To Cart
+            </Button>
+          )}
+        </React.Fragment>
       )}
       {variant === 'icon' && (
-        <ShoppingBag
-          className="cursor-pointer"
-          size={28}
-          onClick={handleClick}
-        />
+        <div className="relative">
+          <ShoppingBag
+            className="cursor-pointer"
+            size={24}
+            onClick={openDrawer}
+          />
+          {isEmptyCart != null && !isEmptyCart && (
+            <div className="w-2.5 h-2.5 bg-brown rounded-full absolute right-0 bottom-0" />
+          )}
+        </div>
       )}
     </React.Fragment>
   );

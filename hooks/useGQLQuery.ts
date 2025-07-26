@@ -10,7 +10,7 @@ interface UseGQLQueryOptions<T> {
   enabled?: boolean;
 }
 
-export function useGQLQuery<T = any>({
+export function useGqlQuery<T = any>({
   key,
   query,
   variables = {},
