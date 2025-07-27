@@ -21,6 +21,14 @@ function RootLayout({ children }: BaseProps) {
   return (
     <html suppressHydrationWarning className="bg-foreground-100" lang="en">
       <head>
+        <link
+          as="image"
+          fetchPriority="high"
+          href="https://celesteadore.com/cdn/shop/files/PERSONALISED_JEWELLERY_1800_x_1000_px_9_1.jpg"
+          rel="preload"
+        />
+        <link href="https://celesteadore.com" rel="preconnect" />
+        <link href="https://t0mixa-kq.myshopify.com" rel="preconnect" />
         <Script
           dangerouslySetInnerHTML={{ __html: HOME_JSON }}
           id="home-json"
