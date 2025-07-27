@@ -1,8 +1,4 @@
-import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
-
-if (process.env.NODE_ENV === 'development') {
-  await setupDevPlatform();
-}
+import nextPWA from 'next-pwa';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -55,4 +51,16 @@ const nextConfig = {
   skipTrailingSlashRedirect: true,
 };
 
-export default nextConfig;
+let withPWA;
+const isDev = process.env.NODE_ENV === 'development';
+
+if (!isDev) {
+  withPWA = nextPWA({
+    dest: 'public',
+    register: true,
+    skipWaiting: true,
+    // disable: process.env.NODE_ENV === 'development', // 开发模式禁用 PWA
+  });
+}
+
+export default !isDev ? withPWA(nextConfig) : nextConfig;

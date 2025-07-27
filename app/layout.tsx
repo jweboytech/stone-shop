@@ -1,8 +1,6 @@
 import { Viewport } from 'next';
 import clsx from 'clsx';
 import { Toaster } from 'sonner';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 
 import { HOME_JSON, META_DATA } from './metadata';
@@ -34,6 +32,7 @@ function RootLayout({ children }: BaseProps) {
           id="home-json"
           type="application/ld+json"
         />
+        <link href="/manifest.json" rel="manifest" />
       </head>
       <body
         className={clsx(
@@ -45,8 +44,6 @@ function RootLayout({ children }: BaseProps) {
           <Footer />
         </div>
         <Toaster richColors />
-        <SpeedInsights />
-        <Analytics />
       </body>
     </html>
   );
