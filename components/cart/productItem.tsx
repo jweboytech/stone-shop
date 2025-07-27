@@ -84,6 +84,7 @@ const ProductItem = ({
       <Image
         alt="Product Image"
         className="cursor-pointer w-25 h-25"
+        fetchPriority="high"
         height={100}
         src={merchandise.image?.url}
         width={100}

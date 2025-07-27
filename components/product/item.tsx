@@ -31,6 +31,7 @@ const ProductItem = ({
           <Image
             alt={sourceImage.id}
             className="inset-0 w-full h-full transition-opacity duration-300 group-hover:opacity-0"
+            fetchPriority="high"
             height={280}
             src={sourceImage.url}
             width={280}

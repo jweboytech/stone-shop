@@ -22,6 +22,7 @@ export const META_DATA: Metadata = {
     type: 'website',
   },
   metadataBase: new URL('https://perperstone.com'),
+  manifest: '/manifest.json',
 };
 
 export const HOME_JSON = JSON.stringify({
