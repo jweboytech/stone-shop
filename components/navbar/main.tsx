@@ -6,7 +6,7 @@ import React from 'react';
 
 import ProductBuyButton from '../product/buyButton';
 
-import NavbarDrawer from '@/app/home/components/navbarDrawer';
+import NavbarDrawer from '@/layout/components/navbarDrawer';
 
 const MainBar = () => {
   return (
@@ -14,7 +14,7 @@ const MainBar = () => {
       {/* <Search size={28} /> */}
       <NavbarDrawer />
       <div className="hidden lg:block" />
-      <Link href="/home">
+      <Link href="/">
         <Image
           priority
           alt="logo"
