@@ -12,6 +12,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import gqlClient from '@/lib/graphqlClient';
+import GET_COLLECTIONS from '@/graphql/query/collections.gql';
 
 export interface DrawerProps extends BaseProps {
   trigger?: React.ReactElement;
@@ -19,7 +21,15 @@ export interface DrawerProps extends BaseProps {
   visible?: boolean;
 }
 
-const NavbarDrawer = ({ children, trigger, title }: DrawerProps) => {
+const NavbarDrawer = () => {
+  const [collections, setCollections] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    gqlClient.request<{ collections: any }>(GET_COLLECTIONS).then((data) => {
+      setCollections(data.collections.edges);
+    });
+  }, []);
+
   return (
     <ShadnDrawer direction="left">
       <DrawerTrigger>
@@ -27,14 +37,24 @@ const NavbarDrawer = ({ children, trigger, title }: DrawerProps) => {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle className="flex items-center justify-between px-4">
+          <DrawerTitle className="flex items-center justify-end px-1">
             <DrawerClose>
-              <X className="cursor-pointer" />
+              <X className="cursor-pointer" strokeWidth={1.5} />
             </DrawerClose>
           </DrawerTitle>
         </DrawerHeader>
-        <DrawerDescription>This action cannot be undone.</DrawerDescription>
-        <div>sda</div>
+        <DrawerDescription />
+        <ul className="">
+          {collections.map(({ node }) => (
+            <li
+              key={node.id}
+              className="px-5 font-medium text-base tracking-wider uppercase">
+              <div className="py-4 border-b border-b-surface-muted">
+                {node.title}
+              </div>
+            </li>
+          ))}
+        </ul>
       </DrawerContent>
     </ShadnDrawer>
   );
