@@ -51,16 +51,13 @@ const nextConfig = {
   skipTrailingSlashRedirect: true,
 };
 
-let withPWA;
 const isDev = process.env.NODE_ENV === 'development';
 
-if (!isDev) {
-  withPWA = nextPWA({
-    dest: 'public',
-    register: true,
-    skipWaiting: true,
-    // disable: process.env.NODE_ENV === 'development', // 开发模式禁用 PWA
-  });
-}
+const withPWA = nextPWA({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: isDev,
+});
 
-export default !isDev ? withPWA(nextConfig) : nextConfig;
+export default withPWA(nextConfig);
