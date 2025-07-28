@@ -48,7 +48,7 @@ const Cart = ({
   };
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="flex flex-col h-full">
       {/* <div className="py-3 bg-surface-light border-t border-t-neutral-light border-b border-b-neutral-light">
         <p className="text-center uppercase text-sm font-semibold text-amber">
           new season sale
@@ -57,7 +57,7 @@ const Cart = ({
           Buy 1 & Get Any 2nd Free
         </p>
       </div> */}
-      <div className="flex-1 py-5 px-5 lg:pt-2 lg:pb-4 lg:px-8">
+      <div className="flex-1 py-5 px-5 lg:pt-2 lg:pb-4 lg:px-8 overflow-y-auto">
         {products.map(({ node }, index) => (
           <React.Fragment key={node.id}>
             <ProductItem
@@ -71,7 +71,7 @@ const Cart = ({
           </React.Fragment>
         ))}
       </div>
-      <div className="px-5 lg:px-8 pb-4 lg:pb-2 bg-surface-light">
+      <div className="px-5 lg:px-8 pb-4 lg:pb-2 bg-surface-light h-64">
         <div className="flex items-center justify-between py-2">
           <span className="uppercase font-bold text-14 tracking-wider">
             subtotal
