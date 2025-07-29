@@ -12,7 +12,7 @@ const BasicBar = async () => {
   const result = data as PageList<Country>;
 
   return (
-    <div className="hidden lg:flex justify-between items-center px-15 shadow-xs h-11">
+    <div className="hidden lg:flex justify-between items-center px-15 shadow-xs h-11 bg-white">
       <div>
         {/* <Link className="py-1 px-2 w-fit text-sm font-medium" href="/help">
           Need Help?

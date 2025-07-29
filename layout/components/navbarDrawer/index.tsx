@@ -44,7 +44,7 @@ const NavbarDrawer = () => {
   return (
     <ShadnDrawer direction="left" open={isOpen} onOpenChange={handleOpenChange}>
       <DrawerTrigger>
-        <AlignJustify className="block lg:hidden" size={24} />
+        <AlignJustify size={24} />
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
