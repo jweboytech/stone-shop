@@ -1,0 +1,35 @@
+query search($query: String!) {
+  products(first: 50, query: $query) {
+    edges {
+      node {
+        id
+        title
+        handle
+        images(first: 1) {
+          edges {
+            node {
+              url
+            }
+          }
+        }
+        priceRange {
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        collections(first: 1) {
+          edges {
+            node {
+              title
+            }
+          }
+        }
+      }
+    }
+  }
+}
