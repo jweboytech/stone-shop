@@ -72,10 +72,11 @@ const Buy = ({
                   <FormItem>
                     <FormControl>
                       <Input
-                        {...field}
                         className="h-12"
                         maxLength={Number(letterLength)}
                         placeholder="Please enter letter"
+                        value={field.value || ''}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />

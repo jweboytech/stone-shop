@@ -66,7 +66,7 @@ export const useProductStore = create<ProductState>((set) => ({
               .reduce<string[]>((arr, obj) => {
                 const [key, value] = obj;
 
-                arr.push(`${key}: ${value}`);
+                arr.push(`${key}:${value}`);
 
                 return arr;
               }, [])
