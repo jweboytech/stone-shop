@@ -27,7 +27,7 @@ const ProductItem = ({
   const [isLoading, setIsLoading] = React.useState(false);
   const collection = merchandise.product.collections.edges[0]?.node.title;
   const { options, priceRange } = merchandise.product;
-  const variants = merchandise.title.split('/');
+  const variants = merchandise.title.split(' / ');
   const amount = formatPrice(
     priceRange.maxVariantPrice.amount,
     priceRange.maxVariantPrice.currencyCode,
@@ -107,7 +107,7 @@ const ProductItem = ({
                 <span className="font-bold">Choose Your {item.name}</span>:{' '}
                 {variants[index]}
               </p>
-              {note && (
+              {note != null && note !== 'undefined' && (
                 <p className="text-12 lg:text-base">
                   <span className="font-bold">Letter</span>: {note}
                 </p>

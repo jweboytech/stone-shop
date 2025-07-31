@@ -230,8 +230,6 @@ const ProductVariants = ({
     }, 0);
   }, [subVariants, selectedKeys]);
 
-  // console.log('render', variantData, selectedKeyMapRef.current, selectedKeys);
-
   return (
     <div className="flex flex-col gap-2">
       {primaryVariant.items.map((item) => (
@@ -277,7 +275,7 @@ const ProductVariants = ({
             })}
           </React.Fragment>
         ) : (
-          <Select onValueChange={handleChange}>
+          <Select value={selectedKeys[1]} onValueChange={handleChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Please select" />
             </SelectTrigger>
