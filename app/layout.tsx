@@ -26,6 +26,7 @@ function RootLayout({ children }: BaseProps) {
           rel="preload"
         />
         <link href="https://celesteadore.com" rel="preconnect" />
+        <link href="https://assets.perperstone.com" rel="preconnect" />
         <link href="https://t0mixa-kq.myshopify.com" rel="preconnect" />
         <Script
           dangerouslySetInnerHTML={{ __html: HOME_JSON }}

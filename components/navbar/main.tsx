@@ -20,9 +20,9 @@ const MainBar = () => {
         <Image
           priority
           alt="logo"
-          className="cursor-pointer h-7 w-45 lg:w-60 lg:h-9"
-          height={36}
-          src="https://celesteadore.com/cdn/shop/files/Checkout_Logo_New.jpg?v=1694761572&width=240"
+          className="cursor-pointer h-5 w-45 lg:w-60 lg:h-7"
+          height={28}
+          src="https://assets.perperstone.com/perperstone.png"
           width={240}
         />
       </Link>
