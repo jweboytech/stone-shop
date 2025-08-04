@@ -63,9 +63,9 @@ const SubscribeInput = () => {
           render={({ field: { value, onChange } }) => (
             <FormItem className="w-full">
               <FormControl>
-                <div className="flex items-center gap-4 w-80 border-b-2 border-b-black">
+                <div className="flex items-center gap-4 w-80 border-b-2 border-b-white">
                   <Input
-                    className="flex-1 border-none outline-none shadow-none focus-visible:ring-0 px-0"
+                    className="flex-1 border-none outline-none shadow-none focus-visible:ring-0 px-0 placeholder:text-white/90"
                     placeholder="Enter your email"
                     value={value || ''}
                     onChange={onChange}

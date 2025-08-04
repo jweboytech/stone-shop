@@ -12,7 +12,7 @@ const Collections = async () => {
   });
 
   return (
-    <div className="px-4 lg:px-15 pt-5 lg:pt-11 pb-10 flex flex-col gap-7 lg:gap-8 max-w-350 mx-auto">
+    <div className="px-4 lg:px-15 pt-5 lg:pt-6 lg:pb-10 flex flex-col gap-7 lg:gap-8 max-w-350 mx-auto">
       <h2 className="text-2xl lg:text-3xl font-medium text-center uppercase">
         view our collections
       </h2>
@@ -21,7 +21,7 @@ const Collections = async () => {
           .filter(({ node }) => node.image != null)
           .map(({ node }) => (
             <Link key={node.id} href={`/collections/${node.title}`}>
-              <div className="relative">
+              <div className="relative rounded-xl overflow-hidden">
                 <Image
                   alt="collection"
                   className="w-full h-62 sm:h-120 lg:h-120 object-cover"

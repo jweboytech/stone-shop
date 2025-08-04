@@ -30,7 +30,7 @@ const ProductItem = ({
           )}
           <Image
             alt={sourceImage.id}
-            className="inset-0 w-full h-full transition-opacity duration-300 group-hover:opacity-0"
+            className="inset-0 w-full h-full transition-opacity duration-300 group-hover:opacity-0 rounded-xl"
             fetchPriority="high"
             height={280}
             src={sourceImage.url}
@@ -38,7 +38,7 @@ const ProductItem = ({
           />
           <Image
             alt={previewImage.id}
-            className="absolute z-10 inset-0 w-full h-full transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+            className="absolute z-10 inset-0 w-full h-full transition-opacity duration-300 opacity-0 group-hover:opacity-100 rounded-xl"
             height={280}
             src={previewImage.url}
             width={280}

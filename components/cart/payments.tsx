@@ -9,7 +9,7 @@ import MasterIcon from '../icons/master';
 
 const Payments = () => {
   return (
-    <div className="flex gap-2 items-center justify-center pt-4">
+    <div className="flex gap-2 items-center justify-center pt-6">
       <AmexIcon />
       <ApplePayIcon />
       {/* <GooglePayIcon /> */}

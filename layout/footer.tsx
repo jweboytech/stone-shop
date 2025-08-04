@@ -38,7 +38,7 @@ const Footer = async () => {
   });
 
   return (
-    <div className="lg:p-15 px-4 lg:px-10 border-t border-t-surface-muted">
+    <div className="lg:p-10 px-4 lg:px-10 border-t border-t-surface-muted bg-black text-white">
       <div className="flex flex-col">
         <Accordion className="block lg:hidden" type="multiple">
           <AccordionItem value="ourRange">
@@ -82,7 +82,7 @@ const Footer = async () => {
               </div>
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4">
-              <p className="text-sm text-center">
+              <p className="text-14 text-center">
                 Subscribe to get special offers, free giveaways, and
                 once-in-a-lifetime deals.
               </p>
@@ -97,7 +97,7 @@ const Footer = async () => {
         </Accordion>
         <div className="hidden lg:flex justify-evenly gap-5">
           <ul className="flex flex-col gap-2">
-            <li className="mb-3 text-sm font-semibold">Shop Our Range</li>
+            <li className="mb-3 text-base font-semibold">Shop Our Range</li>
             {data.collections.edges.map(({ node }) => (
               <Link key={node.id} href={`/collections/${node.title}`}>
                 <span className="text-sm capitalize">{node.title}</span>
@@ -113,28 +113,28 @@ const Footer = async () => {
             ))}
           </ul> */}
           <ul className="flex flex-col gap-2">
-            <li className="mb-3 text-sm font-semibold">Need help?</li>
+            <li className="mb-3 text-base font-semibold">Need help</li>
             {POLICIES_OPTIONS.map((item) => (
               <Link key={item.value} href={`/${item.value}`}>
                 <span className="text-sm capitalize">{item.label}</span>
               </Link>
             ))}
           </ul>
-          <div className="flex flex-col gap-4">
-            <h5 className="mb-3 text-sm font-semibold">Sign up and save</h5>
-            <p className="tetx-sm">
+          <div className="flex flex-col gap-2">
+            <h5 className="mb-3 text-base font-semibold">Sign up and save</h5>
+            <p className="text-14">
               Subscribe to get special offers, free giveaways, and
               once-in-a-lifetime deals.
             </p>
             <SubscribeInput />
-            <div className="mt-4">
+            {/* <div className="mt-2">
               <MediaChannels size={24} />
-            </div>
+            </div> */}
           </div>
         </div>
         <Payments />
-        <p className="pb-1 lg:pb-0 mt-4 text-xs text-center">
-          © {year} Perper Stone
+        <p className="pb-1 lg:pb-0 mt-2 text-xs text-center">
+          <Link href="/">©{year} PerperStone</Link>
         </p>
       </div>
     </div>

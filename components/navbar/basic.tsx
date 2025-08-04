@@ -24,7 +24,7 @@ const BasicBar = async () => {
         </Link>
       </div>
       <div className="flex items-center gap-8">
-        <MediaChannels />
+        {/* <MediaChannels /> */}
         <CountrySelector data={result.items} />
       </div>
     </div>
